@@ -36,7 +36,7 @@ export const SidebarWrapper = () => {
           </Link>
         </div>
 
-        <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col justify-between ">
           <div className={Sidebar.Body()}>
             <SidebarItem
               title="Home"
@@ -46,11 +46,7 @@ export const SidebarWrapper = () => {
             />
             <SidebarMenu title="Main Menu">
          
-              <CollapseItems
-                icon={<History />}
-                items={["Banks Accounts", "Credit Cards", "Loans"]}
-                title="Rent history"
-              />
+           
           
             </SidebarMenu>
             <SidebarMenu title="Updates">

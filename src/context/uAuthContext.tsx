@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCurrentUser } from "@/Services/AuthServices";
 import {
   createContext,
@@ -15,14 +14,22 @@ import {
 const UserContext = createContext<IUserProviderValues | undefined>(undefined);
 
 interface IUserProviderValues {
-  user: any | null;
+  user: IUser | null;
   isLoading: boolean;
-  setUser: (user: any | null) => void;
+  setUser: (user: IUser | null) => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
+interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  img: string;
+}
+
 const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleUser = async () => {

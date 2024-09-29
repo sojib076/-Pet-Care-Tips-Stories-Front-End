@@ -1,5 +1,6 @@
 "use client";
 import {
+  Button,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -8,11 +9,23 @@ import {
 import { Cog } from "lucide-react";
 import Link from "next/link";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { useUser } from "@/context/uAuthContext";
+import { logout } from "@/Services/AuthServices";
+import { signOut } from "next-auth/react";
+
 // import { ThemeSwitcher } from "./ThemeSwitcher";
 export default function NavBar() {
   const routeMap: Record<string, string> = {
     user: "/dashboard",
     admin: "/admin-dashboard",
+  };
+
+  const {user,setIsLoading:userLoading}=useUser();
+  
+  const logOutUser = () => {
+    signOut();
+    logout();
+  userLoading(true);
   };
 
   return (
@@ -47,7 +60,7 @@ export default function NavBar() {
           <ThemeSwitcher />
         </NavbarItem>
 
-        {/* {user ? (
+        {user ? (
           <NavbarItem>
             <Button onClick={logOutUser} color="primary" variant="flat">
               Logout
@@ -57,7 +70,7 @@ export default function NavBar() {
           <NavbarItem className="hidden lg:flex">
             <Link href="/login">Login</Link>
           </NavbarItem>
-        )} */}
+        )} 
 
       </NavbarContent>
     </Navbar>

@@ -24,9 +24,16 @@ export const loginUser = async (userData: FieldValues) => {
     return error?.response?.data;
   }
 };
+
+export const registerUser = async (userData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.post("/auth/register", userData);
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+}
   
-
-
 export const getCurrentUser = async () => {
   const accessToken = cookies().get("accessToken")?.value;
 
@@ -34,14 +41,39 @@ export const getCurrentUser = async () => {
 
   if (accessToken) {
     decodedToken = await jwtDecode(accessToken);
-    console.log(decodedToken, "decodedToken");
+
     return {
       _id: decodedToken._id,
       name: decodedToken.name,
       email: decodedToken.email,
       role: decodedToken.role,
+      img: decodedToken.img,
     };
   }
-
   return decodedToken;
+};
+
+export const logout = () => {
+  cookies().delete("accessToken");
+  
+};
+
+
+export const resetPassword = async (userData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.post("/auth/reset-password", userData);
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+
+
+export const forgetuserPassword = async (email:FieldValues) => {
+  try {
+    const { data } = await axiosInstance.post("/auth/forget-password", email);
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
 };

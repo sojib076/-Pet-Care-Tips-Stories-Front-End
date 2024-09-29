@@ -11,17 +11,37 @@ import { FieldValues } from "react-hook-form";
 import Image from "next/image";
 import { motion } from 'framer-motion';
 import { Loader,  } from "lucide-react";
+import { useUser } from "@/context/uAuthContext";
+import { useEffect } from "react";
+
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 const LoginPage = () => {
-
-  const {mutate:userLogin, data,isPending}=useUserLogin();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const {mutate:userLogin,isPending,isSuccess}=useUserLogin();
+  const {setIsLoading:isloading}=useUser()
+  const redirect = searchParams.get("redirect");
+  
 
   const onSubmit = (data: FieldValues) => {
     userLogin(data);
-  }; 
+    isloading(true);
 
-   console.log(data);
+   
+  }; 
+  
+ useEffect(() => {
+      if (!isPending && isSuccess) {
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          router.push("/login");
+        }
+      }
+    }, [isPending, isSuccess]);
+
    
   return (
     <>

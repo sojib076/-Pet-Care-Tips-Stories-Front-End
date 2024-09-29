@@ -33,7 +33,7 @@ const decodedToken = await getCurrentUser();
 
 
 
-  console.log(decodedToken, "decodedToken");
+
 
   const role = decodedToken?.role;
 

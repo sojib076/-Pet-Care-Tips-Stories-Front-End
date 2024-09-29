@@ -5,7 +5,7 @@ import MotionCar from "./MotionCar";
 import { useUser } from "@/context/uAuthContext";
 export default function Banner() {
   const {user}=useUser()
-  console.log(user);
+
   return (
     <Card className="py-4 flex" shadow="none">
       <CardBody className="overflow-visible py-2 ">

@@ -2,13 +2,13 @@
 
 import { IInput } from "@/types";
 import { Input } from "@nextui-org/input";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 
 
 type IProps = IInput
 
-export default function FXInput({
+export default function Hookinput({
   variant = "bordered",
   size = "md",
   required = false,
@@ -20,12 +20,14 @@ export default function FXInput({
     register,
     formState: { errors },
   } = useFormContext();
+  const currentValue = useWatch({ name });
 
   return (
     <Input
       {...register(name)}
       errorMessage={errors[name] ? (errors[name].message as string) : ""}
       isInvalid={!!errors[name]}
+     value={currentValue || ""}
       label={label}
       required={required}
       size={size}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Footer from "./components/page/shared/Footer";
-import NavBar from "./components/page/shared/Navnar";
+import NavBar from "./components/page/shared/Navbar";
 
 export const metadata: Metadata = {
   title: "Home -",
@@ -16,7 +16,6 @@ export default function DashboardLayout({
     <div>
       <NavBar></NavBar>
       {children}
-      <Footer></Footer>
     </div>
   );
 }
