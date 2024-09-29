@@ -1,12 +1,12 @@
 // pages/profile.js
 "use client";
-import { useUser } from '@/context/uAuthContext';
+
 import Image from 'next/image';
 import Post from './components/Post';
 import { useGetProfile } from '@/hook/user.Hook';
 
 const Profile = () => {
-  const { data: userData, isLoading, isError } = useGetProfile();
+  const { data: userData, isLoading } = useGetProfile();
 
   if (isLoading) {
     return <div>Loading...</div>;

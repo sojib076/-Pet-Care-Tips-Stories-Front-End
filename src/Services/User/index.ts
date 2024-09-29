@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import axiosInstance from "@/app/lib/AxiosInstance/axiosInstance";
@@ -17,7 +18,7 @@ export const userProfile = async()=>{
 }
 
 
-export const userUpdate = async (userdata:any)=>{
+export const userUpdate = async (userdata: any)=>{
     try {
         const {data} = await axiosInstance.put('/user/me',userdata);
         return data;

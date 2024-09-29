@@ -1,15 +1,15 @@
+import PostCard from "./components/page/home/PostCard";
 
-import Banner from "./components/page/home/Banner";
 
-const Welcome = () => {
+const Home = () => {
 
 
   return (
     <div>
-      <Banner></Banner>
+      <PostCard />
       
     </div>
   );
 };
 
-export default Welcome;
+export default Home;

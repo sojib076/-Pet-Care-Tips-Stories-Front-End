@@ -4,13 +4,14 @@ import HookForm from "@/app/components/Form/HookForm";
 import Hookinput from "@/app/components/Form/HookInput";
 import { useForgotPassword } from "@/hook/auth.hook";
 import { Button } from "@nextui-org/react";
+import { FieldValues } from "react-hook-form";
 
-const page = () => {
+const ForgetPassword = () => {
 
 
     const {mutate:forgetPassword}=useForgotPassword();
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (data: FieldValues) => {
 
         forgetPassword(data);
     };
@@ -27,4 +28,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default ForgetPassword;

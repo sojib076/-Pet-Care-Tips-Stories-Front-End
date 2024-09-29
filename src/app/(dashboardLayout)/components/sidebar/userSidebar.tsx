@@ -1,14 +1,14 @@
-import {  Cog, History, Home } from "lucide-react";
+import {  Cog,  Home, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Sidebar } from "./sidebar.styles";
 
 
-import { CollapseItems } from "./collapse-items";
+
 import { useSidebarContext } from "../../layout/layout-context";
 import { SidebarItem } from "./sidebar-item";
-import { SidebarMenu } from "./sidebar-menu";
+
 
 
 
@@ -44,18 +44,21 @@ export const SidebarWrapper = () => {
               isActive={pathname === "/dashboard"}
               href="/dashboard"
             />
-            <SidebarMenu title="Main Menu">
+            <SidebarItem
+              title="Profile"
+              icon={<User />}
+              isActive={pathname === "/dashboard/profile"}
+              href="/dashboard/profile"
+            />
+            <SidebarItem
+              title="Create Story"
+              icon={<User />}
+              isActive={pathname === "/dashboard/creation"}
+              href="/dashboard/creation"
+            />
+
          
-           
-          
-            </SidebarMenu>
-            <SidebarMenu title="Updates">
-              <SidebarItem
-                isActive={pathname === "/changelog"}
-                title="Changelog"
-                icon={<Home />}
-              />
-            </SidebarMenu>
+   
           </div>
         </div>
 

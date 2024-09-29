@@ -20,16 +20,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 const LoginPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const {mutate:userLogin,isPending,isSuccess}=useUserLogin();
-  const {setIsLoading:isloading}=useUser()
-  const redirect = searchParams.get("redirect");
-  
 
+  const {mutate:userLogin,isPending,isSuccess}=useUserLogin();
+  const {setIsLoading:isloading,}=useUser()
+  const redirect = searchParams.get("redirect");
   const onSubmit = (data: FieldValues) => {
     userLogin(data);
     isloading(true);
 
-   
+
   }; 
   
  useEffect(() => {
@@ -37,10 +36,10 @@ const LoginPage = () => {
         if (redirect) {
           router.push(redirect);
         } else {
-          router.push("/login");
+          router.push("/dashboard");
         }
       }
-    }, [isPending, isSuccess]);
+    }, [isPending, isSuccess, redirect, router]);
 
    
   return (

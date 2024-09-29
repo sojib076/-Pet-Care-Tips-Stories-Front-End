@@ -6,7 +6,7 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
-import { Cog } from "lucide-react";
+import {  Dog } from "lucide-react";
 import Link from "next/link";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { useUser } from "@/context/uAuthContext";
@@ -32,7 +32,7 @@ export default function NavBar() {
     <Navbar maxWidth="2xl">
       <NavbarBrand>
         <Link className="flex" href="/">
-          <Cog />
+          <Dog size={32} />
           <p className="font-bold text-inherit px-4"> </p>
         </Link>
       </NavbarBrand>
