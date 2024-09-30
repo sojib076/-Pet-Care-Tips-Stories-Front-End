@@ -14,3 +14,33 @@ import { FieldValues } from "react-hook-form";
       }
     };
 
+export const getPost = async () => {
+  try {
+    const { data } = await axiosInstance.get("/post/get");
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+
+
+
+export const upvotePost = async (postId: string) => {
+  console.log(postId, 'postId');
+  try {
+    const { data } = await axiosInstance.post(`/post/upvotepost/`, { postId }); // postId wrapped in an object
+    console.log(data, 'data');
+    return data;
+  } catch (error: any) {
+    console.log(error, 'error');
+    return error?.response?.data;
+  }
+}
+export const downvotePost = async (postId: string) => {
+  try {
+    const { data } = await axiosInstance.post(`/post/downvotepost/`, {postId} );
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
