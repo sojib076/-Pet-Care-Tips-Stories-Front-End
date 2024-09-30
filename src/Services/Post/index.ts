@@ -24,7 +24,6 @@ export const getPost = async () => {
 };
 
 
-
 export const upvotePost = async (postId: string) => {
   console.log(postId, 'postId');
   try {
@@ -36,9 +35,18 @@ export const upvotePost = async (postId: string) => {
     return error?.response?.data;
   }
 }
+
 export const downvotePost = async (postId: string) => {
   try {
     const { data } = await axiosInstance.post(`/post/downvotepost/`, {postId} );
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+export const addCommentToPost = async (postId: string, comment: string) => {
+  try {
+    const { data } = await axiosInstance.post(`/post/addcomment`, { postId, comment });
     return data;
   } catch (error: any) {
     return error?.response?.data;

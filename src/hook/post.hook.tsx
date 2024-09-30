@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createPost, upvotePost } from "@/Services/Post";
-import {  useMutation } from "@tanstack/react-query";
+import { createPost, getPost, upvotePost } from "@/Services/Post";
+import {  QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 import {  FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -24,13 +26,33 @@ export  const useCreatpost = () => {
   };
   
 
+
+  
+  export const useGetPost = () => {
+    return useQuery<any, Error>({
+      queryKey: ["getPost"],
+      queryFn: async () => await getPost(),
+      refetchInterval: 1000,
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      
+    });
+  }
+     
+  
+
+
+
+
+
   export const useUpvotePost = () => {
     return useMutation<any, Error,string>({
-      mutationKey: ["USER_FORGOT_PASSWORD"],
+      mutationKey: ["upvotePost"],
       mutationFn: async (postId) => await upvotePost(postId),
       onSuccess: (data) => {
         if (data?.success) {
-          toast.success('Post upvoted successfully');
+          queryClient.invalidateQueries({ queryKey: ["getPost"] });
         }
         else{
           toast.error('Post upvote failed');
@@ -41,3 +63,7 @@ export  const useCreatpost = () => {
       },
     });
   };
+
+
+
+

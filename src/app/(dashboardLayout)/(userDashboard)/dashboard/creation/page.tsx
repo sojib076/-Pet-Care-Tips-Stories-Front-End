@@ -41,7 +41,7 @@ export default function CreateContent() {
     formData.append('title', data.title);
     formData.append('content', data.content);
     formData.append('category', data.category);
-    formData.append('isPremium', data.isPremium);
+    formData.append('premiumContent', data.isPremium);
     if (imageFiles.length > 0) {
       formData.append('image', imageFiles[0]); 
     }
@@ -91,7 +91,7 @@ export default function CreateContent() {
           <label className="flex items-center">
             <input
               type="checkbox"
-              {...register("isPremium")} // Register the checkbox
+              {...register("premiumContent")} // Register the checkbox
               className="mr-2"
             />
             <span className="text-gray-700">Make this content premium</span>

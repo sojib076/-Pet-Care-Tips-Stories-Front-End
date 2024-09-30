@@ -33,8 +33,6 @@ const decodedToken = await getCurrentUser();
 
 
 
-
-
   const role = decodedToken?.role;
 
 
@@ -44,9 +42,7 @@ const decodedToken = await getCurrentUser();
     return NextResponse.next();
   }
 
-  if (role === "driver" && pathname.match(/^\/driver-dashboard/)) {
-    return NextResponse.next();
-  }
+
 
 
   if (role === "user" && pathname.match(/^\/dashboard/)) {
@@ -58,10 +54,10 @@ const decodedToken = await getCurrentUser();
 
   return NextResponse.redirect(new URL("/", request.url));
 
-  //decodedToken.role
+ 
 }
 
-//!accessToken -> /login -> jete dao
+
 
 export const config = {
   matcher: [
@@ -73,8 +69,5 @@ export const config = {
   ],
 };
 
-//public - cars
-//private - admin, driver, user
-//hybrid - login, register
 
-//middleware.ts (dashboard, admin-dashboard) -> layout.tsx -> page.tax / dashboard/page.tsx
+
