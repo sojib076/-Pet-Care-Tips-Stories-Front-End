@@ -14,6 +14,7 @@ import { FieldValues } from "react-hook-form";
       }
     };
 
+
 export const getPost = async () => {
   try {
     const { data } = await axiosInstance.get("/post/get");
@@ -45,10 +46,39 @@ export const downvotePost = async (postId: string) => {
   }
 };
 export const addCommentToPost = async (postId: string, comment: string) => {
+  console.log(postId, 'postId');
   try {
     const { data } = await axiosInstance.post(`/post/addcomment`, { postId, comment });
     return data;
   } catch (error: any) {
     return error?.response?.data;
   }
+};
+
+export const getFollowedUsers = async () => {
+  try {
+    const { data } = await axiosInstance.get("/user/getfollowedUsers");
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+
+export const followUser = async (authorId: string) => {
+  try {
+    const { data } = await axiosInstance.post(`/user/followuser`, { authorId });
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+
+export const  unfollowUser = async (authorId: string) => {
+  try {
+    const { data } = await axiosInstance.post(`/user/unfollowuser`, { authorId });
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+
 };

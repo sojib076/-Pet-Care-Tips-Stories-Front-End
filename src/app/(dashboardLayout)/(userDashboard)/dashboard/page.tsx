@@ -43,13 +43,20 @@ const Profile = () => {
               Followers
               
             </h1>
-            <p> 0</p>
+            <p> 
+              {
+                user?.followers.length || 0
+              }
+            </p>
            </div>
             <div>
               <h1> 
               Following
               </h1>
-              <p> 0</p>
+              <p> 
+                {
+                  user?.following.length || 0
+                }</p>
           </div>
           </div>
         

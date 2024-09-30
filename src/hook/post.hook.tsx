@@ -32,7 +32,7 @@ export  const useCreatpost = () => {
     return useQuery<any, Error>({
       queryKey: ["getPost"],
       queryFn: async () => await getPost(),
-      refetchInterval: 1000,
+      refetchInterval: 10000,
       refetchOnWindowFocus: true,
       refetchOnMount: true,
       refetchOnReconnect: true,
