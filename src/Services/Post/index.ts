@@ -114,3 +114,22 @@ export const getFollowedUsersPosts = async () => {
   }
 };
 
+
+export  const getsearch =  async (searchTerm: string, searchCategory: string) => {
+  console.log(searchTerm, 'searchTerm');
+  try {
+    const { data } = await axiosInstance.get(`/post/search?searchTerm=${searchTerm}&searchCategory=${searchCategory}`);
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+
+
+
+
+// const getsearch = async () => {
+//   const result = await axiosInstance.get(`/posts/search/${searchTerm}& ${searchCategory}`);
+//   setPosts(result.data);
+// };
+

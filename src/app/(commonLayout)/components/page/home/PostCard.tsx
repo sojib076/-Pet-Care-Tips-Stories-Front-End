@@ -1,48 +1,57 @@
 
 "use client";
 
+
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useUser } from '@/context/uAuthContext';
 import { useGetPost } from '@/hook/post.hook';
-import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getFollowedUsers, getFollowedUsersPosts, upvotePost } from '@/Services/Post';
+import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getFollowedUsers, getFollowedUsersPosts, getsearch, upvotePost } from '@/Services/Post';
 import { Post } from '@/types';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { Input } from "@nextui-org/react";
+import { SearchIcon } from "lucide-react";
+import useDebounce from "@/hook/debounce.hook";
 
 const PostCard = () => {
   const [commentInput, setCommentInput] = useState<Record<string, string>>({});
   const [editCommentId, setEditCommentId] = useState<string | null>(null);
   const [editCommentValue, setEditCommentValue] = useState<string>('');
-  
   const { user }: { user: any } = useUser();
   const [userFollowing, setUserFollowing] = useState<string[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [category, setCategory] = useState<string | undefined>('all');
   const [followedPosts, setFollowedPosts] = useState(false);
+  const [searchCategory, setSearchCategory] = useState<string>('Tip');
 
-  console.log(category);
+
 
 const { data, refetch,isLoading } = useGetPost(category);
- // Refetch posts when the category changes
+const { register, handleSubmit, watch } = useForm();
+
+
   useEffect(() => {
     if (category) {
       refetch();
     }
-  }, [category, refetch]);
+  }, [category]);
+  
   useEffect(() => {
     if (data) {
       let sortedPosts = [...data?.data?.posts];
 
       if (category === 'Tip' || category === 'Story') {
-        // Sort by upvotes when a specific category is selected
+      
         sortedPosts = sortedPosts.sort((a: Post, b: Post) => b.upvotes - a.upvotes);
       } else {
-        // Sort by creation date for "All" or no specific category
+        
         sortedPosts = sortedPosts.sort((a: Post, b: Post) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       }
 
       setPosts(sortedPosts);
     }
   }, [data, category]);
+
 
   useEffect(() => {
     const fetchFollowedUsers = async () => {
@@ -53,6 +62,7 @@ const { data, refetch,isLoading } = useGetPost(category);
     };
     fetchFollowedUsers();
   }, [user]);
+
 
   const handleUpvote = async (postId: string) => {
     const currentUserId = user._id;
@@ -144,14 +154,16 @@ const { data, refetch,isLoading } = useGetPost(category);
   };
 
   const handleCategoryChange = (newCategory: string) => {
-    if (newCategory === 'All') {
+    if (newCategory === 'all') {
       setCategory('all');
       refetch();
       setFollowedPosts(false);
     } else if (newCategory === 'Story') {
       setCategory('Story');
+      setFollowedPosts(false);
     } else {
       setCategory('Tip');
+      setFollowedPosts(false);
     }
   };
   const handelFollowing = async () => {
@@ -162,42 +174,104 @@ const { data, refetch,isLoading } = useGetPost(category);
    
   
   }
+  const searchTerm = useDebounce(watch("search"));
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (searchTerm) {
+        const result = await getsearch(searchTerm, searchCategory);
+        console.log(result);
+        setPosts(result?.data?.posts);
+      }
+    };
+
+    fetchData();
+  }, [searchTerm]);
+
+
+
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data,searchCategory);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="grid gap-6">
+ 
 
-           {/* Category selection */}
-           <div className="flex justify-center mb-4">
-        <button 
-          className={`px-4 py-2 rounded ${category === 'Tip' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
-          onClick={() => handleCategoryChange('Tip')}
-        >
-          Tip
-        </button>
-        <button 
-          className={`px-4 py-2 ml-2 rounded ${category === 'Story' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
-          onClick={() => handleCategoryChange('Story')}
-        >
-          Story
-        </button>
-        <button 
+          
+           <div className="grid gap-6">
+      {/* Search Input and Filters */}
+      <div className="flex flex-col items-center mb-4">
+        <div className="flex space-x-4">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex-1">
+            <Input
+              {...register("search")}
+              aria-label="Search"
+              classNames={{
+                inputWrapper: "bg-default-100",
+                input: "text-sm",
+              }}
+              placeholder="Search..."
+              size="lg"
+              startContent={
+                <SearchIcon className="pointer-events-none flex-shrink-0 text-base text-default-400" />
+              }
+              type="text"
+            />
+          </div>
+        </form>
+        
+          <select
+            name="searchType"
+            className="border border-gray-300 rounded-md p-2"
+            onChange={(e) => setSearchCategory(e.target.value)}
+          >
+            <option value="Tip">Tip</option>
+            <option value="Story">Story</option>
+           
+          </select>
+
+          {/* Category Buttons */}
+          <button
+            className={`px-4 py-2 rounded ${
+              category === 'Tip' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            }`}
+            onClick={() => handleCategoryChange('Tip')}
+          >
+            Tip
+          </button>
+          <button
+            className={`px-4 py-2 rounded ${
+              category === 'Story' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            }`}
+            onClick={() => handleCategoryChange('Story')}
+          >
+            Story
+          </button>
+          <button 
           className={`px-4 py-2 ml-2 rounded ${category === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
-          onClick={() => handleCategoryChange('All')}
+          onClick={() => handleCategoryChange('all')}
         >
           All
         </button>
-        <button 
-          className={`px-4 py-2 ml-2 rounded ${ followedPosts ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
-          onClick={handelFollowing}
-        >
-          Following
-        </button>
+
+          <button
+            className={`px-4 py-2 rounded ${
+              followedPosts ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            }`}
+            onClick={handelFollowing}
+          >
+            Following
+          </button>
+        </div>
       </div>
-      {posts.map((post: Post) => (
+
+      {posts?.map((post: Post) => (
         <div key={post._id} className="max-w-xl mx-auto bg-white border border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
 
          <div className='flex justify-end gap-5 items-end '> 
@@ -245,7 +319,7 @@ const { data, refetch,isLoading } = useGetPost(category);
 
           {/* Post Content */}
           <div className="text-sm text-gray-700 mb-2">
-            <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 150) }} />
+            <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 1500) }} />
             {post.content.length > 150 && (
               <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => console.log(`Read more of post: ${post._id}`)}>
                 Read more
