@@ -15,9 +15,11 @@ import { FieldValues } from "react-hook-form";
     };
 
 
-export const getPost = async () => {
+export const getPost = async (category: string ) => {
+
   try {
-    const { data } = await axiosInstance.get("/post/get");
+    const { data } = await axiosInstance.get(`/post/get?category=${category}`,);
+
     return data;
   } catch (error: any) {
     return error?.response?.data;

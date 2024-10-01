@@ -17,11 +17,13 @@ export interface IInput {
       username: string;
       img: string;
     };
+    category: string;
     premiumContent: boolean;
     content: string;
     createdAt: string;
     upvotes: number;
     downvotes: number;
+    voters?: { userId: string; voteType: 'up' | 'down' }[];
     comments: {
       _id: string;
       userId: {

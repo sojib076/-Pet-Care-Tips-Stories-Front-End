@@ -28,18 +28,15 @@ export  const useCreatpost = () => {
 
 
   
-  export const useGetPost = () => {
+  export const useGetPost = (category: string = '' ) => {
     return useQuery<any, Error>({
-      queryKey: ["getPost"],
-      queryFn: async () => await getPost(),
+      queryKey: ["getPost", 'category'], 
+      queryFn: async () => await getPost(category), 
       refetchOnWindowFocus: true,
       refetchOnMount: true,
       refetchOnReconnect: true,
-      
     });
-  }
-     
-  
+  };
 
 
 

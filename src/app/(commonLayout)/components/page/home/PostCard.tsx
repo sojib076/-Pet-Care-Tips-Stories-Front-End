@@ -1,150 +1,197 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @next/next/no-img-element */
+
 "use client";
 
 import { useUser } from '@/context/uAuthContext';
 import { useGetPost } from '@/hook/post.hook';
-import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getFollowedUsers, upvotePost } from '@/Services/Post'; 
+import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getFollowedUsers, upvotePost } from '@/Services/Post';
 import { Post } from '@/types';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-
 const PostCard = () => {
-
   const [commentInput, setCommentInput] = useState<Record<string, string>>({});
-  const [editCommentId, setEditCommentId] = useState<string | null>(null); // Track the comment being edited
-  const [editCommentValue, setEditCommentValue] = useState<string>(''); // Value of the edit input
-  const { data, refetch } = useGetPost();
+  const [editCommentId, setEditCommentId] = useState<string | null>(null);
+  const [editCommentValue, setEditCommentValue] = useState<string>('');
+  
   const { user }: { user: any } = useUser();
   const [userFollowing, setUserFollowing] = useState<string[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [category, setCategory] = useState<string | undefined>('all');
 
-  const posts = data?.data?.posts || [];
+  console.log(category);
 
-  useEffect(() => {
-    const fetchFollowedUsers = async () => {
-      if (user) {
-        const data = await getFollowedUsers();
-        setUserFollowing(data?.data[0].following);
-      }
-    };
-    fetchFollowedUsers();
-  }, [user]);
-
-  const handleUpvote = async (postId: string) => {
- const currentUserId = user._id;
-    try {
- 
-      await upvotePost(postId);
-      
-      const voters = posts.find((post: { _id: string; }) => post._id === postId)?.voters;
-      if (voters && Array.isArray(voters)) {
-        const currentUserVote = voters.find(voter => voter.userId === currentUserId && voter.voteType ==='up');
-        console.log(currentUserVote, 'currentUserVote');
-        if (currentUserVote) {
-          toast.success('You have already upvoted this post.');
-        } else {
-          toast.success('Post upvoted successfully.');
-        }
-      } else {
-        console.log("No voters data available or invalid format.");
-      }
-      refetch();
-    } catch (error) {
-      console.error("Error handling upvote:", error);
-    }
-  };
-  const handleDownvote = async (postId: string) => {
- const currentUserId = user._id;
-    try {
- 
-      await downvotePost(postId);
-      
-      const voters = posts.find((post: { _id: string; }) => post._id === postId)?.voters;
-      if (voters && Array.isArray(voters)) {
-        const currentUserVote = voters.find(voter => voter.userId === currentUserId && voter.voteType ==='down');
-        console.log(currentUserVote, 'currentUserVote');
-        if (currentUserVote) {
-          toast.success('You have already downvoted this post.');
-        } else {
-          toast.success('Post downvoted successfully.');
-        }
-      } else {
-        console.log("No voters data available or invalid format.");
-      }
-      refetch();
-    } catch (error) {
-      console.error("Error handling upvote:", error);
-    }
-  };
-
-  
-
-  const handleCommentChange = (postId: string, value: string) => {
-    setCommentInput((prevState) => ({
-      ...prevState,
-      [postId]: value,
-    }));
-  };
-
-  const handleCommentSubmit = async (postId: string) => {
-    const comment = commentInput[postId];
-    if (comment) {
-      await addCommentToPost(postId, comment);
-      setCommentInput((prevState) => ({ ...prevState, [postId]: '' }));
-      refetch();
-      toast.success('Comment added successfully.');
-    }
-  };
-
-  const handleEditClick = (comment: any) => {
-    setEditCommentId(comment._id); 
-    setEditCommentValue(comment.content); 
-  };
-
-
-  const handleEditSubmit = async(postId: string, commentId: any) => {
- 
-    
-
-   const updatedComment = await editcomment (postId, commentId, editCommentValue);
+const { data, refetch } = useGetPost(category);
+ // Refetch posts when the category changes
+ useEffect(() => {
+  if (category) {
     refetch();
-    if (updatedComment) {
-      toast.success('Comment updated successfully')
-        setEditCommentId(null);
-        setEditCommentValue('');
-    }
-   
-  };
+  }
+}, [category, refetch]);
 
-  const handeldelteComment = async (postId: string, commentId: string) => {
-   
-    const data = await deleteComment(postId, commentId);
+useEffect(() => {
+  if (data) {
+    setPosts(data?.data?.posts);
+  }
+}, [data]);
+
+useEffect(() => {
+  const fetchFollowedUsers = async () => {
+    if (user) {
+      const data = await getFollowedUsers();
+      setUserFollowing(data?.data[0].following);
+    }
+  };
+  fetchFollowedUsers();
+}, [user]);
+
+const handleUpvote = async (postId: string) => {
+  const currentUserId = user._id;
+  try {
+    await upvotePost(postId);
+
+    const voters = posts.find((post: { _id: string }) => post._id === postId)?.voters;
+    if (voters && Array.isArray(voters)) {
+      const currentUserVote = voters.find((voter) => voter.userId === currentUserId && voter.voteType === 'up');
+      if (currentUserVote) {
+        toast.success('You have already upvoted this post.');
+      } else {
+        toast.success('Post upvoted successfully.');
+      }
+    } else {
+      console.log('No voters data available or invalid format.');
+    }
     refetch();
-    if (data.success) {
-      toast.success('Comment deleted successfully');
-    }
-  };
+  } catch (error) {
+    console.error('Error handling upvote:', error);
+  }
+};
 
-  // Follow/Unfollow logic
-  const handleFollow = async (authorId: string) => {
-    const userList = await followUser(authorId);
-    setUserFollowing(userList?.data?.following);
-  };
+const handleDownvote = async (postId: string) => {
+  const currentUserId = user._id;
+  try {
+    await downvotePost(postId);
+
+    const voters = posts.find((post: any) => post._id === postId)?.voters;
+    if (voters && Array.isArray(voters)) {
+      const currentUserVote = voters.find((voter) => voter.userId === currentUserId && voter.voteType === 'down');
+      if (currentUserVote) {
+        toast.success('You have already downvoted this post.');
+      } else {
+        toast.success('Post downvoted successfully.');
+      }
+    } else {
+      console.log('No voters data available or invalid format.');
+    }
+    refetch();
+  } catch (error) {
+    console.error('Error handling upvote:', error);
+  }
+};
+
+const handleCommentChange = (postId: string, value: string) => {
+  setCommentInput((prevState) => ({
+    ...prevState,
+    [postId]: value,
+  }));
+};
+
+const handleCommentSubmit = async (postId: string) => {
+  const comment = commentInput[postId];
+  if (comment) {
+    await addCommentToPost(postId, comment);
+    setCommentInput((prevState) => ({ ...prevState, [postId]: '' }));
+    refetch();
+    toast.success('Comment added successfully.');
+  }
+};
+
+const handleEditClick = (comment: any) => {
+  setEditCommentId(comment._id);
+  setEditCommentValue(comment.content);
+};
+
+const handleEditSubmit = async (postId: string, commentId: any) => {
+  const updatedComment = await editcomment(postId, commentId, editCommentValue);
+  refetch();
+  if (updatedComment) {
+    toast.success('Comment updated successfully');
+    setEditCommentId(null);
+    setEditCommentValue('');
+  }
+};
+
+const handeldelteComment = async (postId: string, commentId: string) => {
+  const data = await deleteComment(postId, commentId);
+  refetch();
+  if (data.success) {
+    toast.success('Comment deleted successfully');
+  }
+};
+
+const handleFollow = async (authorId: string) => {
+  const userList = await followUser(authorId);
+  setUserFollowing(userList?.data?.following);
+};
+
+const handleCategoryChange = (newCategory: string) => {
+  if (newCategory === 'All') {
+    setCategory('all');
+  } else if (newCategory === 'Story') {
+    setCategory('Story');
+  } else {
+    setCategory('Tip');
+  }
+};
+
 
   return (
     <div className="grid gap-6">
+
+           {/* Category selection */}
+           <div className="flex justify-center mb-4">
+        <button 
+          className={`px-4 py-2 rounded ${category === 'Tip' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
+          onClick={() => handleCategoryChange('Tip')}
+        >
+          Tip
+        </button>
+        <button 
+          className={`px-4 py-2 ml-2 rounded ${category === 'Story' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
+          onClick={() => handleCategoryChange('Story')}
+        >
+          Story
+        </button>
+        <button 
+          className={`px-4 py-2 ml-2 rounded ${category === 'All' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
+          onClick={() => handleCategoryChange('All')}
+        >
+          All
+        </button>
+      </div>
       {posts.map((post: Post) => (
         <div key={post._id} className="max-w-xl mx-auto bg-white border border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
 
-{post.premiumContent ? (
-        <div className="mb-2 flex justify-end">
-          <span className="bg-yellow-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
-            Premium Content
-          </span>
-        </div>
-        ) : null 
-    } 
+         <div className='flex justify-end gap-5 items-end '> 
+         {post.premiumContent ? (
+            <div className="mb-2 flex justify-end">
+              <span className="bg-yellow-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
+                Premium Content
+              </span>
+
+            </div>
+          ) : null
+          }
+          {
+            post.category ? (
+              <div className="mb-2 flex justify-end">
+                <span className="bg-blue-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
+                  {post.category}
+                </span>
+              </div>
+            ) : null
+          }
+         </div>
+
           {/* Header with Author Info */}
           <div className="flex items-start space-x-3 mb-3">
             <img
@@ -161,6 +208,7 @@ const PostCard = () => {
                 <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => handleFollow(post.author._id)}>
                   {userFollowing && userFollowing?.includes(post.author._id) ? 'Unfollow' : 'Follow'}
                 </button>
+                
               </div>
               <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span>
             </div>
@@ -213,7 +261,7 @@ const PostCard = () => {
                         </div>
                       )}
 
-                      
+
                       {editCommentId === comment._id && (
                         <div className="mt-2">
                           <textarea
@@ -221,17 +269,17 @@ const PostCard = () => {
                             value={editCommentValue}
                             onChange={(e) => setEditCommentValue(e.target.value)}
                           />
-                        <div> 
-                        <button
-                            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 mt-2"
-                            onClick={() => handleEditSubmit(post._id, comment._id)}
-                          >
-                            Submit Edit
-                          </button>
-                        </div>
+                          <div>
+                            <button
+                              className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 mt-2"
+                              onClick={() => handleEditSubmit(post._id, comment._id)}
+                            >
+                              Submit Edit
+                            </button>
+                          </div>
 
-                          
-                       
+
+
                         </div>
                       )}
                     </div>
