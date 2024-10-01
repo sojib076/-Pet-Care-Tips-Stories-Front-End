@@ -104,3 +104,13 @@ export const deleteComment = async (postId: string, commentId: string) => {
     return error?.response?.data;
   }
 };
+
+export const getFollowedUsersPosts = async () => {
+  try {
+    const { data } = await axiosInstance.get("/post/getfollwingposts");
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+

@@ -28,7 +28,7 @@ export  const useCreatpost = () => {
 
 
   
-  export const useGetPost = (category: string = '' ) => {
+  export const useGetPost = (category: string = '',  ) => {
     return useQuery<any, Error>({
       queryKey: ["getPost", 'category'], 
       queryFn: async () => await getPost(category), 

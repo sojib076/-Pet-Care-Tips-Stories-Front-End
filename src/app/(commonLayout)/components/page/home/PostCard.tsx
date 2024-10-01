@@ -3,7 +3,7 @@
 
 import { useUser } from '@/context/uAuthContext';
 import { useGetPost } from '@/hook/post.hook';
-import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getFollowedUsers, upvotePost } from '@/Services/Post';
+import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getFollowedUsers, getFollowedUsersPosts, upvotePost } from '@/Services/Post';
 import { Post } from '@/types';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -17,10 +17,11 @@ const PostCard = () => {
   const [userFollowing, setUserFollowing] = useState<string[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [category, setCategory] = useState<string | undefined>('all');
+  const [followedPosts, setFollowedPosts] = useState(false);
 
   console.log(category);
 
-const { data, refetch } = useGetPost(category);
+const { data, refetch,isLoading } = useGetPost(category);
  // Refetch posts when the category changes
   useEffect(() => {
     if (category) {
@@ -145,14 +146,26 @@ const { data, refetch } = useGetPost(category);
   const handleCategoryChange = (newCategory: string) => {
     if (newCategory === 'All') {
       setCategory('all');
+      refetch();
+      setFollowedPosts(false);
     } else if (newCategory === 'Story') {
       setCategory('Story');
     } else {
       setCategory('Tip');
     }
   };
+  const handelFollowing = async () => {
+    const result =await getFollowedUsersPosts();
+    setPosts(result?.data?.posts);
+    setFollowedPosts(true);
+ 
+   
+  
+  }
 
-
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="grid gap-6">
@@ -172,10 +185,16 @@ const { data, refetch } = useGetPost(category);
           Story
         </button>
         <button 
-          className={`px-4 py-2 ml-2 rounded ${category === 'All' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
+          className={`px-4 py-2 ml-2 rounded ${category === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
           onClick={() => handleCategoryChange('All')}
         >
           All
+        </button>
+        <button 
+          className={`px-4 py-2 ml-2 rounded ${ followedPosts ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
+          onClick={handelFollowing}
+        >
+          Following
         </button>
       </div>
       {posts.map((post: Post) => (

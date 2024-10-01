@@ -1,127 +1,95 @@
-// 'use client';
+// "use client";
 
-// import { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { useUpvotePost } from '@/hook/post.hook';
-// import { addCommentToPost, downvotePost, getSinglePost } from '@/Services/Post'; // Assuming `getSinglePost` fetches a single post
-
-
+// import { useUser } from '@/context/uAuthContext';
+// import { useGetPost } from '@/hook/post.hook';
+// import {
+//   addCommentToPost,
+//   deleteComment,
+//   downvotePost,
+//   editcomment,
+//   followUser,
+//   getFollowedUsers,
+//   upvotePost,
+// } from '@/Services/Post';
+// import { Post } from '@/types';
+// import { useEffect, useState } from 'react';
+// import { toast } from 'sonner';
 
 // const PostCard = () => {
-//   const { mutate: upvotePost } = useUpvotePost();
-//   const [posts, setPosts] = useState<Post[]>([]); // Array to hold the posts
-//   const [page, setPage] = useState(1); // Current page number for infinite scroll
-//   const [hasMore, setHasMore] = useState(true); // To check if there are more posts to load
-//   const [isFetching, setIsFetching] = useState(false); // To avoid multiple fetching at once
-//   const [commentInput, setCommentInput] = useState<{ [key: string]: string }>({}); // Holds input values for comments
+//   const [commentInput, setCommentInput] = useState<Record<string, string>>({});
+//   const [editCommentId, setEditCommentId] = useState<string | null>(null);
+//   const [editCommentValue, setEditCommentValue] = useState<string>('');
+//   const { user }: { user: any } = useUser();
+//   const [userFollowing, setUserFollowing] = useState<string[]>([]);
+//   const [posts, setPosts] = useState<Post[]>([]);
+//   const [category, setCategory] = useState<string | undefined>('all');
+//   const [page, setPage] = useState<number>(1); // Page state for infinite scroll
+//   const [isFetching, setIsFetching] = useState<boolean>(false); // Flag to prevent multiple fetches
 
-//   // Fetch posts using Axios with pagination
-//   const fetchPosts = async (pageNumber: number) => {
-//     try {
-//       setIsFetching(true); // Set fetching to true to avoid multiple requests
-//       const response = await axios.get(`http://localhost:5000/api/v1/post/get?page=${pageNumber}&limit=1`);
-//       const newPosts = response.data.data.posts;
+//   const { data, refetch } = useGetPost(category, page);
 
-//       setPosts((prevPosts) => [...prevPosts, ...newPosts]);
-//       setHasMore(response.data.data.hasMore); // Check if there are more posts
-//       setIsFetching(false);
-//     } catch (error) {
-//       console.error('Error fetching posts:', error);
-//       setIsFetching(false);
-//     }
-//   };
-
-//   // Fetch initial posts
+//   // Clear and reset posts when the category or page changes
 //   useEffect(() => {
-//     fetchPosts(page);
-//   }, []);
+//     setPosts([]); // Reset posts to avoid duplicate data
+//     refetch();
+//   }, [category, page, refetch]);
 
-//   // Scroll event handler for infinite scrolling
-//   const handleScroll = () => {
-//     if (
-//       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-//       !isFetching &&
-//       hasMore
-//     ) {
-//       setPage((prevPage) => prevPage + 1);
-//     }
-//   };
-
-//   // Fetch more posts whenever the page state is updated (for pagination)
+//   // Replace posts data after fetching (no append)
 //   useEffect(() => {
-//     if (page > 1 && !isFetching) {
-//       fetchPosts(page);
+//     if (data) {
+//       setPosts(data?.data?.posts);
+//       setIsFetching(false); // Set fetching state to false after new data is loaded
 //     }
-//   }, [page]);
+//   }, [data]);
 
-//   // Attach scroll listener
+//   // Fetch followed users
 //   useEffect(() => {
+//     const fetchFollowedUsers = async () => {
+//       if (user) {
+//         const data = await getFollowedUsers();
+//         setUserFollowing(data?.data[0].following);
+//       }
+//     };
+//     fetchFollowedUsers();
+//   }, [user]);
+
+//   // Infinite scroll listener
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       const scrollHeight = document.documentElement.scrollHeight;
+//       const scrollTop = document.documentElement.scrollTop;
+//       const clientHeight = document.documentElement.clientHeight;
+
+//       if (scrollTop + clientHeight >= scrollHeight - 100 && !isFetching) {
+//         setIsFetching(true);
+//         setPage((prevPage) => prevPage + 1); // Load the next page
+//       }
+//     };
+
 //     window.addEventListener('scroll', handleScroll);
 //     return () => window.removeEventListener('scroll', handleScroll);
-//   }, [isFetching, hasMore]);
+//   }, [isFetching]);
 
-//   // Optimistic update for upvote and downvote
-//   const updatePostInState = (postId: string, updatedData: Partial<Post>) => {
-//     setPosts((prevPosts) =>
-//       prevPosts.map((post) => (post._id === postId ? { ...post, ...updatedData } : post))
-//     );
-//   };
-
-//   // Refetch the post from the server after mutation
-//   const refetchSinglePost = async (postId: string) => {
-//     try {
-//       const { data } = await getSinglePost(postId); // Fetch updated post
-//       updatePostInState(postId, data); // Update only the specific post
-//     } catch (error) {
-//       console.error('Error refetching post:', error);
-//     }
-//   };
-
-//   // Upvote handler with optimistic UI update
+//   // Fetch fresh post data after upvote or downvote
 //   const handleUpvote = async (postId: string) => {
-//     const post = posts.find((p) => p._id === postId);
-//     if (post) {
-//       // Optimistically update the UI
-//       updatePostInState(postId, { upvotes: post.upvotes + 1 });
-//       try {
-//         await upvotePost(postId); // Upvote the post via API
-//         await refetchSinglePost(postId); // Refetch and update the specific post from the server
-//       } catch (error) {
-//         console.error('Error upvoting post:', error);
-//       }
+//     try {
+//       await upvotePost(postId);
+//       refetch(); // Refetch data from the server
+//     } catch (error) {
+//       console.error('Error handling upvote:', error);
 //     }
 //   };
 
-//   // Downvote handler with optimistic UI update
 //   const handleDownvote = async (postId: string) => {
-//     const post = posts.find((p) => p._id === postId);
-//     if (post) {
-//       // Optimistically update the UI
-//       updatePostInState(postId, { downvotes: post.downvotes + 1 });
-//       try {
-//         await downvotePost(postId); // Downvote the post via API
-//         await refetchSinglePost(postId); // Refetch and update the specific post from the server
-//       } catch (error) {
-//         console.error('Error downvoting post:', error);
-//       }
+//     try {
+//       await downvotePost(postId);
+//       refetch(); // Refetch data from the server
+//     } catch (error) {
+//       console.error('Error handling downvote:', error);
 //     }
 //   };
 
-//   // Comment submit handler
-//   const handleCommentSubmit = async (postId: string) => {
-//     const comment = commentInput[postId];
-//     if (comment) {
-//       try {
-//         await addCommentToPost(postId, comment); // Submit comment via API
-//         setCommentInput((prevState) => ({ ...prevState, [postId]: '' })); // Clear comment input
-//         await refetchSinglePost(postId); // Refetch and update the specific post from the server
-//       } catch (error) {
-//         console.error('Error adding comment:', error);
-//       }
-//     }
-//   };
-
-//   // Handle comment input change
+//   // Handle comment submission
 //   const handleCommentChange = (postId: string, value: string) => {
 //     setCommentInput((prevState) => ({
 //       ...prevState,
@@ -129,21 +97,98 @@
 //     }));
 //   };
 
-//   const handleFollow = (authorId: string) => {
-//     console.log(`Followed author: ${authorId}`);
+//   const handleCommentSubmit = async (postId: string) => {
+//     const comment = commentInput[postId];
+//     if (comment) {
+//       await addCommentToPost(postId, comment);
+//       setCommentInput((prevState) => ({ ...prevState, [postId]: '' }));
+//       toast.success('Comment added successfully.');
+
+//       refetch(); // Refetch data after comment is added
+//     }
 //   };
 
-//   const handleReadMore = (postId: string) => {
-//     console.log(`Read more for post: ${postId}`);
+//   const handleEditClick = (comment: any) => {
+//     setEditCommentId(comment._id);
+//     setEditCommentValue(comment.content);
+//   };
+
+//   const handleEditSubmit = async (postId: string, commentId: any) => {
+//     const updatedComment = await editcomment(postId, commentId, editCommentValue);
+//     if (updatedComment) {
+//       toast.success('Comment updated successfully');
+//       setEditCommentId(null);
+//       setEditCommentValue('');
+//       refetch(); // Refetch to update comments after editing
+//     }
+//   };
+
+//   const handleDeleteComment = async (postId: string, commentId: string) => {
+//     const data = await deleteComment(postId, commentId);
+//     if (data.success) {
+//       toast.success('Comment deleted successfully');
+//       refetch(); // Refetch to update comments after deletion
+//     }
+//   };
+
+//   const handleFollow = async (authorId: string) => {
+//     const userList = await followUser(authorId);
+//     setUserFollowing(userList?.data?.following);
+//   };
+
+//   const handleCategoryChange = (newCategory: string) => {
+//     setCategory(newCategory === 'All' ? 'all' : newCategory);
+//     setPage(1); // Reset page when category changes
+//     setPosts([]); // Clear previous posts when category changes
 //   };
 
 //   return (
 //     <div className="grid gap-6">
-//       {posts.map((post) => (
+//       {/* Category selection */}
+//       <div className="flex justify-center mb-4">
+//         <button
+//           className={`px-4 py-2 rounded ${category === 'Tip' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+//           onClick={() => handleCategoryChange('Tip')}
+//         >
+//           Tip
+//         </button>
+//         <button
+//           className={`px-4 py-2 ml-2 rounded ${category === 'Story' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+//           onClick={() => handleCategoryChange('Story')}
+//         >
+//           Story
+//         </button>
+//         <button
+//           className={`px-4 py-2 ml-2 rounded ${category === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+//           onClick={() => handleCategoryChange('All')}
+//         >
+//           All
+//         </button>
+//       </div>
+
+//       {/* Posts */}
+//       {posts.map((post: Post) => (
 //         <div
 //           key={post._id}
 //           className="max-w-xl mx-auto bg-white border border-gray-300 rounded-lg p-4 mb-6 shadow-sm"
 //         >
+//           <div className="flex justify-end gap-5 items-end">
+//             {post.premiumContent && (
+//               <div className="mb-2 flex justify-end">
+//                 <span className="bg-yellow-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
+//                   Premium Content
+//                 </span>
+//               </div>
+//             )}
+//             {post.category && (
+//               <div className="mb-2 flex justify-end">
+//                 <span className="bg-blue-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
+//                   {post.category}
+//                 </span>
+//               </div>
+//             )}
+//           </div>
+
 //           {/* Header with Author Info */}
 //           <div className="flex items-start space-x-3 mb-3">
 //             <img
@@ -154,17 +199,25 @@
 //             <div className="flex-grow">
 //               <div className="flex justify-between items-center">
 //                 <div>
-//                   <h3 className="text-base font-semibold">{post.author.name || 'Anonymous'}</h3>
-//                   <span className="text-xs text-gray-500">@{post.author.username || 'user123'}</span>
+//                   <h3 className="text-base font-semibold">
+//                     {post.author.name || 'Anonymous'}
+//                   </h3>
+//                   <span className="text-xs text-gray-500">
+//                     @{post.author.username || 'user123'}
+//                   </span>
 //                 </div>
 //                 <button
 //                   className="text-blue-500 font-semibold text-xs hover:underline"
 //                   onClick={() => handleFollow(post.author._id)}
 //                 >
-//                   Follow
+//                   {userFollowing?.includes(post.author._id)
+//                     ? 'Unfollow'
+//                     : 'Follow'}
 //                 </button>
 //               </div>
-//               <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span>
+//               <span className="text-xs text-gray-500">
+//                 {new Date(post.createdAt).toLocaleString()}
+//               </span>
 //             </div>
 //           </div>
 
@@ -172,7 +225,10 @@
 //           <div className="text-sm text-gray-700 mb-2">
 //             <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 150) }} />
 //             {post.content.length > 150 && (
-//               <button className="text-blue-500 font-semibold text-xs hover:underline">
+//               <button
+//                 className="text-blue-500 font-semibold text-xs hover:underline"
+//                 onClick={() => console.log(`Read more of post: ${post._id}`)}
+//               >
 //                 Read more
 //               </button>
 //             )}
@@ -197,34 +253,74 @@
 //             <div className="text-xs">{post.comments.length} Comments</div>
 //           </div>
 
-//           {/* Divider */}
+//           {/* Comments Section */}
 //           <div className="border-t border-gray-300 pt-3">
 //             {post.comments.length > 0 ? (
 //               <div className="text-xs text-gray-500">
 //                 {post.comments
-//                   .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+//                   .sort(
+//                     (a: any, b: any) =>
+//                       new Date(b.createdAt).getTime() -
+//                       new Date(a.createdAt).getTime()
+//                   )
 //                   .slice(0, 4) // Only take the most recent comments
-//                   .map((comment) => (
+//                   .map((comment: any) => (
 //                     <div key={comment._id} className="mb-2">
-//                       <strong>{comment.userId.name || 'Anonymous'}:</strong> {comment.content}
-//                       <div className="text-gray-400">{new Date(comment.createdAt).toLocaleString()}</div>
+//                       <strong>{comment.userId.name || 'Anonymous'}:</strong>{' '}
+//                       {comment.content}
+//                       <div className="text-gray-400">
+//                         {new Date(comment.createdAt).toLocaleString()}
+//                       </div>
+
+//                       {/* Conditionally show Edit button */}
+//                       {user?._id === comment.userId._id && (
+//                         <div className="flex space-x-2 text-xs mt-1">
+//                           <button
+//                             className="text-blue-500 hover:underline"
+//                             onClick={() => handleEditClick(comment)}
+//                           >
+//                             Edit
+//                           </button>
+//                           <button
+//                             className="text-blue-500 hover:underline"
+//                             onClick={() =>
+//                               handleDeleteComment(post._id, comment._id)
+//                             }
+//                           >
+//                             Delete
+//                           </button>
+//                         </div>
+//                       )}
+
+//                       {editCommentId === comment._id && (
+//                         <div className="mt-2">
+//                           <textarea
+//                             className="w-full p-2 border border-gray-300 rounded text-sm"
+//                             value={editCommentValue}
+//                             onChange={(e) =>
+//                               setEditCommentValue(e.target.value)
+//                             }
+//                           />
+//                           <div>
+//                             <button
+//                               className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 mt-2"
+//                               onClick={() =>
+//                                 handleEditSubmit(post._id, comment._id)
+//                               }
+//                             >
+//                               Submit Edit
+//                             </button>
+//                           </div>
+//                         </div>
+//                       )}
 //                     </div>
 //                   ))}
-//                 {post.comments.length > 2 && (
-//                   <button
-//                     className="text-blue-500 font-semibold text-xs hover:underline"
-//                     onClick={() => console.log(`View all comments for post: ${post._id}`)}
-//                   >
-//                     View all comments
-//                   </button>
-//                 )}
 //               </div>
 //             ) : (
 //               <div className="text-xs text-gray-500">No comments yet</div>
 //             )}
 //           </div>
 
-//           {/* Comment Input */}
 //           <div className="mt-3">
 //             <textarea
 //               className="w-full p-2 border border-gray-300 rounded mb-2 text-sm"
@@ -241,7 +337,6 @@
 //           </div>
 //         </div>
 //       ))}
-//       {!hasMore && <p className="text-center">No more posts to load.</p>}
 //     </div>
 //   );
 // };
