@@ -22,126 +22,136 @@ const PostCard = () => {
 
 const { data, refetch } = useGetPost(category);
  // Refetch posts when the category changes
- useEffect(() => {
-  if (category) {
-    refetch();
-  }
-}, [category, refetch]);
+  useEffect(() => {
+    if (category) {
+      refetch();
+    }
+  }, [category, refetch]);
+  useEffect(() => {
+    if (data) {
+      let sortedPosts = [...data?.data?.posts];
 
-useEffect(() => {
-  if (data) {
-    setPosts(data?.data?.posts);
-  }
-}, [data]);
+      if (category === 'Tip' || category === 'Story') {
+        // Sort by upvotes when a specific category is selected
+        sortedPosts = sortedPosts.sort((a: Post, b: Post) => b.upvotes - a.upvotes);
+      } else {
+        // Sort by creation date for "All" or no specific category
+        sortedPosts = sortedPosts.sort((a: Post, b: Post) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      }
 
-useEffect(() => {
-  const fetchFollowedUsers = async () => {
-    if (user) {
-      const data = await getFollowedUsers();
-      setUserFollowing(data?.data[0].following);
+      setPosts(sortedPosts);
+    }
+  }, [data, category]);
+
+  useEffect(() => {
+    const fetchFollowedUsers = async () => {
+      if (user) {
+        const data = await getFollowedUsers();
+        setUserFollowing(data?.data[0].following);
+      }
+    };
+    fetchFollowedUsers();
+  }, [user]);
+
+  const handleUpvote = async (postId: string) => {
+    const currentUserId = user._id;
+    try {
+      await upvotePost(postId);
+
+      const voters = posts.find((post: { _id: string }) => post._id === postId)?.voters;
+      if (voters && Array.isArray(voters)) {
+        const currentUserVote = voters.find((voter) => voter.userId === currentUserId && voter.voteType === 'up');
+        if (currentUserVote) {
+          toast.success('You have already upvoted this post.');
+        } else {
+          toast.success('Post upvoted successfully.');
+        }
+      } else {
+        console.log('No voters data available or invalid format.');
+      }
+      refetch();
+    } catch (error) {
+      console.error('Error handling upvote:', error);
     }
   };
-  fetchFollowedUsers();
-}, [user]);
 
-const handleUpvote = async (postId: string) => {
-  const currentUserId = user._id;
-  try {
-    await upvotePost(postId);
+  const handleDownvote = async (postId: string) => {
+    const currentUserId = user._id;
+    try {
+      await downvotePost(postId);
 
-    const voters = posts.find((post: { _id: string }) => post._id === postId)?.voters;
-    if (voters && Array.isArray(voters)) {
-      const currentUserVote = voters.find((voter) => voter.userId === currentUserId && voter.voteType === 'up');
-      if (currentUserVote) {
-        toast.success('You have already upvoted this post.');
+      const voters = posts.find((post: any) => post._id === postId)?.voters;
+      if (voters && Array.isArray(voters)) {
+        const currentUserVote = voters.find((voter) => voter.userId === currentUserId && voter.voteType === 'down');
+        if (currentUserVote) {
+          toast.success('You have already downvoted this post.');
+        } else {
+          toast.success('Post downvoted successfully.');
+        }
       } else {
-        toast.success('Post upvoted successfully.');
+        console.log('No voters data available or invalid format.');
       }
-    } else {
-      console.log('No voters data available or invalid format.');
+      refetch();
+    } catch (error) {
+      console.error('Error handling upvote:', error);
     }
-    refetch();
-  } catch (error) {
-    console.error('Error handling upvote:', error);
-  }
-};
+  };
 
-const handleDownvote = async (postId: string) => {
-  const currentUserId = user._id;
-  try {
-    await downvotePost(postId);
+  const handleCommentChange = (postId: string, value: string) => {
+    setCommentInput((prevState) => ({
+      ...prevState,
+      [postId]: value,
+    }));
+  };
 
-    const voters = posts.find((post: any) => post._id === postId)?.voters;
-    if (voters && Array.isArray(voters)) {
-      const currentUserVote = voters.find((voter) => voter.userId === currentUserId && voter.voteType === 'down');
-      if (currentUserVote) {
-        toast.success('You have already downvoted this post.');
-      } else {
-        toast.success('Post downvoted successfully.');
-      }
-    } else {
-      console.log('No voters data available or invalid format.');
+  const handleCommentSubmit = async (postId: string) => {
+    const comment = commentInput[postId];
+    if (comment) {
+      await addCommentToPost(postId, comment);
+      setCommentInput((prevState) => ({ ...prevState, [postId]: '' }));
+      refetch();
+      toast.success('Comment added successfully.');
     }
+  };
+
+  const handleEditClick = (comment: any) => {
+    setEditCommentId(comment._id);
+    setEditCommentValue(comment.content);
+  };
+
+  const handleEditSubmit = async (postId: string, commentId: any) => {
+    const updatedComment = await editcomment(postId, commentId, editCommentValue);
     refetch();
-  } catch (error) {
-    console.error('Error handling upvote:', error);
-  }
-};
+    if (updatedComment) {
+      toast.success('Comment updated successfully');
+      setEditCommentId(null);
+      setEditCommentValue('');
+    }
+  };
 
-const handleCommentChange = (postId: string, value: string) => {
-  setCommentInput((prevState) => ({
-    ...prevState,
-    [postId]: value,
-  }));
-};
-
-const handleCommentSubmit = async (postId: string) => {
-  const comment = commentInput[postId];
-  if (comment) {
-    await addCommentToPost(postId, comment);
-    setCommentInput((prevState) => ({ ...prevState, [postId]: '' }));
+  const handeldelteComment = async (postId: string, commentId: string) => {
+    const data = await deleteComment(postId, commentId);
     refetch();
-    toast.success('Comment added successfully.');
-  }
-};
+    if (data.success) {
+      toast.success('Comment deleted successfully');
+    }
+  };
 
-const handleEditClick = (comment: any) => {
-  setEditCommentId(comment._id);
-  setEditCommentValue(comment.content);
-};
+  const handleFollow = async (authorId: string) => {
+    const userList = await followUser(authorId);
+    setUserFollowing(userList?.data?.following);
+  };
 
-const handleEditSubmit = async (postId: string, commentId: any) => {
-  const updatedComment = await editcomment(postId, commentId, editCommentValue);
-  refetch();
-  if (updatedComment) {
-    toast.success('Comment updated successfully');
-    setEditCommentId(null);
-    setEditCommentValue('');
-  }
-};
+  const handleCategoryChange = (newCategory: string) => {
+    if (newCategory === 'All') {
+      setCategory('all');
+    } else if (newCategory === 'Story') {
+      setCategory('Story');
+    } else {
+      setCategory('Tip');
+    }
+  };
 
-const handeldelteComment = async (postId: string, commentId: string) => {
-  const data = await deleteComment(postId, commentId);
-  refetch();
-  if (data.success) {
-    toast.success('Comment deleted successfully');
-  }
-};
-
-const handleFollow = async (authorId: string) => {
-  const userList = await followUser(authorId);
-  setUserFollowing(userList?.data?.following);
-};
-
-const handleCategoryChange = (newCategory: string) => {
-  if (newCategory === 'All') {
-    setCategory('all');
-  } else if (newCategory === 'Story') {
-    setCategory('Story');
-  } else {
-    setCategory('Tip');
-  }
-};
 
 
   return (
