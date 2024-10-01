@@ -82,3 +82,23 @@ export const  unfollowUser = async (authorId: string) => {
   }
 
 };
+
+
+export const editcomment = async (postId: string, commentId: string, editCommentValue: string) => {
+  try {
+    const { data } = await axiosInstance.put(`/post/editcomment`, { postId, commentId, editCommentValue });
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+
+
+export const deleteComment = async (postId: string, commentId: string) => {
+  try {
+    const { data } = await axiosInstance.delete(`/post/deletecomment`, { data: { postId, commentId } });
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};

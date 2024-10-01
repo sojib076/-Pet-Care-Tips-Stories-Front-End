@@ -32,7 +32,6 @@ export  const useCreatpost = () => {
     return useQuery<any, Error>({
       queryKey: ["getPost"],
       queryFn: async () => await getPost(),
-      refetchInterval: 10000,
       refetchOnWindowFocus: true,
       refetchOnMount: true,
       refetchOnReconnect: true,
@@ -44,16 +43,16 @@ export  const useCreatpost = () => {
 
 
 
-
-
   export const useUpvotePost = () => {
     return useMutation<any, Error,string>({
       mutationKey: ["upvotePost"],
       mutationFn: async (postId) => await upvotePost(postId),
       onSuccess: (data) => {
         if (data?.success) {
-          queryClient.invalidateQueries({ queryKey: ["getPost"] });
-        }
+          queryClient.invalidateQueries({ queryKey: ["getPost"] });    
+            console.log(data);
+        } 
+  
         else{
           toast.error('Post upvote failed');
         }

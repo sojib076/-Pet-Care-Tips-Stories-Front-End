@@ -1,69 +1,84 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useUser } from '@/context/uAuthContext';
-import { useGetPost, useUpvotePost } from '@/hook/post.hook';
-import { addCommentToPost, downvotePost, followUser, getFollowedUsers, } from '@/Services/Post';
+import { useGetPost } from '@/hook/post.hook';
+import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getFollowedUsers, upvotePost } from '@/Services/Post'; 
+import { Post } from '@/types';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-interface Post {
-  _id: string;
-  author: {
-    _id: string;
-    name: string;
-    username: string;
-    img: string;
-  };
-  content: string;
-  createdAt: string;
-  upvotes: number;
-  downvotes: number;
-  comments: {
-    _id: string;
-    userId: {
-      name: string;
-    };
-    content: string;
-    createdAt: string;
-  }[];
-}
 
 const PostCard = () => {
-  const { mutate: upvotePost } = useUpvotePost();
+
   const [commentInput, setCommentInput] = useState<Record<string, string>>({});
+  const [editCommentId, setEditCommentId] = useState<string | null>(null); // Track the comment being edited
+  const [editCommentValue, setEditCommentValue] = useState<string>(''); // Value of the edit input
   const { data, refetch } = useGetPost();
-  const { user }: { user: any } = useUser(); 
+  const { user }: { user: any } = useUser();
   const [userFollowing, setUserFollowing] = useState<string[]>([]);
 
   const posts = data?.data?.posts || [];
 
-
-
-  // Fetch the followed users when the component loads or the user changes
   useEffect(() => {
     const fetchFollowedUsers = async () => {
-   
       if (user) {
         const data = await getFollowedUsers();
-        
         setUserFollowing(data?.data[0].following);
-
       }
-
     };
     fetchFollowedUsers();
   }, [user]);
 
-
-  const handleUpvote =  async(postId: string) => {
-    await upvotePost(postId);
-    refetch();
+  const handleUpvote = async (postId: string) => {
+ const currentUserId = user._id;
+    try {
+ 
+      await upvotePost(postId);
+      
+      const voters = posts.find((post: { _id: string; }) => post._id === postId)?.voters;
+      if (voters && Array.isArray(voters)) {
+        const currentUserVote = voters.find(voter => voter.userId === currentUserId && voter.voteType ==='up');
+        console.log(currentUserVote, 'currentUserVote');
+        if (currentUserVote) {
+          toast.success('You have already upvoted this post.');
+        } else {
+          toast.success('Post upvoted successfully.');
+        }
+      } else {
+        console.log("No voters data available or invalid format.");
+      }
+      refetch();
+    } catch (error) {
+      console.error("Error handling upvote:", error);
+    }
   };
-
   const handleDownvote = async (postId: string) => {
-    await  downvotePost(postId);
-    refetch();
+ const currentUserId = user._id;
+    try {
+ 
+      await downvotePost(postId);
+      
+      const voters = posts.find((post: { _id: string; }) => post._id === postId)?.voters;
+      if (voters && Array.isArray(voters)) {
+        const currentUserVote = voters.find(voter => voter.userId === currentUserId && voter.voteType ==='down');
+        console.log(currentUserVote, 'currentUserVote');
+        if (currentUserVote) {
+          toast.success('You have already downvoted this post.');
+        } else {
+          toast.success('Post downvoted successfully.');
+        }
+      } else {
+        console.log("No voters data available or invalid format.");
+      }
+      refetch();
+    } catch (error) {
+      console.error("Error handling upvote:", error);
+    }
   };
+
+  
 
   const handleCommentChange = (postId: string, value: string) => {
     setCommentInput((prevState) => ({
@@ -78,24 +93,58 @@ const PostCard = () => {
       await addCommentToPost(postId, comment);
       setCommentInput((prevState) => ({ ...prevState, [postId]: '' }));
       refetch();
+      toast.success('Comment added successfully.');
+    }
+  };
+
+  const handleEditClick = (comment: any) => {
+    setEditCommentId(comment._id); 
+    setEditCommentValue(comment.content); 
+  };
+
+
+  const handleEditSubmit = async(postId: string, commentId: any) => {
+ 
+    
+
+   const updatedComment = await editcomment (postId, commentId, editCommentValue);
+    refetch();
+    if (updatedComment) {
+      toast.success('Comment updated successfully')
+        setEditCommentId(null);
+        setEditCommentValue('');
+    }
+   
+  };
+
+  const handeldelteComment = async (postId: string, commentId: string) => {
+   
+    const data = await deleteComment(postId, commentId);
+    refetch();
+    if (data.success) {
+      toast.success('Comment deleted successfully');
     }
   };
 
   // Follow/Unfollow logic
   const handleFollow = async (authorId: string) => {
     const userList = await followUser(authorId);
-   
     setUserFollowing(userList?.data?.following);
-   
   };
 
   return (
     <div className="grid gap-6">
       {posts.map((post: Post) => (
-        <div
-          key={post._id}
-          className="max-w-xl mx-auto bg-white border border-gray-300 rounded-lg p-4 mb-6 shadow-sm"
-        >
+        <div key={post._id} className="max-w-xl mx-auto bg-white border border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
+
+{post.premiumContent ? (
+        <div className="mb-2 flex justify-end">
+          <span className="bg-yellow-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
+            Premium Content
+          </span>
+        </div>
+        ) : null 
+    } 
           {/* Header with Author Info */}
           <div className="flex items-start space-x-3 mb-3">
             <img
@@ -109,14 +158,8 @@ const PostCard = () => {
                   <h3 className="text-base font-semibold">{post.author.name || "Anonymous"}</h3>
                   <span className="text-xs text-gray-500">@{post.author.username || "user123"}</span>
                 </div>
-                <button
-                  className="text-blue-500 font-semibold text-xs hover:underline"
-                  onClick={() => handleFollow(post.author._id)}
-                >
-                  {
-                    userFollowing && userFollowing?.includes(post.author._id) ? 'Unfollow' : 'Follow' 
-                  }
-                 
+                <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => handleFollow(post.author._id)}>
+                  {userFollowing && userFollowing?.includes(post.author._id) ? 'Unfollow' : 'Follow'}
                 </button>
               </div>
               <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span>
@@ -127,10 +170,7 @@ const PostCard = () => {
           <div className="text-sm text-gray-700 mb-2">
             <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 150) }} />
             {post.content.length > 150 && (
-              <button
-                className="text-blue-500 font-semibold text-xs hover:underline"
-                onClick={() => console.log(`Read more of post: ${post._id}`)}
-              >
+              <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => console.log(`Read more of post: ${post._id}`)}>
                 Read more
               </button>
             )}
@@ -139,16 +179,10 @@ const PostCard = () => {
           {/* Post Engagement */}
           <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
             <div className="flex space-x-4">
-              <button
-                className="flex items-center space-x-1 text-gray-600 hover:text-blue-500"
-                onClick={() => handleUpvote(post._id)}
-              >
+              <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-500" onClick={() => handleUpvote(post._id)}>
                 👍 <span>{post.upvotes}</span>
               </button>
-              <button
-                className="flex items-center space-x-1 text-gray-600 hover:text-red-500"
-                onClick={() => handleDownvote(post._id)}
-              >
+              <button className="flex items-center space-x-1 text-gray-600 hover:text-red-500" onClick={() => handleDownvote(post._id)}>
                 👎 <span>{post.downvotes}</span>
               </button>
             </div>
@@ -165,17 +199,46 @@ const PostCard = () => {
                   .map((comment: any) => (
                     <div key={comment._id} className="mb-2">
                       <strong>{comment.userId.name || 'Anonymous'}:</strong> {comment.content}
-                      <div className="text-gray-400">
-                        {new Date(comment.createdAt).toLocaleString()}
-                      </div>
+                      <div className="text-gray-400">{new Date(comment.createdAt).toLocaleString()}</div>
+
+                      {/* Conditionally show Edit button */}
+                      {user?._id === comment.userId._id && (
+                        <div className="flex space-x-2 text-xs mt-1">
+                          <button className="text-blue-500 hover:underline" onClick={() => handleEditClick(comment)}>
+                            Edit
+                          </button>
+                          <button className="text-blue-500 hover:underline" onClick={() => handeldelteComment(post._id, comment._id)}>
+                            Delete
+                          </button>
+                        </div>
+                      )}
+
+                      
+                      {editCommentId === comment._id && (
+                        <div className="mt-2">
+                          <textarea
+                            className="w-full p-2 border border-gray-300 rounded text-sm"
+                            value={editCommentValue}
+                            onChange={(e) => setEditCommentValue(e.target.value)}
+                          />
+                        <div> 
+                        <button
+                            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 mt-2"
+                            onClick={() => handleEditSubmit(post._id, comment._id)}
+                          >
+                            Submit Edit
+                          </button>
+                        </div>
+
+                          
+                       
+                        </div>
+                      )}
                     </div>
                   ))}
 
                 {post.comments.length > 2 && (
-                  <button
-                    className="text-blue-500 font-semibold text-xs hover:underline"
-                    onClick={() => console.log(`View all comments for post: ${post._id}`)}
-                  >
+                  <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => console.log(`View all comments for post: ${post._id}`)}>
                     View all comments
                   </button>
                 )}
@@ -192,10 +255,7 @@ const PostCard = () => {
               value={commentInput[post._id] || ''}
               onChange={(e) => handleCommentChange(post._id, e.target.value)}
             />
-            <button
-              className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600"
-              onClick={() => handleCommentSubmit(post._id)}
-            >
+            <button className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600" onClick={() => handleCommentSubmit(post._id)}>
               Submit Comment
             </button>
           </div>
