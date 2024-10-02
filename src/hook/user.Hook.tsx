@@ -7,6 +7,10 @@ export const useGetProfile = () => {
   return useQuery({
     queryKey: ["USER_PROFILE"],
     queryFn: async () => await userProfile(),
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
+    
   });
 };
 

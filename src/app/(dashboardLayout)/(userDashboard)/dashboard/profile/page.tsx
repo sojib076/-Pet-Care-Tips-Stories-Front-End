@@ -4,10 +4,17 @@
 import { useGetProfile, useUpdateProfile } from "@/hook/user.Hook";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
+import { useState } from "react";
+
+const imgbbAPIKey = "c5f5e32f7744e81176cd5899a97c4257"; 
 
 const ProfileUpdates = () => {
   const { data: userData, isLoading, isError } = useGetProfile();
-  const {mutate} = useUpdateProfile();
+  const { mutate } = useUpdateProfile();
+
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -17,17 +24,62 @@ const ProfileUpdates = () => {
   }
   const user = userData?.data;
 
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      // Generate a preview URL
+      const imageUrl = URL.createObjectURL(file);
+      setPreviewImage(imageUrl);
+    }
+  };
 
+  const uploadImageToImgbb = async (file: File) => {
+    const formData = new FormData();
+    formData.append("image", file);
 
-  const handleSubmit = (event:any) => {
+    try {
+      const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      if (result.success) {
+        return result.data.url; // Return the image URL
+      } else {
+        throw new Error("Image upload failed");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw error;
+    }
+  };
+
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedProfile = {
-      name: formData.get('name'),
-      img: formData.get('img'),
-    };
+    setIsUploading(true);
 
-    mutate(updatedProfile);
+    try {
+      let imageUrl = user?.img; // Default to the current image
+
+      // If a new image is selected, upload it to imgbb
+      if (selectedFile) {
+        imageUrl = await uploadImageToImgbb(selectedFile);
+      }
+
+      const formData = new FormData(event.target);
+      const updatedProfile = {
+        name: formData.get('name'),
+        img: imageUrl,
+      };
+
+      mutate(updatedProfile);
+      console.log(updatedProfile);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -36,14 +88,10 @@ const ProfileUpdates = () => {
       <div className="container mx-auto lg:p-4 ">
         <div className="bg-white shadow-md rounded-lg pb-20 dark:bg-black">
           <div className="relative ">
-
-            <div className="w-full h-48 bg-gray-300 rounded-t-lg">
-
-            </div>
+            <div className="w-full h-48 bg-gray-300 rounded-t-lg"></div>
             <div className="absolute top-32 left-5">
-
               <Image
-                src={user?.img || '/path/to/default-profile-picture.jpg'}
+                src={previewImage || user?.img || '/path/to/default-profile-picture.jpg'}
                 alt="Profile Picture"
                 width={120}
                 height={120}
@@ -51,51 +99,56 @@ const ProfileUpdates = () => {
               />
             </div>
           </div>
-          <div className='lg:flex justify-between items-center'>
-
+          <div className="lg:flex justify-between items-center">
             <div className="pt-16 pb-4 px-5">
               <h1 className="text-2xl font-bold">{user?.name || 'User Name'}</h1>
-              <p className="text-gray-600">{user?.email || 'Bio or a brief description of the user.'}</p>
-
-
+              <p className="text-gray-600">
+                {user?.email || 'Bio or a brief description of the user.'}
+              </p>
             </div>
-
-
           </div>
           <div className="px-5">
-            <form onSubmit={handleSubmit} >
-             <div className="flex justify-between "> 
-             <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  defaultValue={user?.name}
-                  className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none sm:text-sm"
-                />
+            <form onSubmit={handleSubmit}>
+              <div className="flex justify-between ">
+                <div className="mb-4">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    defaultValue={user?.name}
+                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none sm:text-sm"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="img"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Upload Image
+                  </label>
+                  <input
+                    type="file"
+                    id="img"
+                    name="img"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none sm:text-sm"
+                  />
+                </div>
               </div>
-             <div className="mb-4">
-                <label htmlFor="img" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                <input
-                  type="img"
-                  id="img"
-                  name="img"
-                  defaultValue={user?.img}
-                  className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none sm:text-sm"
-                />
-              </div>
 
-             </div>
-
-              <Button type="submit"
-
-              >Update Profile</Button>
+              <Button type="submit" disabled={isUploading}>
+                {isUploading ? "Updating..." : "Update Profile"}
+              </Button>
             </form>
           </div>
-
         </div>
-
       </div>
     </div>
   );

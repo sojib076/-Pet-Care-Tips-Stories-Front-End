@@ -13,6 +13,8 @@ import { Loader } from "lucide-react";
 import GoogleLoginBtn from "../components/page/shared/GoogleLoginBtn";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerValidationSchema } from "@/schema/loginValidationSchema";
 
 
 const RegisterPage = () => {
@@ -26,7 +28,6 @@ const RegisterPage = () => {
 
     if (file) {
       setImageFiles([file]); 
-
 
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -47,18 +48,17 @@ const RegisterPage = () => {
       formData.append('profileImage', imageFiles[0]); 
     }
 
-  
     userRegister(formData);
   };
 
   if(isSuccess){
-    return router.push('/login');
+    return router.push('/');
   }
 
   return (
     <>
       <div className="pb-20 lg:grid grid-cols-2 items-center justify-center lg:w-[90%] px-10 pt-10 mx-auto shadow-inner shadow-gray-400 mt-20 rounded-lg">
-        {/* Left side: Image */}
+       
         <motion.div
           className="lg:block hidden"
           initial={{ opacity: 0, x: 300 }}
@@ -100,7 +100,7 @@ const RegisterPage = () => {
 
           {/* Form */}
           <div className="lg:w-[100%]">
-            <HookForm onSubmit={onSubmit}>
+            <HookForm onSubmit={onSubmit} resolver={zodResolver(registerValidationSchema)} >
               {/* Name Field */}
               <motion.div className="py-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }}>
                 <FXInput label="Name" name="name" type="text" />

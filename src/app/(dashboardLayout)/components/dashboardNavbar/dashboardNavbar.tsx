@@ -1,8 +1,10 @@
-import { Input, Navbar, NavbarContent } from "@nextui-org/react";
+import { Button, Input, Navbar, NavbarContent } from "@nextui-org/react";
 import React from "react";
 import { ChevronLeft, Menu, SearchCheck } from "lucide-react";
 import { useSidebarContext } from "@/app/(dashboardLayout)/layout/layout-context";
-import { UserDropdown } from "./user-dropdown";
+import { useUser } from "@/context/uAuthContext";
+import { signOut } from "next-auth/react";
+import { logout } from "@/Services/AuthServices";
 // import { useSidebarContext } from "../../layout/layout-context";
 // import { UserDropdown } from "./user-dropdown";
 interface Props {
@@ -11,7 +13,12 @@ interface Props {
 
 export const NavbarWrapper = ({ children }: Props) => {
   const { collapsed, setCollapsed } = useSidebarContext();
-
+  const {user}=useUser();
+  const logOutUser = () => {
+    signOut();
+    logout();
+   
+  };
   return (
     <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden ">
       <Navbar
@@ -44,7 +51,13 @@ export const NavbarWrapper = ({ children }: Props) => {
           justify="end"
           className="w-fit data-[justify=end]:flex-grow-0"
         >
-          <UserDropdown />
+          {
+            user && (<>
+            <Button onClick={logOutUser} color="primary" variant="flat">
+              Logout
+            </Button>
+            </>)
+          }
         </NavbarContent>
       </Navbar>
       {children}

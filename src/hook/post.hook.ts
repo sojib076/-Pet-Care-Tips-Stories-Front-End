@@ -8,13 +8,15 @@ import { toast } from "sonner";
 
 export  const useCreatpost = () => {
     return useMutation<any, Error,FieldValues>({
-      mutationKey: ["USER_FORGOT_PASSWORD"],
+      mutationKey: ["createPost"],
       mutationFn: async (userData) => await createPost(userData),
       onSuccess: (data) => {
         if (data?.success) {
           toast.success('Post created successfully');
+          queryClient.invalidateQueries({ queryKey: ["getPost"] });
         }
         else{
+          console.log(data);
           toast.error('Post creation failed');
         }
       },
@@ -35,6 +37,7 @@ export  const useCreatpost = () => {
       refetchOnWindowFocus: true,
       refetchOnMount: true,
       refetchOnReconnect: true,
+      refetchInterval:30000
     });
   };
 

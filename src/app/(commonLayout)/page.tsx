@@ -1,4 +1,4 @@
-import PostCard from "./components/page/home/PostCard";
+
 
 
 const Home = () => {
@@ -6,7 +6,10 @@ const Home = () => {
 
   return (
     <div>
-      <PostCard />
+      <h1> 
+        Welcome to the Home page!
+      </h1>
+     
       
     </div>
   );

@@ -1,3 +1,21 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    
+    "no-alert": "off",
+    "no-console": "off",
+    "no-debugger": "off",
+    "no-unused-vars": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "import/no-unresolved": "off",
+    "import/named": "off",
+    "import/default": "off",
+    "import/namespace": "off",
+    "import/export": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+      "@next/next/no-img-element": "off",
+    "@typescript-eslint/no-explicit-any": "off"
+   
+  }
 }

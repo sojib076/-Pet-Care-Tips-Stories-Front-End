@@ -8,7 +8,7 @@ import {
 } from "@nextui-org/react";
 import {  Dog } from "lucide-react";
 import Link from "next/link";
-import { ThemeSwitcher } from "./ThemeSwitcher";
+
 import { useUser } from "@/context/uAuthContext";
 import { logout } from "@/Services/AuthServices";
 import { signOut } from "next-auth/react";
@@ -39,13 +39,18 @@ export default function NavBar() {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="/cars">
-            Cars
+          <Link color="foreground" href="/">
+          Home
           </Link>
         </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
+        <NavbarItem>
+          <Link color="foreground" href="/newsfeed">
+          News feed
+          </Link>
+        </NavbarItem>
+        <NavbarItem >
+          <Link href="about" >
+          About
           </Link>
         </NavbarItem>
         <NavbarItem>
@@ -56,9 +61,7 @@ export default function NavBar() {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem>
-          <ThemeSwitcher />
-        </NavbarItem>
+      
 
         {user ? (
           <NavbarItem>
@@ -66,7 +69,8 @@ export default function NavBar() {
               Logout
             </Button>
           </NavbarItem>
-        ) : (
+        ) 
+        : (
           <NavbarItem className="hidden lg:flex">
             <Link href="/login">Login</Link>
           </NavbarItem>

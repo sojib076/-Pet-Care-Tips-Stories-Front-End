@@ -42,25 +42,22 @@ const decodedToken = await getCurrentUser();
     return NextResponse.next();
   }
 
-
-
-
   if (role === "user" && pathname.match(/^\/dashboard/)) {
     return NextResponse.next();
   }
-  if (role === "user" && pathname === "/profile") {
+  if (role === "user" || role==="admin" && pathname === "/newsfeed") {
     return NextResponse.next();
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
 
- 
+  return NextResponse.redirect(new URL("/", request.url));
 }
 
 
 
 export const config = {
   matcher: [
+    "/newsfeed",
     "/login",
     "/register",
     "/dashboard/:page*",
