@@ -1,9 +1,7 @@
 
 "use client";
-
-
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useUser } from '@/context/uAuthContext';
+import {  useUser } from '@/context/uAuthContext';
 import { useGetPost } from '@/hook/post.hook';
 import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getFollowedUsers, getFollowedUsersPosts, getsearch, upvotePost } from '@/Services/Post';
 import { Post } from '@/types';
@@ -12,29 +10,41 @@ import { toast } from 'sonner';
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "lucide-react";
 import useDebounce from "@/hook/debounce.hook";
+import { useGetProfile } from "@/hook/user.Hook";
+import axios from "axios";
 
 const PostCard = () => {
   const [commentInput, setCommentInput] = useState<Record<string, string>>({});
   const [editCommentId, setEditCommentId] = useState<string | null>(null);
   const [editCommentValue, setEditCommentValue] = useState<string>('');
-  const { user }: { user: any } = useUser();
+  const { user } = useUser();
   const [userFollowing, setUserFollowing] = useState<string[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [category, setCategory] = useState<string | undefined>('all');
   const [followedPosts, setFollowedPosts] = useState(false);
   const [searchCategory, setSearchCategory] = useState<string>('Tip');
+  const [userPaidPosts, setUserPaidPosts] = useState<string[]>([]);
 
 
 
 const { data, refetch,isLoading } = useGetPost(category);
 const { register, handleSubmit, watch } = useForm();
+const {data:paidPosts} = useGetProfile();
+  useEffect(() => {
+    if (paidPosts) {
+      setUserPaidPosts(paidPosts?.data?.paidfor);
+    }
+  }, [paidPosts]);
 
 
   useEffect(() => {
+  
+
     if (category) {
       refetch();
     }
-  }, [category]);
+
+  }, [category,refetch]);
   
   useEffect(() => {
     if (data) {
@@ -65,7 +75,7 @@ const { register, handleSubmit, watch } = useForm();
 
 
   const handleUpvote = async (postId: string) => {
-    const currentUserId = user._id;
+    const currentUserId = user?._id;
     try {
       await upvotePost(postId);
 
@@ -87,7 +97,7 @@ const { register, handleSubmit, watch } = useForm();
   };
 
   const handleDownvote = async (postId: string) => {
-    const currentUserId = user._id;
+    const currentUserId = user?._id;
     try {
       await downvotePost(postId);
 
@@ -186,9 +196,7 @@ const { register, handleSubmit, watch } = useForm();
     };
 
     fetchData();
-  }, [searchTerm]);
-
-
+  }, [searchCategory, searchTerm]);
 
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -199,14 +207,43 @@ const { register, handleSubmit, watch } = useForm();
     return <div>Loading...</div>;
   }
 
+  
+
+  const handlepayment = async (postId: string) => {
+    const userId = user?._id;
+    try {
+      // Call payment API
+      const response = await axios.post(`http://localhost:5000/api/v1/payment/initiate?postId=${postId}&userId=${userId}`)
+      console.log(response);
+  
+
+      if (response.data?.success) {
+        const paymentUrl = response.data?.data?.payment_url;
+        // Redirect to the payment URL
+        if (paymentUrl) {
+          window.location.href = paymentUrl;
+        } else {
+          toast.error('Payment URL not found.');
+        }
+      } else {
+        toast.error(response.data?.message || 'Payment initiation failed.');
+      }
+    } catch (error) {
+      console.error('Error handling payment:', error);
+      toast.error('Payment failed. Please try again.');
+    }
+  };
+  
+  
+
   return (
  
 
           
-           <div className="grid gap-6">
-      {/* Search Input and Filters */}
-      <div className="flex flex-col items-center mb-4">
-        <div className="flex space-x-4">
+    <div className="grid gap-6">
+    {/* Search Input and Filters */}
+    <div className="flex flex-col items-center mb-4">
+      <div className="flex space-x-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex-1">
             <Input
@@ -225,194 +262,193 @@ const { register, handleSubmit, watch } = useForm();
             />
           </div>
         </form>
-        
-          <select
-            name="searchType"
-            className="border border-gray-300 rounded-md p-2"
-            onChange={(e) => setSearchCategory(e.target.value)}
-          >
-            <option value="Tip">Tip</option>
-            <option value="Story">Story</option>
-           
-          </select>
-
-          {/* Category Buttons */}
-          <button
-            className={`px-4 py-2 rounded ${
-              category === 'Tip' ? 'bg-blue-500 text-white' : 'bg-gray-200'
-            }`}
-            onClick={() => handleCategoryChange('Tip')}
-          >
-            Tip
-          </button>
-          <button
-            className={`px-4 py-2 rounded ${
-              category === 'Story' ? 'bg-blue-500 text-white' : 'bg-gray-200'
-            }`}
-            onClick={() => handleCategoryChange('Story')}
-          >
-            Story
-          </button>
-          <button 
+  
+        <select
+          name="searchType"
+          className="border border-gray-300 rounded-md p-2"
+          onChange={(e) => setSearchCategory(e.target.value)}
+        >
+          <option value="Tip">Tip</option>
+          <option value="Story">Story</option>
+        </select>
+  
+        {/* Category Buttons */}
+        <button
+          className={`px-4 py-2 rounded ${
+            category === 'Tip' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+          }`}
+          onClick={() => handleCategoryChange('Tip')}
+        >
+          Tip
+        </button>
+        <button
+          className={`px-4 py-2 rounded ${
+            category === 'Story' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+          }`}
+          onClick={() => handleCategoryChange('Story')}
+        >
+          Story
+        </button>
+        <button 
           className={`px-4 py-2 ml-2 rounded ${category === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} 
           onClick={() => handleCategoryChange('all')}
         >
           All
         </button>
-
-          <button
-            className={`px-4 py-2 rounded ${
-              followedPosts ? 'bg-blue-500 text-white' : 'bg-gray-200'
-            }`}
-            onClick={handelFollowing}
-          >
-            Following
-          </button>
-        </div>
+  
+        <button
+          className={`px-4 py-2 rounded ${
+            followedPosts ? 'bg-blue-500 text-white' : 'bg-gray-200'
+          }`}
+          onClick={handelFollowing}
+        >
+          Following
+        </button>
       </div>
-
-      {posts?.map((post: Post) => (
-        <div key={post._id} className="max-w-xl mx-auto bg-white border border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
-
-         <div className='flex justify-end gap-5 items-end '> 
-         {post.premiumContent ? (
+    </div>
+  
+    {posts?.map((post: Post) => (
+      <div key={post._id} className="max-w-xl mx-auto bg-white border border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
+  
+        <div className='flex justify-end gap-5 items-end'> 
+          {post.premiumContent ? (
             <div className="mb-2 flex justify-end">
               <span className="bg-yellow-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
                 Premium Content
               </span>
-
             </div>
-          ) : null
-          }
-          {
-            post.category ? (
-              <div className="mb-2 flex justify-end">
-                <span className="bg-blue-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
-                  {post.category}
-                </span>
-              </div>
-            ) : null
-          }
-         </div>
-
-          {/* Header with Author Info */}
-          <div className="flex items-start space-x-3 mb-3">
-            <img
-              src={post.author.img || "/default-profile.png"}
-              alt={post.author.name || "Anonymous"}
-              className="w-10 h-10 rounded-full"
-            />
-            <div className="flex-grow">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h3 className="text-base font-semibold">{post.author.name || "Anonymous"}</h3>
-                  <span className="text-xs text-gray-500">@{post.author.username || "user123"}</span>
-                </div>
-                <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => handleFollow(post.author._id)}>
-                  {userFollowing && userFollowing?.includes(post.author._id) ? 'Unfollow' : 'Follow'}
-                </button>
-                
-              </div>
-              <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span>
+          ) : null}
+          {post.category ? (
+            <div className="mb-2 flex justify-end">
+              <span className="bg-blue-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
+                {post.category}
+              </span>
             </div>
-          </div>
-
-          {/* Post Content */}
-          <div className="text-sm text-gray-700 mb-2">
-            <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 1500) }} />
-            {post.content.length > 150 && (
-              <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => console.log(`Read more of post: ${post._id}`)}>
-                Read more
-              </button>
-            )}
-          </div>
-
-          {/* Post Engagement */}
-          <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
-            <div className="flex space-x-4">
-              <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-500" onClick={() => handleUpvote(post._id)}>
-                👍 <span>{post.upvotes}</span>
-              </button>
-              <button className="flex items-center space-x-1 text-gray-600 hover:text-red-500" onClick={() => handleDownvote(post._id)}>
-                👎 <span>{post.downvotes}</span>
+          ) : null}
+        </div>
+  
+        {/* Header with Author Info */}
+        <div className="flex items-start space-x-3 mb-3">
+          <img
+            src={post.author.img || "/default-profile.png"}
+            alt={post.author.name || "Anonymous"}
+            className="w-10 h-10 rounded-full"
+          />
+          <div className="flex-grow">
+            <div className="flex justify-between items-center">
+              <div>
+                <h3 className="text-base font-semibold">{post.author.name || "Anonymous"}</h3>
+                <span className="text-xs text-gray-500">@{post.author.username || "user123"}</span>
+              </div>
+              <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => handleFollow(post.author._id)}>
+                {userFollowing && userFollowing?.includes(post.author._id) ? 'Unfollow' : 'Follow'}
               </button>
             </div>
-            <div className="text-xs">{post.comments.length} Comments</div>
-          </div>
-
-          {/* Divider */}
-          <div className="border-t border-gray-300 pt-3">
-            {post.comments.length > 0 ? (
-              <div className="text-xs text-gray-500">
-                {post.comments
-                  .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-                  .slice(0, 4) // Only take the most recent comments
-                  .map((comment: any) => (
-                    <div key={comment._id} className="mb-2">
-                      <strong>{comment.userId.name || 'Anonymous'}:</strong> {comment.content}
-                      <div className="text-gray-400">{new Date(comment.createdAt).toLocaleString()}</div>
-
-                      {/* Conditionally show Edit button */}
-                      {user?._id === comment.userId._id && (
-                        <div className="flex space-x-2 text-xs mt-1">
-                          <button className="text-blue-500 hover:underline" onClick={() => handleEditClick(comment)}>
-                            Edit
-                          </button>
-                          <button className="text-blue-500 hover:underline" onClick={() => handeldelteComment(post._id, comment._id)}>
-                            Delete
-                          </button>
-                        </div>
-                      )}
-
-
-                      {editCommentId === comment._id && (
-                        <div className="mt-2">
-                          <textarea
-                            className="w-full p-2 border border-gray-300 rounded text-sm"
-                            value={editCommentValue}
-                            onChange={(e) => setEditCommentValue(e.target.value)}
-                          />
-                          <div>
-                            <button
-                              className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 mt-2"
-                              onClick={() => handleEditSubmit(post._id, comment._id)}
-                            >
-                              Submit Edit
-                            </button>
-                          </div>
-
-
-
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                {post.comments.length > 2 && (
-                  <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => console.log(`View all comments for post: ${post._id}`)}>
-                    View all comments
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="text-xs text-gray-500">No comments yet</div>
-            )}
-          </div>
-
-          <div className="mt-3">
-            <textarea
-              className="w-full p-2 border border-gray-300 rounded mb-2 text-sm"
-              placeholder="Write a comment..."
-              value={commentInput[post._id] || ''}
-              onChange={(e) => handleCommentChange(post._id, e.target.value)}
-            />
-            <button className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600" onClick={() => handleCommentSubmit(post._id)}>
-              Submit Comment
-            </button>
+            <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span>
           </div>
         </div>
-      ))}
-    </div>
+  
+        {/* Post Content */}
+        <div className="text-sm text-gray-700 mb-2">
+          {/* If the post is not premium, or the user has paid for it, show the full content */}
+          {(!post.premiumContent || userPaidPosts?.includes(post._id)) ? (
+            <p dangerouslySetInnerHTML={{ __html: post.content }} />
+          ) : (
+            <>
+              {/* If the post is premium and the user hasn't paid, show partial content */}
+              <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 150) }} />
+              <button
+                className="bg-blue-500 text-white px-3 py-1 rounded text-xs mt-2 hover:bg-blue-600"
+                onClick={() =>handlepayment(post._id)}
+              >
+                Pay 100 TK to Unlock Full Content
+              </button>
+            </>
+          )}
+        </div>
+  
+        {/* Post Engagement */}
+        <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
+          <div className="flex space-x-4">
+            <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-500" onClick={() => handleUpvote(post._id)}>
+              👍 <span>{post.upvotes}</span>
+            </button>
+            <button className="flex items-center space-x-1 text-gray-600 hover:text-red-500" onClick={() => handleDownvote(post._id)}>
+              👎 <span>{post.downvotes}</span>
+            </button>
+          </div>
+          <div className="text-xs">{post.comments.length} Comments</div>
+        </div>
+  
+        {/* Divider */}
+        <div className="border-t border-gray-300 pt-3">
+          {post.comments.length > 0 ? (
+            <div className="text-xs text-gray-500">
+              {post.comments
+                .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                .slice(0, 4) // Only take the most recent comments
+                .map((comment: any) => (
+                  <div key={comment._id} className="mb-2">
+                    <strong>{comment.userId.name || 'Anonymous'}:</strong> {comment.content}
+                    <div className="text-gray-400">{new Date(comment.createdAt).toLocaleString()}</div>
+  
+                    {/* Conditionally show Edit button */}
+                    {user?._id === comment.userId._id && (
+                      <div className="flex space-x-2 text-xs mt-1">
+                        <button className="text-blue-500 hover:underline" onClick={() => handleEditClick(comment)}>
+                          Edit
+                        </button>
+                        <button className="text-blue-500 hover:underline" onClick={() => handeldelteComment(post._id, comment._id)}>
+                          Delete
+                        </button>
+                      </div>
+                    )}
+  
+                    {editCommentId === comment._id && (
+                      <div className="mt-2">
+                        <textarea
+                          className="w-full p-2 border border-gray-300 rounded text-sm"
+                          value={editCommentValue}
+                          onChange={(e) => setEditCommentValue(e.target.value)}
+                        />
+                        <div>
+                          <button
+                            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 mt-2"
+                            onClick={() => handleEditSubmit(post._id, comment._id)}
+                          >
+                            Submit Edit
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              {post.comments.length > 2 && (
+                <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => console.log(`View all comments for post: ${post._id}`)}>
+                  View all comments
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="text-xs text-gray-500">No comments yet</div>
+          )}
+        </div>
+  
+        <div className="mt-3">
+          <textarea
+            className="w-full p-2 border border-gray-300 rounded mb-2 text-sm"
+            placeholder="Write a comment..."
+            value={commentInput[post._id] || ''}
+            onChange={(e) => handleCommentChange(post._id, e.target.value)}
+          />
+          <button className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600" onClick={() => handleCommentSubmit(post._id)}>
+            Submit Comment
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+  
   );
 };
 

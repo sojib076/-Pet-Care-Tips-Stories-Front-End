@@ -20,12 +20,13 @@ interface IUserProviderValues {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-interface IUser {
+export interface IUser {
   _id: string;
   name: string;
   email: string;
   role: string;
   img: string;
+  paidfor: string;
 }
 
 const UserProvider = ({ children }: { children: ReactNode }) => {

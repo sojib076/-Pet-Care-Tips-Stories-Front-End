@@ -39,8 +39,8 @@ const quillModules = {
               const imageUrl = res.data.data.url;
               
               // Insert the image into the Quill editor at the current selection
-              const range = this.quill.getSelection();
-              this.quill.insertEmbed(range.index, 'image', imageUrl);
+              const range = this?.quill?.getSelection();
+              this?.quill?.insertEmbed(range.index, 'image', imageUrl);
             } catch (error) {
               console.error('Image upload failed:', error);
             }
@@ -54,6 +54,7 @@ const quillModules = {
 export default function CreateContent() {
   const methods = useForm();
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  console.log(imageFiles);
   const { handleSubmit, register, setValue } = methods;
   const { mutate: createPost } = useCreatpost();
 
