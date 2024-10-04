@@ -1,4 +1,4 @@
-import {  Cog,  Home, User } from "lucide-react";
+import {  Cog,    Home, Laptop, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -8,6 +8,7 @@ import { Sidebar } from "./sidebar.styles";
 
 import { useSidebarContext } from "../../layout/layout-context";
 import { SidebarItem } from "./sidebar-item";
+
 
 
 
@@ -45,7 +46,7 @@ export const SidebarWrapper = () => {
               href="/dashboard"
             />
             <SidebarItem
-              title="Profile"
+              title="Update Your Profile"
               icon={<User />}
               isActive={pathname === "/dashboard/profile"}
               href="/dashboard/profile"
@@ -55,6 +56,28 @@ export const SidebarWrapper = () => {
               icon={<User />}
               isActive={pathname === "/dashboard/creation"}
               href="/dashboard/creation"
+            />
+            <SidebarItem
+              title="Create PDF"
+              icon={<Laptop />}
+              isActive={pathname === "/dashboard/createpdf"}
+              href="/dashboard/createpdf"
+            />
+
+     
+
+            <SidebarItem
+              title="Reset Password"
+              icon={<Laptop />}
+              isActive={pathname === "/forget-password"}
+              href="/forget-password"
+            />
+           
+            <SidebarItem
+              title="Forget Password"
+              icon={<Laptop />}
+              isActive={pathname === "/forget-password"}
+              href="/forget-password"
             />
 
          

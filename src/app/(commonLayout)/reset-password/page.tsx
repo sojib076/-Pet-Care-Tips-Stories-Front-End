@@ -23,14 +23,13 @@ const ResetPassword = ({ searchParams }: { searchParams: any }) => {
         resetPassword(userData);
         router.push('/login');
     };
-        
 
     return (
         <div className="w-[50%] mx-auto mt-[10%]">
-            <h1>Forget Password</h1>
+            <h1>Change Your Password</h1>
             <HookForm onSubmit={onSubmit}>
                 <Hookinput name="password" label="password" type="password" required />
-                <Button type="submit" className='mt-5 w-full bg-black text-white dark:bg-gray-500' >Send Email</Button>
+                <Button type="submit" className='mt-5 w-full bg-black text-white dark:bg-gray-500' >Change</Button>
             </HookForm>
         </div>
     );

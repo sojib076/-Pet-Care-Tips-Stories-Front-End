@@ -1,7 +1,6 @@
 
 
-// import { logOut } from "@/app/(withComonLayout)/actions/auth";
-// import { useAuth } from "@/lib/AuthProviders";
+
 import { ThemeSwitcher } from "@/app/(commonLayout)/components/page/shared/ThemeSwitcher";
 import {
   Avatar,
@@ -38,14 +37,9 @@ export const UserDropdown = () => {
           <p>Signed in as</p>
           {/* <p>{user?.email}</p> */}
         </DropdownItem>
-        <DropdownItem key="settings">My Settings</DropdownItem>
-        <DropdownItem key="team_settings">Team Settings</DropdownItem>
-        <DropdownItem key="analytics">Analytics</DropdownItem>
-        <DropdownItem key="system">System</DropdownItem>
-        <DropdownItem key="configurations">Configurations</DropdownItem>
-        <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+   
         <DropdownItem
-        //   onClick={() => logOutUser()}
+        
           key="logout"
           color="danger"
           className="text-danger "

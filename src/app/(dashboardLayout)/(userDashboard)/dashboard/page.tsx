@@ -5,15 +5,43 @@ import Post from './components/Post';
 
 import { useGetProfile } from '@/hook/user.Hook';
 import Followers from './components/Follwers';
+import { useEffect, useState } from 'react';
+import { getuserposts } from '@/Services/Post';
+
 
 
 const Profile = () => {
   const { data: userData, isLoading } = useGetProfile();
+  const [posts, setPosts] = useState([]);
 
+     
+  const user = userData?.data;
+  const userId = user?._id;
+  
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const posts = await getuserposts();
+      
+      if (posts) {
+        setPosts(posts.data);
+      }
+    };
+    fetchPosts()
+      
+    } 
+    , [userId]);
+    
   if (isLoading) {
     return <div>Loading...</div>;
+
   }
-  const user = userData?.data;
+
+  
+ 
+
+ 
+  
+  
 
 
 
@@ -28,7 +56,7 @@ const Profile = () => {
               alt="Profile Picture"
               width={120}
               height={120}
-              className="rounded-full border-4 border-white"
+              className="rounded-full border-4 border-white w-[110px] h-[100px]"
             />
           </div>
         </div>
@@ -48,10 +76,13 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Followers and Following Table */}
+     
+
       <Followers followers={user?.followers || []} following={user?.following || []} />
 
-      <Post />
+    {
+      posts.length > 0 ? <Post posts={posts} /> : <div>No Posts</div>
+    }
     </div>
   );
 };

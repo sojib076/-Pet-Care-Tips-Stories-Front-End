@@ -3,22 +3,32 @@ import React from "react";
 import { ChevronLeft, Menu, SearchCheck } from "lucide-react";
 import { useSidebarContext } from "@/app/(dashboardLayout)/layout/layout-context";
 import { useUser } from "@/context/uAuthContext";
-import { signOut } from "next-auth/react";
+
 import { logout } from "@/Services/AuthServices";
-// import { useSidebarContext } from "../../layout/layout-context";
-// import { UserDropdown } from "./user-dropdown";
+import { useRouter } from "next/navigation";
+
 interface Props {
   children: React.ReactNode;
 }
 
 export const NavbarWrapper = ({ children }: Props) => {
   const { collapsed, setCollapsed } = useSidebarContext();
-  const {user}=useUser();
+
+
+  const router = useRouter();
+
+  const {user,setUser,setIsLoading}=useUser();
   const logOutUser = () => {
-    signOut();
     logout();
+    setUser(null);
+    setIsLoading(true);
+    router.push("/login");
+
+
    
   };
+  
+
   return (
     <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden ">
       <Navbar
@@ -34,6 +44,7 @@ export const NavbarWrapper = ({ children }: Props) => {
           ) : (
             <Menu onClick={setCollapsed}></Menu>
           )}
+
         </NavbarContent>
         <NavbarContent className="w-full max-md:hidden">
           <Input

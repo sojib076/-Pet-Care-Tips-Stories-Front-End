@@ -11,7 +11,8 @@ import Link from "next/link";
 
 import { useUser } from "@/context/uAuthContext";
 import { logout } from "@/Services/AuthServices";
-import { signOut } from "next-auth/react";
+
+
 
 // import { ThemeSwitcher } from "./ThemeSwitcher";
 export default function NavBar() {
@@ -19,13 +20,19 @@ export default function NavBar() {
     user: "/dashboard",
     admin: "/admin-dashboard",
   };
+ 
 
-  const {user,setIsLoading:userLoading}=useUser();
+  const {user,setIsLoading:userLoading,setUser}=useUser();
+
+  console.log(user);
   
   const logOutUser = () => {
-    signOut();
+
     logout();
-  userLoading(true);
+    setUser(null);
+    userLoading(false);
+   
+  
   };
 
   return (

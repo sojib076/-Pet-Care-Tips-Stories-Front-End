@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createPost, getPost, upvotePost } from "@/Services/Post";
+import { createPost, getPost, getPostById, upvotePost } from "@/Services/Post";
 import {  QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -37,7 +37,7 @@ export  const useCreatpost = () => {
       refetchOnWindowFocus: true,
       refetchOnMount: true,
       refetchOnReconnect: true,
-      refetchInterval:30000
+      
     });
   };
 
@@ -62,6 +62,17 @@ export  const useCreatpost = () => {
       },
     });
   };
+
+  export const usePostbyId = (postId: string) => {
+    return useQuery<any, Error>({
+      queryKey: ["getPost", postId],
+      queryFn: async () => await getPostById(postId),
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+  }
+  )
+  }
 
 
 

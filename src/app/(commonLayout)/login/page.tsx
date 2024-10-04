@@ -20,6 +20,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 const LoginPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const {user} = useUser();
 
   const {mutate:userLogin,isPending,isSuccess}=useUserLogin();
   const {setIsLoading:isloading,}=useUser()
@@ -28,18 +29,21 @@ const LoginPage = () => {
     userLogin(data);
     isloading(true);
 
-
   }; 
   
  useEffect(() => {
-      if (!isPending && isSuccess) {
+      if (!isPending && isSuccess && user) {
         if (redirect) {
           router.push(redirect);
         } else {
-          router.push("/dashboard");
+          if (user?.role ==="admin") {
+            router.push("/admin-dashboard");
+          } else  {
+            router.push("/dashboard");
+          }
         }
       }
-    }, [isPending, isSuccess, redirect, router]);
+    }, [isPending, isSuccess, redirect, router, user]);
 
    
   return (

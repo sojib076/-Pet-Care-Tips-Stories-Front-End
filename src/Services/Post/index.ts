@@ -128,8 +128,43 @@ export  const getsearch =  async (searchTerm: string, searchCategory: string) =>
 
 
 
-// const getsearch = async () => {
-//   const result = await axiosInstance.get(`/posts/search/${searchTerm}& ${searchCategory}`);
-//   setPosts(result.data);
-// };
+export const getPostById = async (postId: string) => {
+ 
+  try {
+    const { data } = await axiosInstance.get(`/post/${postId}`);
+    console.log(data, 'data');
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+
+
+export const updatePost = async (postData: { postId: any; title: any; content: any; category: any; premiumContent: any; }) => {
+  try {
+    const { data } = await axiosInstance.put(`/post/editpost`, postData);
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+}
+
+
+export const deletePost = async (postId: string) => {
+  try {
+    const { data } = await axiosInstance.delete(`/post/deletepost`, { data: { postId } });
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+
+export const getuserposts = async () => {
+  try {
+    const { data } = await axiosInstance.get(`/user/getuserposts`);
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
 

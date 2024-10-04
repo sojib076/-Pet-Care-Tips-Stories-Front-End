@@ -3,6 +3,7 @@
 
 import { useGetProfile, useUpdateProfile } from "@/hook/user.Hook";
 import { Button } from "@nextui-org/react";
+import { LoaderPinwheel } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -16,9 +17,7 @@ const ProfileUpdates = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+
   if (isError) {
     return <div>Error loading profile.</div>;
   }
@@ -45,7 +44,7 @@ const ProfileUpdates = () => {
       });
       const result = await response.json();
       if (result.success) {
-        return result.data.url; // Return the image URL
+        return result.data.url; 
       } else {
         throw new Error("Image upload failed");
       }
@@ -79,10 +78,17 @@ const ProfileUpdates = () => {
       setIsUploading(false);
     }
   };
-
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderPinwheel className="animate-spin text-4xl text-green-500" />
+        <span className="ml-2 text-xl">Loading profile...</span>
+      </div>
+    );
+  }
   return (
     <div>
-      <h1>Update Your Profile </h1>
+      <h1> Update Your Profile </h1>
 
       <div className="container mx-auto lg:p-4 ">
         <div className="bg-white shadow-md rounded-lg pb-20 dark:bg-black">

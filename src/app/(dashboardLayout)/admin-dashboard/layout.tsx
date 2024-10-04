@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 
+import Adminlayout from "./layout/Adminlayout";
+import DashboardLayout from "../layout/dashboardLayout";
+
 export const metadata: Metadata = {
   title: "Dashboard - Apollo Gears",
   description: "Next Level Riding Sharing Service",
@@ -12,8 +15,12 @@ export default function AdminDashboardLayout({
 }>) {
   return (
     <div>
-      Admin Dashboard Sidebar
-      {children}
+      <DashboardLayout> 
+  <Adminlayout> {children} </Adminlayout>
+
+      </DashboardLayout>
+      
+    
     </div>
   );
 }

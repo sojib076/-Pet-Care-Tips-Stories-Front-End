@@ -8,21 +8,20 @@ interface FAQItem {
 }
 
 const faqs: FAQItem[] = [
+//    this website is about animal tips and story
+     
     {
-        question: "01. Signals For Customising Website?",
-        answer:
-            "We will give you a complete account of the system and expound the teachings of the great explorer.",
+        question: "What is the purpose of this website?",
+        answer: "This website is about animal tips and story",
     },
     {
-        question: "02. Information Architecture Easy?",
-        answer:
-            "Understanding how to structure your website’s content and improve its architecture for ease of navigation.",
+        question: "How do I get in touch with the website owner?",
+        answer: "You can get in touch with the website owner by visiting the contact page.",
     },
-    {
-        question: "03. Guide To Attracting Clients?",
-        answer:
-            "We provide expert guidance on effective strategies to help attract clients and grow your business.",
-    },
+     {
+        question: "How can I contribute to the website?",
+        answer: "You can contribute to the website by submitting your own animal tips and stories.",
+     }
 ];
 
 const FAQSection: React.FC = () => {

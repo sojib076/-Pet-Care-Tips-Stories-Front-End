@@ -1,19 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 "use client";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useUser } from '@/context/uAuthContext';
 import { useGetPost } from '@/hook/post.hook';
 import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getFollowedUsers, getFollowedUsersPosts, getsearch, upvotePost } from '@/Services/Post';
-import { Post } from '@/types';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { Input } from "@nextui-org/react";
-import { SearchIcon } from "lucide-react";
+import { LoaderIcon, SearchIcon } from "lucide-react";
 import useDebounce from "@/hook/debounce.hook";
 import { useGetProfile } from "@/hook/user.Hook";
 import axios from "axios";
+
 
 const PostCard = () => {
   const [commentInput, setCommentInput] = useState<Record<string, string>>({});
@@ -21,16 +18,17 @@ const PostCard = () => {
   const [editCommentValue, setEditCommentValue] = useState<string>('');
   const { user } = useUser();
   const [userFollowing, setUserFollowing] = useState<string[]>([]);
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [category, setCategory] = useState<string | undefined>('all');
   const [followedPosts, setFollowedPosts] = useState(false);
   const [searchCategory, setSearchCategory] = useState<string>('Tip');
   const [userPaidPosts, setUserPaidPosts] = useState<string[]>([]);
   const [sortType, setSortType] = useState<string>('');
 
-  const { data, refetch,  } = useGetPost(category);
+  const { data, refetch, isLoading } = useGetPost(category);
   const { register, handleSubmit, watch } = useForm();
   const { data: paidPosts } = useGetProfile();
+  console.log(data);
 
   useEffect(() => {
     if (paidPosts) {
@@ -44,17 +42,20 @@ const PostCard = () => {
     }
   }, );
 
+
+
+
+
+  
   useEffect(() => {
     if (data) {
       let sortedPosts = [...data?.data?.posts];
-
-
       if (category === 'Tip' || category === 'Story' || sortType==='up'  ) {
-        sortedPosts = sortedPosts?.sort((a: Post, b: Post) => b.upvotes - a.upvotes);
+        sortedPosts = sortedPosts?.sort((a: any, b: any) => b.upvotes - a.upvotes);
       }else if(sortType==='down'){
-        sortedPosts = sortedPosts?.sort((a: Post, b: Post) => b.downvotes - a.downvotes);
+        sortedPosts = sortedPosts?.sort((a: any, b: any) => b.downvotes - a.downvotes);
       }else {
-        sortedPosts = sortedPosts?.sort((a: Post, b: Post) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        sortedPosts = sortedPosts?.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       }
 
       setPosts(sortedPosts);
@@ -76,7 +77,7 @@ const PostCard = () => {
     const currentUserId = user?._id;
     const post = posts.find((post) => post._id === postId);
 
-    const alreadyUpvoted = post?.voters?.some(voter => voter.userId === currentUserId && voter.voteType === 'up');
+    const alreadyUpvoted = post?.voters?.some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === currentUserId && voter.voteType === 'up');
     if (alreadyUpvoted) {
       toast.error("You have already upvoted this post.");
       return;
@@ -89,7 +90,7 @@ const PostCard = () => {
             ? {
                 ...post,
                 upvotes: post.upvotes + 1,
-                voters: [...post.voters, { userId: currentUserId, voteType: 'up' }],
+                voters: [...(post?.voters ?? []), { userId: currentUserId, voteType: 'up' }],
               }
             : post
         )
@@ -106,7 +107,7 @@ const PostCard = () => {
     const currentUserId = user?._id;
     const post = posts.find((post) => post._id === postId);
 
-    const alreadyDownvoted = post?.voters?.some(voter => voter.userId === currentUserId && voter.voteType === 'down');
+    const alreadyDownvoted = post?.voters?.some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === currentUserId && voter.voteType === 'down');
     if (alreadyDownvoted) {
       toast.error("You have already downvoted this post.");
       return;
@@ -211,7 +212,9 @@ const PostCard = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (searchTerm) {
+        console.log(searchTerm, searchCategory);
         const result = await getsearch(searchTerm, searchCategory);
+       
         setPosts(result?.data?.posts);
       }
     };
@@ -316,9 +319,16 @@ const PostCard = () => {
           </div>
         </div>
       </div>
-
-      {
-      posts.length >1 ?  posts?.map((post: Post) => (
+        {
+          isLoading ?  
+          
+          <>
+            <LoaderIcon className="w-10 h-10 text-blue-500 animate-spin mx-auto" />
+          </>
+          :<>
+          
+          {
+      posts.length >1 ?  posts?.map((post: any) => (
         <div key={post._id} className="w-[80%] mx-auto bg-white border border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
           <div className='flex justify-end gap-5 items-end'>
             {post.premiumContent && (
@@ -380,23 +390,23 @@ const PostCard = () => {
             <div className="flex space-x-4">
               <button
                 className={`flex items-center space-x-1 ${
-                  (post.voters ?? []).some(voter => voter.userId === user?._id && voter.voteType === 'up')
+                  (post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'up')
                     ? 'text-blue-500'
                     : 'text-gray-600'
                 }`}
                 onClick={() => handleUpvote(post._id)}
-                disabled={post.voters?.some(voter => voter.userId === user?._id && voter.voteType === 'up')}
+                disabled={post.voters?.some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'up')}
               >
                 👍 <span>{post.upvotes}</span>
               </button>
               <button
                 className={`flex items-center space-x-1 ${
-                  (post.voters ?? []).some(voter => voter.userId === user?._id && voter.voteType === 'down')
+                  (post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'down')
                     ? 'text-red-500'
                     : 'text-gray-600'
                 }`}
                 onClick={() => handleDownvote(post._id)}
-                disabled={post.voters?.some(voter => voter.userId === user?._id && voter.voteType === 'down')}
+                disabled={post.voters?.some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'down')}
               >
                 👎 <span>{post.downvotes}</span>
               </button>
@@ -468,10 +478,16 @@ const PostCard = () => {
             </button>
           </div>
         </div>
-      )) :  <h1 className="text-center font-bold text-2xl "> NO POST AVAIBLE
+      )) : 
+       <h1 className="text-center font-bold text-2xl "> NO POST AVAIBLE
 
       </h1>
+      
       }
+          </>
+          
+        }
+
     </div>
   );
 };

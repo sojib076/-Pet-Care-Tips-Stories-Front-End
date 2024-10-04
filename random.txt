@@ -1,4 +1,0 @@
--Node Backend
--Next JS Frontend
-    - Client Frontend - Pure Frontend
-    - Client Backend - NextJS Backend

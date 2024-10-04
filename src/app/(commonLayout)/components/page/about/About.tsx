@@ -11,7 +11,7 @@ const Aboutus = () => {
                 <div className="grid grid-cols-2 lg:gap-5 relative lg:p-10 p-5 z-20  md:mt-0 " >
                     <div className="lg:w-[75%] w-[100%] h-56" >
                         <Image
-                            src="https://i0.wp.com/demo.themedraft.net/wp/doctio/wp-content/uploads/2022/06/three-image-3.jpg"
+                            src="https://png.pngtree.com/thumb_back/fh260/background/20230615/pngtree-black-and-white-photo-of-an-older-man-looking-at-the-image_2893813.jpg"
                             alt="about"
 
                             width={1000}
@@ -26,7 +26,7 @@ const Aboutus = () => {
                     </div>
                     <div className=" grid grid-cols-1 gap-4">
                         <Image
-                            src="https://i0.wp.com/demo.themedraft.net/wp/doctio/wp-content/uploads/2022/06/three-image-1.jpg "
+                            src="https://png.pngtree.com/thumb_back/fh260/background/20230615/pngtree-black-and-white-photo-of-an-older-man-looking-at-the-image_2893813.jpg "
                             alt="about"
 
                             width={1000}
@@ -34,7 +34,7 @@ const Aboutus = () => {
                             className="  relative lg:left-8"
                         />
                         <Image
-                            src="https://i0.wp.com/demo.themedraft.net/wp/doctio/wp-content/uploads/2022/06/three-image-2.jpg"
+                            src="https://png.pngtree.com/thumb_back/fh260/background/20230615/pngtree-black-and-white-photo-of-an-older-man-looking-at-the-image_2893813.jpg"
                             alt="about"
 
                             width={1000}
@@ -68,7 +68,7 @@ const Aboutus = () => {
                             About Us
                         </h1>
                         <h1 className=" lg:text-[48px] text-3xl font-semibold  lg:leading-[58px] lg:w-[90%]  ">
-                            Read Something About Doctio Health Care
+                        Information Organization 
                         </h1>
 
                         <Image
@@ -76,15 +76,20 @@ const Aboutus = () => {
                             alt="line"
                             width={1000}
                             height={500}
-
                             className="lg:w-[25%] w-[40%] lg:mt-5 mt-2 mx-auto"
                         />
 
-                        <p className="lg:w-[80%] text-justify  text-[16px] p-2 font-light"> Sed ut pers piciatis unde omnis iste natus error sit volu ptatem accus antium one dolor emque laudan tium, totam rem aperiam, eaque ipsa quae ab illo invetore off veritatis et quasi and visit our service page architecto beatae vitae dicta suntpli. Nemoe ipsam volup and tate quia voluptas sit aspernatur aut odit aut fugit, sedon quia cquuntur magni dolores eos qui ratione.</p>
+
+                        <p className="lg:w-[80%] text-justify  text-[16px] p-2 font-light"> 
+                            This is Project was never to be finshed without the help of organization  of Sojib Das . 
+                            The project was started in 2021 and it was a great journey to work with them we wanted to make a project that will help the people to get the information about pet and animal.
+                            
+                            
+                        </p>
                         <div className="flex gap-5 p-2">
                             <Button
 
-                                className="w-[200px] rounded-full bg-gray-500 text-whtie hover:bg-secondary-100 lg:mt-5 mt-2"
+                                className="w-[200px] rounded-full text-whtie hover:bg-secondary-100 lg:mt-5 mt-2"
                             > Read More</Button>
                             {/* call with icons */}
                             <Button
