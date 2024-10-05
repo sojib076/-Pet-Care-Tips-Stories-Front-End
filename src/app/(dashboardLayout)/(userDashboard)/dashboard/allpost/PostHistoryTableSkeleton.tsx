@@ -1,7 +1,7 @@
 
 
 const PostHistoryTableSkeleton = () => {
-  // Simulate a certain number of rows for the skeleton
+
   const skeletonRows = Array.from({ length: 5 });
 
   return (

@@ -16,7 +16,7 @@ const ForgetPassword = () => {
             <h1>Please Enter Your Email </h1>
             <HookForm onSubmit={onSubmit}>
                 <Hookinput name="email" label="Email" type="email" required />
-                <Button type="submit" className='mt-5 w-full bg-black text-white dark:bg-gray-500' >Send Email</Button>
+                <Button type="submit" className='mt-5 w-full bg-blue-900 text-white dark:bg-gray-500' >Send Email</Button>
             </HookForm>
         </div>
     );

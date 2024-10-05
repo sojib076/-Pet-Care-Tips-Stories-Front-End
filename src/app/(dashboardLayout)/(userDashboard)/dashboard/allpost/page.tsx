@@ -8,7 +8,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import PostHistoryTableSkeleton from "./PostHistoryTableSkeleton";
 
-const userAllpost = () => {
+const UserAllpost = () => {
     const { user } = useUser();
     const [posts, setPosts] = useState([]);
 
@@ -93,4 +93,4 @@ const userAllpost = () => {
     );
 };
 
-export default userAllpost;
+export default UserAllpost;

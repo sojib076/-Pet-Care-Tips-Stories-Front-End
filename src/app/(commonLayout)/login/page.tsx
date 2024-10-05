@@ -136,6 +136,9 @@ className="lg:grid grid-cols-2 items-center justify-center lg:w-[90%] px-10 pt-1
       <motion.div className="text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.8 }}>
         Don&rsquo;t have an account? <Link href={"/register"}>Register</Link>
       </motion.div>
+      <motion.div className="text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.8 }}>
+        <Link href={"/forget-password"} className="text-blue-900" >Forget Password?</Link>
+      </motion.div>
     </div>
   </motion.div>
 </div>

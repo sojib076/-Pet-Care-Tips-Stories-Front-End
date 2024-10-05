@@ -8,6 +8,7 @@ import axios from "axios";
 import "react-quill/dist/quill.snow.css";
 import { updatePost } from "@/Services/Post";
 import { toast } from "sonner";
+import LoadingSkeleton from "../../components/updateContentloading";
 
 const ReactQuill = dynamic(() => import("react-quill").then(mod => mod.default), { ssr: false, loading: () => <p>Loading...</p> });
 
@@ -99,7 +100,7 @@ const UpdatePost = (params) => {
   
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSkeleton />;
   if (isError) return <div>Error loading post</div>;
 
   return (

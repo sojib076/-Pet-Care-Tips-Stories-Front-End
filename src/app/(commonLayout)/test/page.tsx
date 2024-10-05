@@ -1,7 +1,7 @@
 "use client";
 
 
-import { useUser } from "@/context/uAuthContext";
+
 import useDebounce from "@/hook/debounce.hook";
 import { useGetPost } from "@/hook/post.hook";
 import { useGetProfile } from "@/hook/user.Hook";
@@ -88,7 +88,8 @@ const PostCard = () => {
     }
 
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = async () => {
+
 
     };
 
@@ -198,7 +199,7 @@ const PostCard = () => {
         const comment = commentInput[postId];
         if (comment) {
             try {
-                const result = await addCommentToPost(postId, comment);
+                 await addCommentToPost(postId, comment);
 
                 setPosts((prev) => {
                     return prev?.map((item) => {
@@ -228,6 +229,7 @@ const PostCard = () => {
 
 
             } catch (error: any) {
+                console.log(error);
                 toast.error('Comment failed');
             }
 
