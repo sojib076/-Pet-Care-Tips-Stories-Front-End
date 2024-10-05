@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@nextui-org/react";
 import GoogleLoginBtn from "../components/page/shared/GoogleLoginBtn";
 import HookForm from "@/app/components/Form/HookForm";
@@ -14,17 +15,14 @@ import { Loader,  } from "lucide-react";
 import { useUser } from "@/context/uAuthContext";
 import { useEffect } from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
-
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
   const {user} = useUser();
-
   const {mutate:userLogin,isPending,isSuccess}=useUserLogin();
   const {setIsLoading:isloading,}=useUser()
-  const redirect = searchParams.get("redirect");
+
   const onSubmit = (data: FieldValues) => {
     userLogin(data);
     isloading(true);
@@ -33,17 +31,15 @@ const LoginPage = () => {
   
  useEffect(() => {
       if (!isPending && isSuccess && user) {
-        if (redirect) {
-          router.push(redirect);
-        } else {
+      
           if (user?.role ==="admin") {
             router.push("/admin-dashboard");
           } else  {
             router.push("/dashboard");
           }
-        }
+        
       }
-    }, [isPending, isSuccess, redirect, router, user]);
+    }, );
 
    
   return (

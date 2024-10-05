@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createPost, getPost, getPostById, upvotePost } from "@/Services/Post";
+import { createPost, getcategory, getPost, getPostById, upvotePost } from "@/Services/Post";
 import {  QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -30,13 +30,10 @@ export  const useCreatpost = () => {
 
 
   
-  export const useGetPost = (category: string = '',  ) => {
+  export const useGetPost = ( ) => {
     return useQuery<any, Error>({
-      queryKey: ["getPost", 'category'], 
-      queryFn: async () => await getPost(category), 
-      refetchOnWindowFocus: true,
-      refetchOnMount: true,
-      refetchOnReconnect: true,
+      queryKey: ["getPost",], 
+      queryFn: async () => await getPost(), 
       
     });
   };
@@ -49,7 +46,7 @@ export  const useCreatpost = () => {
       mutationFn: async (postId) => await upvotePost(postId),
       onSuccess: (data) => {
         if (data?.success) {
-          queryClient.invalidateQueries({ queryKey: ["getPost"] });    
+             
             console.log(data);
         } 
   
@@ -73,6 +70,18 @@ export  const useCreatpost = () => {
   }
   )
   }
+  export const useGetPostByCategory = () => {
+    return useMutation<any, Error,string>({
+      mutationKey: ["getcategory"],
+      mutationFn: async (category) => await getcategory(category)
+      
+
+
+    })
+    
+  }
+  
+
 
 
 

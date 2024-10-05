@@ -57,7 +57,6 @@ const decodedToken = await getCurrentUser();
 
 export const config = {
   matcher: [
-    "/newsfeed",
     "/login",
     "/register",
     "/dashboard/:page*",

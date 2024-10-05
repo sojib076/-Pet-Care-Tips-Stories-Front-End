@@ -15,14 +15,17 @@ import { FieldValues } from "react-hook-form";
     };
 
 
-export const getPost = async (category: string ) => {
+export const getPost = async ( ) => {
+
 
   try {
-    const { data } = await axiosInstance.get(`/post/get?category=${category}`,);
-
+    const { data } = await axiosInstance.get(`/post/get`,);
+console.log(data, 'data');
     return data;
-  } catch (error: any) {
+  } catch (error: any) { 
+    console.log(error, 'error');
     return error?.response?.data;
+   
   }
 };
 
@@ -30,8 +33,8 @@ export const getPost = async (category: string ) => {
 export const upvotePost = async (postId: string) => {
   console.log(postId, 'postId');
   try {
-    const { data } = await axiosInstance.post(`/post/upvotepost/`, { postId }); // postId wrapped in an object
-    console.log(data, 'data');
+    const { data } = await axiosInstance.post(`/post/upvotepost/`, { postId }); 
+    
     return data;
   } catch (error: any) {
     console.log(error, 'error');
@@ -168,3 +171,15 @@ export const getuserposts = async () => {
   }
 };
 
+
+export const getcategory = async (category:string) => {
+  console.log(category, 'category');
+  try {
+      const { data } = await axiosInstance.get(`post/category?category=${category}`);
+      console.log(data);
+      return data;
+  } catch (error) {
+    return error?.response?.data;
+    
+  }
+} 

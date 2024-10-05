@@ -1,3 +1,4 @@
+
 import PostCard from "../components/page/home/PostCard";
 import CreateContent from "../components/page/home/Toppost";
 
@@ -7,6 +8,7 @@ const page = () => {
         <div>
             <CreateContent />
             <PostCard />
+         
             
         </div>
     );
