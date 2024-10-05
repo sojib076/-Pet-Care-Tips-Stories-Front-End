@@ -3,7 +3,7 @@
 import { useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useForm, FormProvider } from "react-hook-form";
-import { usePostbyId,  } from "@/hook/post.hook"; 
+import { usePostbyId } from "@/hook/post.hook";
 import axios from "axios";
 import "react-quill/dist/quill.snow.css";
 import { updatePost } from "@/Services/Post";
@@ -13,10 +13,10 @@ const ReactQuill = dynamic(() => import("react-quill").then(mod => mod.default),
 
 const UpdatePost = (params) => {
   const { postId } = params.params;
-  const { data, isLoading, isError ,refetch} = usePostbyId(postId);
+  const { data, isLoading, isError, refetch } = usePostbyId(postId);
   const methods = useForm();
   const { handleSubmit, register, setValue } = methods;
-  const quillRef = useRef<any>(null);
+  const quillRef = useRef(null);
 
   const quillModules = {
     toolbar: {
@@ -32,7 +32,6 @@ const UpdatePost = (params) => {
 
   useEffect(() => {
     if (data && data.data) {
-      // Populate the form fields with the existing post data
       setValue("title", data.data.title);
       setValue("content", data.data.content);
       setValue("category", data.data.category);
@@ -53,6 +52,12 @@ const UpdatePost = (params) => {
         input.onchange = async () => {
           const file = input.files ? input.files[0] : null;
           if (file) {
+            // Insert loading placeholder
+            const range = editor.getSelection();
+            if (range) {
+              editor.insertEmbed(range.index, "image", "https://via.placeholder.com/150?text=Uploading...");
+            }
+
             const formData = new FormData();
             formData.append("image", file);
 
@@ -63,10 +68,19 @@ const UpdatePost = (params) => {
               );
               const imageUrl = res.data.data.url;
 
-              const range = editor.getSelection();
-              editor.insertEmbed(range.index, "image", imageUrl);
+              if (range) {
+                const [blot] = editor.getLeaf(range.index);
+                if (blot && blot.domNode && blot.domNode.tagName === "IMG" && blot.domNode.src.includes("placeholder")) {
+                  // Replace the placeholder with the actual image URL
+                  blot.domNode.setAttribute("src", imageUrl);
+                } else {
+                  // Insert a new image
+                  editor.insertEmbed(range.index, "image", imageUrl);
+                }
+              }
             } catch (error) {
               console.error("Image upload failed:", error);
+              toast.error("Image upload failed. Please try again.");
             }
           }
         };
@@ -74,29 +88,23 @@ const UpdatePost = (params) => {
     }
   }, [quillRef]);
 
-  const onSubmit = async (data: any) => {
-    // Prepare the form data for updating the post
+  const onSubmit = async (data) => {
     const formData = {
-    postId: postId,
+      postId: postId,
       title: data.title,
       content: data.content,
       category: data.category,
       premiumContent: data.premiumContent,
     };
 
+    const response = await updatePost(formData);
 
-
-    
-        const response = await updatePost(formData);
-        
-        if (response) {
-          if (response.success) {
-            toast.success("Post updated successfully");
-            
-          }
-          refetch();
-        }
-  
+    if (response) {
+      if (response.success) {
+        toast.success("Post updated successfully");
+      }
+      refetch();
+    }
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -106,19 +114,28 @@ const UpdatePost = (params) => {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto p-8">
         <h1 className="text-2xl font-bold mb-6">Update Pet Care Content</h1>
-      
+
+        {/* Title */}
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Title</label>
+          <input
+            type="text"
+            {...register('title')}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
         {/* Content Editor */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Content</label>
           <ReactQuill
-          
             theme="snow"
             modules={quillModules}
             onChange={value => setValue("content", value)}
             value={methods.watch("content")}
             placeholder="Update your pet care tips or stories..."
             className="bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-2"
+            ref={quillRef}
           />
         </div>
 

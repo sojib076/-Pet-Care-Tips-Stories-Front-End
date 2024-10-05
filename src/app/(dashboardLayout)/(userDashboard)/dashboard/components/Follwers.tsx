@@ -1,11 +1,13 @@
 import React from 'react';
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/table";
 import Image from 'next/image';
+import { Button } from '@nextui-org/react';
 
-const Followers = ({ followers, following }:{
-    followers: { img: string; name: string }[];
-    following: { img: string; name: string }[];
-} ) => {
+const Followers = ({ followers, following }: {
+  followers: { img: string; name: string; email: string }[];
+  following: { img: string; name: string, email: string }[];
+
+}) => {
   return (
     <div className="mt-10">
       {/* Followers Table */}
@@ -14,6 +16,8 @@ const Followers = ({ followers, following }:{
         <TableHeader>
           <TableColumn>IMAGE</TableColumn>
           <TableColumn>NAME</TableColumn>
+          <TableColumn>Email</TableColumn>
+          <TableColumn>Action</TableColumn>
         </TableHeader>
         <TableBody>
           {followers.map((follower, index) => (
@@ -22,16 +26,24 @@ const Followers = ({ followers, following }:{
                 <Image
                   src={follower.img || '/path/to/default-profile-picture.jpg'}
                   alt={follower.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full"
+                  width={60}
+                  height={60}
+                  className=" rounded-md "
                 />
               </TableCell>
               <TableCell>{follower.name}</TableCell>
+              <TableCell>{follower.email}</TableCell>
+              <TableCell>
+                <Button>
+
+                  Mail
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
 
       {/* Following Table */}
       <h1 className="text-xl font-bold mb-5 mt-10">Following</h1>

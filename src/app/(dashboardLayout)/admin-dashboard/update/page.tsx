@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
 import { useGetProfile, useUpdateProfile } from "@/hook/user.Hook";
 import { Button } from "@nextui-org/react";
-import { LoaderPinwheel } from "lucide-react";
+
 import Image from "next/image";
 import { useState } from "react";
+import Profilecard from "../../(userDashboard)/dashboard/components/Profilecard";
 
 const imgbbAPIKey = "c5f5e32f7744e81176cd5899a97c4257"; 
 
@@ -79,12 +79,8 @@ const ProfileUpdates = () => {
     }
   };
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <LoaderPinwheel className="animate-spin text-4xl text-green-500" />
-        <span className="ml-2 text-xl">Loading profile...</span>
-      </div>
-    );
+    return <Profilecard/>
+    
   }
   return (
     <div>

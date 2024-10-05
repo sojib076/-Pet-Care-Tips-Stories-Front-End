@@ -71,8 +71,12 @@ export default function CreateContent() {
     formData.append('content', data.content);
     formData.append('category', data.category);
     formData.append('premiumContent', data.isPremium);
-
+    formData.append('title', data.title);
+ 
     createPost(data);
+
+
+   
   };
 
   return (
@@ -80,7 +84,17 @@ export default function CreateContent() {
       <form onSubmit={handleSubmit(onSubmit)} className="lg:max-w-4xl mx-auto lg:p-8">
         <h1 className="lg:text-2xl font-bold mb-6">Create Pet Care Content</h1>
 
-        {/* Title Input */}
+
+      
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Title</label>
+          <input
+            type="text"
+            {...register('title')}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
       
 
         {/* Content Editor */}

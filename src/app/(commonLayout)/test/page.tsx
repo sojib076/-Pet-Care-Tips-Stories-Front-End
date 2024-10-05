@@ -6,11 +6,11 @@ import useDebounce from "@/hook/debounce.hook";
 import { useGetPost } from "@/hook/post.hook";
 import { useGetProfile } from "@/hook/user.Hook";
 import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getcategory, getFollowedUsersPosts, getPost, getsearch, upvotePost } from "@/Services/Post";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import axios from "axios";
-import { SearchIcon } from "lucide-react";
+import { ArrowBigDown, ArrowBigUp, SearchIcon } from "lucide-react";
 
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -36,10 +36,10 @@ const PostCard = () => {
             // just set their id without the rest of the user object
             setUserFollowing(user.following.map((user: any) => user._id));
             setUserPaidPosts(user.paidfor);
-            
+
         }
     }, [user]);
- 
+
 
 
     const maindata = data?.data?.posts
@@ -96,7 +96,7 @@ const PostCard = () => {
 
         const result = await upvotePost(postId);
 
-        console.log(result.data.alreayvoted);
+        console.log(result?.data?.alreayvoted);
 
         if (result?.data?.alreayvoted) {
             toast.error('You already voted');
@@ -135,7 +135,7 @@ const PostCard = () => {
                     return {
                         ...item,
                         downvotes: item.downvotes + 1,
-                        upvotes: item.upvotes - 1,
+                        upvotes:  item.upvotes ? item.upvotes - 1 : 0,
 
                     };
                 }
@@ -270,11 +270,11 @@ const PostCard = () => {
         setPosts([]);
 
         try {
-          const result = await getFollowedUsersPosts();
-          if (result) {
-            setPosts(result?.data?.posts);
-            setCategoryLoading(false);
-          }
+            const result = await getFollowedUsersPosts();
+            if (result) {
+                setPosts(result?.data?.posts);
+                setCategoryLoading(false);
+            }
         } catch (error: any) {
             console.log(error);
         }
@@ -285,38 +285,40 @@ const PostCard = () => {
     }
 
     const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
+        console.log('sorting by', sortBy);
         setPosts((prevPosts) => {
-          if (sortBy === 'upvotes') {
-            return [...prevPosts].sort((a, b) => b.upvotes - a.upvotes); // Most upvotes first
-          } else if (sortBy === 'downvotes') {
-            return [...prevPosts].sort((a, b) => b.downvotes - a.downvotes); // Most downvotes first
-          }
-          return prevPosts; // Return unchanged if no valid sort option
-        });
-      };
-      const handlePayment = async (postId: string) => {
-        const userId = user?._id;
-        try {
-          // Call payment API
-          const response = await axios.post(`http://localhost:5000/api/v1/payment/initiate?postId=${postId}&userId=${userId}`)
-          console.log(response);
-      
-          if (response.data?.success) {
-            const paymentUrl = response.data?.data?.payment_url;
-            // Redirect to the payment URL
-            if (paymentUrl) {
-              window.location.href = paymentUrl;
-            } else {
-              toast.error('Payment URL not found.');
+            if (sortBy === 'upvotes') {
+                return [...prevPosts].sort((a, b) => b.upvotes - a.upvotes); // Most upvotes first
+            } else if (sortBy === 'downvotes') {
+                return [...prevPosts].sort((a, b) => b.downvotes - a.downvotes); // Most downvotes first
             }
-          } else {
-            toast.error(response.data?.message || 'Payment initiation failed.');
-          }
+            return prevPosts; // Return unchanged if no valid sort option
+        });
+    };
+    const handlePayment = async (postId: string) => {
+        const userId = user?._id;
+        toast.info('payment processing....');
+        try {
+            // Call payment API
+            const response = await axios.post(`http://localhost:5000/api/v1/payment/initiate?postId=${postId}&userId=${userId}`)
+            console.log(response);
+
+            if (response.data?.success) {
+                const paymentUrl = response.data?.data?.payment_url;
+                // Redirect to the payment URL
+                if (paymentUrl) {
+                    window.location.href = paymentUrl;
+                } else {
+                    toast.error('Payment URL not found.');
+                }
+            } else {
+                toast.error(response.data?.message || 'Payment initiation failed.');
+            }
         } catch (error) {
-          console.error('Error handling payment:', error);
-          toast.error('Payment failed. Please try again.');
+            console.error('Error handling payment:', error);
+            toast.error('Payment failed. Please try again.');
         }
-      };
+    };
     return (
         <div className="grid gap-6">
             <div className="flex flex-col items-center mb-4">
@@ -350,10 +352,11 @@ const PostCard = () => {
                     <div>
                         <h1 className="text-center lg:text-5xl text-3xl my-5 font-bold">Category</h1>
                         <div className="flex justify-center gap-4">
-                            <button className="px-4 py-2 bg-gray-200" onClick={()=> handelbysort('upvotes') } > Sort by Upvotes </button>
-                            <button className="px-4 py-2 bg-gray-200" onClick={()=>handelbysort('downvotes')} > Sort by Downvotes </button>
+                            <button className="px-4 py-2 bg-gray-200" onClick={() => handelbysort('upvotes')} > Sort by Upvotes </button>
+                            <button className="px-4 py-2 bg-gray-200" onClick={() => handelbysort('downvotes')} > Sort by Downvotes </button>
                         </div>
-                        <div className="flex justify-between">
+
+                        <div className="flex justify-between my-5">
                             <button className="px-4 py-2 rounded bg-gray-200"
                                 onClick={() => handelCategory('Tip')}
 
@@ -364,8 +367,8 @@ const PostCard = () => {
 
                             >Story</button>
                             <button className="px-4 py-2 ml-2 rounded bg-gray-200" onClick={handelall}>All</button>
-                            <button className="px-4 py-2 rounded bg-gray-200" 
-                            onClick={() => handleFollowing()}
+                            <button className="px-4 py-2 rounded bg-gray-200"
+                                onClick={() => handleFollowing()}
                             >Following</button>
                         </div>
                     </div>
@@ -377,89 +380,116 @@ const PostCard = () => {
             {
 
                 post?.map((post: any) => (
-                    <div key={post._id} className="w-[80%] mx-auto bg-white border border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
-                    <div className='flex justify-end gap-5 items-end'>
-                      {post.premiumContent && (
-                        <div className="mb-2 flex justify-end">
-                          <span className="bg-yellow-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
-                            Premium Content
-                          </span>
+                    <div key={post._id} className="w-[90%] mx-auto bg-white border border-gray-800 rounded-lg mb-6 shadow-md p-8 ">
+                        <div className='flex justify-end gap-5 items-end'>
+                            {post.premiumContent && (
+                                <div className="mb-2 flex justify-end">
+                                    <span className="bg-yellow-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
+                                        Premium Content
+                                    </span>
+                                </div>
+                            )}
+                            {post.category && (
+                                <div className="mb-2 flex justify-end">
+                                    <span className="bg-blue-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
+                                        {post.category}
+                                    </span>
+                                </div>
+                            )}
                         </div>
-                      )}
-                      {post.category && (
-                        <div className="mb-2 flex justify-end">
-                          <span className="bg-blue-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
-                            {post.category}
-                          </span>
+
+                        <div className="flex items-start space-x-3 mb-3">
+                            <img
+                                src={post.author.img || "/default-profile.png"}
+                                alt={post.author.name || "Anonymous"}
+                                className="w-10 h-10 rounded-full"
+                            />
+                            <div className="flex-grow">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <h3 className="text-base font-semibold text-pink-800 ">{post.author.name || "Anonymous"}</h3>
+
+                                    </div>
+
+                                    {post.author._id !== user?._id ? (
+                                        <button
+                                            className="text-blue-500 font-semibold text-xs hover:underline"
+                                            onClick={() => handleFollow(post.author._id)}
+                                        >
+                                            {userFollowing && userFollowing.includes(post.author._id) ? 'Unfollow' : 'Follow'}
+                                        </button>
+                                    ) : (
+                                        <span className="text-gray-500 text-xs">YOUR POST </span> // Change this to whatever you'd like to show
+                                    )}
+
+                                </div>
+
+                                <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span>
+                            </div>
+
                         </div>
-                      )}
-                    </div>
-          
-                    <div className="flex items-start space-x-3 mb-3">
-                      <img
-                        src={post.author.img || "/default-profile.png"}
-                        alt={post.author.name || "Anonymous"}
-                        className="w-10 h-10 rounded-full"
-                      />
-                      <div className="flex-grow">
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <h3 className="text-base font-semibold">{post.author.name || "Anonymous"}</h3>
-                            <span className="text-xs text-gray-500">@{post.author.username || "user123"}</span>
-                          </div>
-                          <button
-                            className="text-blue-500 font-semibold text-xs hover:underline"onClick={() => handleFollow(post.author._id)}>
-                            {userFollowing && userFollowing?.includes(post.author._id) ? 'Unfollow' : 'Follow'}
-                          </button>
+
+
+                        <div className="text-sm text-gray-700 mb-2">
+
+                            <h1 className="text-2xl text-black my-3">
+                                {post.title}
+                            </h1>
+
+                            {(!post.premiumContent || userPaidPosts?.includes(post._id)) || post?.author?._id == user?._id ? (
+                                <p dangerouslySetInnerHTML={{ __html: post.content }} />
+                            ) : (
+                                <>
+                                    <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 150) }} />
+                                    <button
+                                        className="bg-blue-500 text-white px-3 py-1 rounded text-xs mt-2 hover:bg-blue-600"
+                                        onClick={() => handlePayment(post._id)}
+                                    >
+                                        Pay 100 TK to Unlock Full Content
+                                    </button>
+                                </>
+                            )}
                         </div>
-                        <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span>
-                      </div>
-                    </div>
-          
-                    <div className="text-sm text-gray-700 mb-2">
-                      {(!post.premiumContent ||  userPaidPosts?.includes(post._id)  ) ? (
-                        <p dangerouslySetInnerHTML={{ __html: post.content }} />
-                      ) : (
-                        <>
-                          <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 150) }} />
-                          <button
-                            className="bg-blue-500 text-white px-3 py-1 rounded text-xs mt-2 hover:bg-blue-600"
-                           onClick={() => handlePayment(post._id)}
-                          >
-                            Pay 100 TK to Unlock Full Content
-                          </button>
-                        </>
-                      )}
-                    </div>
-          
-                    <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
-                      <div className="flex space-x-4">
-                        <button
-                          className={`flex items-center space-x-1 ${
-                            (post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'up')
-                              ? 'text-blue-500'
-                              : 'text-gray-600'
-                          }`}
-                          onClick={() => handleUpvote(post._id)}
-                         
-                        >
-                          👍 <span>{post.upvotes}</span>
-                        </button>
-                        <button
-                          className={`flex items-center space-x-1 ${
-                            (post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'down')
-                              ? 'text-red-500'
-                              : 'text-gray-600'
-                          }`}
-                          onClick={() => handeldownvote(post._id)}
-                          
-                        >
-                          👎 <span>{post.downvotes}</span>
-                        </button>
-                      </div>
-                      <div className="text-xs">{post.comments.length} Comments</div>
-                    </div>
-                    
+
+                        <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
+                            <div className="flex space-x-4">
+                                <button
+                                    className={`flex items-center space-x-1 ${(post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'up')
+                                        ? 'text-blue-900'
+                                        : 'text-gray-600'
+                                        }`}
+                                    onClick={() => handleUpvote(post._id)}
+
+                                >
+                                    <ArrowBigUp size={40}  
+                                      
+                                      className="hover:translate-y-[-10px]
+                                    
+                                      transition-all
+
+                                      "
+                                    />
+                                    
+                                     <span>{post.upvotes}</span>
+                                </button>
+                                <button
+                                    className={`flex items-center space-x-1 ${(post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'down')
+                                        ? 'text-red-500'
+                                        : 'text-gray-600'
+                                        }`}
+                                    onClick={() => handeldownvote(post._id)}
+
+                                >
+                                    <ArrowBigDown size={40}  className="hover:translate-y-[10px]
+                                    
+                                    transition-all 
+                                    " />
+                                     <span>{post.downvotes}</span>
+                                </button>
+                            </div>
+                            <div className="text-xs">{post.comments.length} Comments</div>
+                        </div>
+
 
 
                         <div className="border-t border-gray-300 pt-3">
@@ -495,7 +525,7 @@ const PostCard = () => {
                                                         />
                                                         <div>
                                                             <button
-                                                                className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 mt-2"
+                                                                className="bg-blue-900 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 mt-2"
                                                                 onClick={() => handleEditSubmit(post._id, comment._id)}
                                                             >
                                                                 Submit Edit
@@ -506,8 +536,8 @@ const PostCard = () => {
 
                                             </div>
                                         ))}
-                                    {post.comments.length > 2 && (
-                                        <button className="text-blue-500 font-semibold text-xs hover:underline" onClick={() => console.log(`View all comments for post: ${post._id}`)}>
+                                    {post.comments.length > 10 && (
+                                        <button className="text-blue-500 font-semibold text-xs hover:underline" >
                                             View all comments
                                         </button>
                                     )}
@@ -517,17 +547,29 @@ const PostCard = () => {
                             )}
                         </div>
 
-                        <div className="mt-3">
-                            <textarea
-                                className="w-full p-2 border border-gray-300 rounded mb-2 text-sm"
-                                placeholder="Write a comment..."
-                                value={commentInput[post._id] || ''}
-                                onChange={(e) => handleCommentChange(post._id, e.target.value)}
-                            />
-                            <button className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600" onClick={() => handleCommentSubmit(post._id)}>
-                                Submit Comment
-                            </button>
-                        </div>
+                        {user ? (
+                            <div className="mt-3">
+                                <textarea
+                                    className="w-full p-2 border border-gray-300 rounded mb-2 text-sm"
+                                    placeholder="Write a comment..."
+                                    value={commentInput[post._id] || ''}
+                                    onChange={(e) => handleCommentChange(post._id, e.target.value)}
+                                />
+                                <Button
+                                    className="bg-blue-900 w-full text-white px-3 py-1 rounded text-xs hover:scale-95  hover:text-xl 
+                                    transition-all
+                                    "
+                                    onClick={() => handleCommentSubmit(post._id)}>
+                                    Submit Comment
+                                </Button>
+                      
+
+                            </div>
+                        ) : <>
+                            <div className="text-xs text-gray-500 mt-2">Please login to comment</div>
+                        </>
+
+                        }
                     </div>
                 ))
             }

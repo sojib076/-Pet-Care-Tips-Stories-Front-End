@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./lib/Providers";
+import { Fredoka } from 'next/font/google';
+
+
+const fredoka = Fredoka({
+  subsets: ['latin'],         // Specify the character subsets you need
+  weight: ['400', '700'],     // Specify the font weights you intend to use
+  display: 'swap',            // Ensures text is visible while the font loads
+});
+
 
 export const metadata: Metadata = {
   title: "Wheels",
@@ -14,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` antialiased`}>
+     <body className={`antialiased ${fredoka.className}`}>
         <Providers>
           <div className="">{children}</div>
         </Providers>

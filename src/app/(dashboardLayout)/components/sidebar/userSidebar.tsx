@@ -32,8 +32,15 @@ export const SidebarWrapper = () => {
         <div className={Sidebar.Header()}>
      
           <Link className="flex" href="/">
-            <Cog />
-            <p className="font-bold text-inherit px-4">Sojib</p>
+            
+            <p className="font-bold text-inherit px-4"> Home </p>
+  
+          </Link>
+     
+          <Link className="flex" href="/">
+            
+            <p className="font-bold text-inherit px-4"> News  </p>
+  
           </Link>
         </div>
 
@@ -50,6 +57,12 @@ export const SidebarWrapper = () => {
               icon={<User />}
               isActive={pathname === "/dashboard/profile"}
               href="/dashboard/profile"
+            />
+            <SidebarItem
+              title="ALL POST"
+              icon={<User />}
+              isActive={pathname === "/dashboard/allpost"}
+              href="/dashboard/allpost"
             />
             <SidebarItem
               title="Create Story"

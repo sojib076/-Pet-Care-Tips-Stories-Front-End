@@ -56,7 +56,7 @@ const petNutritionData: PetNutritionData = {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white border rounded shadow">
+    <div className="max-w-[90%] pb-20 mx-auto p-6 bg-white border rounded shadow">
       <h2 className="text-2xl font-bold mb-4 text-center">Pet Nutrition Invoice</h2>
 
       <div className="mb-4">
@@ -100,7 +100,7 @@ const petNutritionData: PetNutritionData = {
       <button
         onClick={handleCalculate}
         disabled={!ageCategory}
-        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
+        className="w-full bg-blue-900 text-white p-2 rounded hover:bg-blue-600 transition"
       >
         Calculate Nutrition
       </button>

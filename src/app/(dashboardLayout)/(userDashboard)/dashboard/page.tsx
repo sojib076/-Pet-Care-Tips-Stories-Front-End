@@ -1,89 +1,81 @@
 "use client";
 
 import Image from 'next/image';
-import Post from './components/Post';
 
 import { useGetProfile } from '@/hook/user.Hook';
 import Followers from './components/Follwers';
-import { useEffect, useState } from 'react';
-import { getuserposts } from '@/Services/Post';
+import Profilecard from './components/Profilecard';
+import { Facebook, Mail, Shield, User } from 'lucide-react';
 
 
 
 const Profile = () => {
   const { data: userData, isLoading } = useGetProfile();
-  const [posts, setPosts] = useState([]);
 
-     
+
+
   const user = userData?.data;
-  const userId = user?._id;
-  
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const posts = await getuserposts();
-      
-      if (posts) {
-        setPosts(posts.data);
-      }
-    };
-    fetchPosts()
-      
-    } 
-    , [userId]);
-    
-  if (isLoading) {
-    return <div>Loading...</div>;
 
+
+
+  if (isLoading) {
+    return <Profilecard />;
   }
 
-  
- 
-
- 
-  
-  
-
-
-
   return (
-    <div className="container mx-auto lg:p-4">
-      <div className="bg-white shadow-md rounded-lg pb-20 dark:bg-black">
-        <div className="relative">
-          <div className="w-full h-48 bg-gray-300 rounded-t-lg"></div>
-          <div className="absolute top-32 left-5">
-            <Image
-              src={user?.img || '/path/to/default-profile-picture.jpg'}
-              alt="Profile Picture"
-              width={120}
-              height={120}
-              className="rounded-full border-4 border-white w-[110px] h-[100px]"
-            />
-          </div>
-        </div>
-
-        <div className="lg:flex justify-between items-center">
-          <div className="pt-16 pb-4 px-5">
-            <h1 className="text-2xl font-bold">{user?.name || 'User Name'}</h1>
-            <p className="text-gray-600">{user?.email || 'No email provided'}</p>
-          </div>
-
-          <div className="lg:pt-16 pb-4 px-5">
-            <h1 className="text-2xl font-bold">User Details</h1>
-            <p className="text-gray-600">Email: {user?.email || ''}</p>
-            <p className="text-gray-600">Role: {user?.role || 'N/A'}</p>
-            <p className="text-gray-600">Social Login: {user?.social ? 'Yes' : 'No'}</p>
-          </div>
+    <div className="container mx-auto lg:p-6">
+    <div className="bg-[#ffffffa5] shadow-lg rounded-2xl dark:bg-gray-900 dark:text-white relative overflow-hidden">
+      {/* Gradient Background */}
+      <div className="relative bg-gradient-to-r from-purple-500 to-indigo-500 h-60 rounded-t-lg">
+        {/* Profile Image */}
+        <div className="absolute -bottom-12 left-6">
+          <Image
+            src={user?.img || '/path/to/default-profile-picture.jpg'}
+            alt="Profile Picture"
+            width={120}
+            height={120}
+            className="rounded-full border-4 border-white shadow-md w-[120px] h-[120px] hover:scale-105 transition-transform"
+          />
         </div>
       </div>
 
-     
+      <div className="lg:flex justify-between items-center p-6 mt-12">
+        {/* User Information */}
+        <div className="space-y-2">
+          <h1 className="text-3xl font-semibold flex items-center">
+            <User className="mr-2" /> {user?.name || 'User Name'}
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 flex items-center">
+            <Mail className="mr-2" /> {user?.email || 'No email provided'}
+          </p>
+        </div>
 
-      <Followers followers={user?.followers || []} following={user?.following || []} />
+        {/* User Details */}
+        <div className="lg:space-y-2 lg:text-right">
+          <h1 className="text-xl font-medium">User Details</h1>
+          <span className="text-gray-600 dark:text-gray-400 flex items-center">
+            <Shield className="mr-2" /> Role: {user?.role || 'N/A'}
+          </span>
+          <div className="text-gray-600 dark:text-gray-400">
+              <div className="flex space-x-2">
+          
+                <Facebook className="mr-2" />
+                <span>{user?.facebook || 'N/A'}</span>
+                
+              </div>
 
-    {
-      posts.length > 0 ? <Post posts={posts} /> : <div>No Posts</div>
-    }
+    
+          </div>
+        </div>
+      </div>
     </div>
+
+
+    <div className="mt-6">
+      <Followers followers={user?.followers || []} following={user?.following || []} />
+    </div>
+  </div>
+
   );
 };
 

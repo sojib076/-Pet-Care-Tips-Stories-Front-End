@@ -31,12 +31,12 @@ export default function CreateContent() {
     },
   };
 
-  // This effect runs after the editor is fully initialized
+ 
   useEffect(() => {
     if (quillRef.current) {
       const editor = quillRef.current.getEditor();
 
-      // Add the image handler after the editor is initialized
+
       editor.getModule('toolbar').addHandler('image', () => {
         const input = document.createElement('input');
         input.setAttribute('type', 'file');
@@ -78,7 +78,6 @@ export default function CreateContent() {
 
   return (
     <FormProvider {...methods}>
-      {/* Button to toggle form visibility */}
       <div className="max-w-4xl mx-auto p-4">
         <button
           onClick={() => setIsFormVisible(!isFormVisible)}
@@ -96,6 +95,14 @@ export default function CreateContent() {
             <h1 className="text-xl font-semibold mb-4 text-gray-800">
               Create Pet Care Content
             </h1>
+            <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Title</label>
+          <input
+            type="text"
+            {...register('title')}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
             {/* Content Editor */}
             <div className="mb-4">
