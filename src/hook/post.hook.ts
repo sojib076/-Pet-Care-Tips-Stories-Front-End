@@ -34,6 +34,8 @@ export  const useCreatpost = () => {
     return useQuery<any, Error>({
       queryKey: ["getPost",], 
       queryFn: async () => await getPost(), 
+
+      refetchInterval: 30000,
       
     });
   };
@@ -64,9 +66,7 @@ export  const useCreatpost = () => {
     return useQuery<any, Error>({
       queryKey: ["getPost", postId],
       queryFn: async () => await getPostById(postId),
-      refetchOnWindowFocus: true,
-      refetchOnMount: true,
-      refetchOnReconnect: true,
+     
   }
   )
   }

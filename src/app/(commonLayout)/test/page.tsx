@@ -3,9 +3,8 @@
 import useDebounce from "@/hook/debounce.hook";
 import { useGetPost } from "@/hook/post.hook";
 import { useGetProfile } from "@/hook/user.Hook";
-import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getcategory, getFollowedUsersPosts, getPost, getsearch, upvotePost } from "@/Services/Post";
+import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getcategory, getFollowedUsersPosts, getPost, getsearch, handelpayment, upvotePost } from "@/Services/Post";
 import { Button, Input } from "@nextui-org/react";
-import axios from "axios";
 import { ArrowBigDown, ArrowBigUp, SearchIcon } from "lucide-react";
 
 import { useEffect, useState } from "react";
@@ -227,6 +226,10 @@ const PostCard = () => {
                 });
 
                 toast.success('Comment added successfully');
+                setCommentInput((prevState) => ({
+                    ...prevState,
+                    [postId]: '',
+                }));
 
 
 
@@ -296,7 +299,7 @@ const PostCard = () => {
             } else if (sortBy === 'downvotes') {
                 return [...prevPosts].sort((a, b) => b.downvotes - a.downvotes); // Most downvotes first
             }
-            return prevPosts; // Return unchanged if no valid sort option
+            return prevPosts; 
         });
     };
     const handlePayment = async (postId: string) => {
@@ -304,12 +307,10 @@ const PostCard = () => {
         toast.info('payment processing....');
         try {
             
-            const response = await axios.post(`http://localhost:5000/api/v1/payment/initiate?postId=${postId}&userId=${userId}`)
-           
+            const response = await handelpayment(postId, userId);
 
-            if (response.data?.success) {
-                const paymentUrl = response.data?.data?.payment_url;
-                // Redirect to the payment URL
+            if (response?.success) {
+                const paymentUrl = response?.data?.payment_url;
                 if (paymentUrl) {
                     window.location.href = paymentUrl;
                 } else {

@@ -183,3 +183,12 @@ export const getcategory = async (category:string) => {
     
   }
 } 
+
+export const handelpayment = async (postId,userId) => {
+  try {
+    const { data } = await axiosInstance.post(`/payment/initiate?postId=${postId}&userId=${userId}`, );
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+} 

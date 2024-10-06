@@ -1,5 +1,5 @@
 import Aboutus from "../components/page/about/About";
-import Contactus from "../components/page/about/Contactus";
+
 import FAQSection from "../components/page/about/FAQ";
 import TeamMember from "../components/page/about/TeamMember";
 
