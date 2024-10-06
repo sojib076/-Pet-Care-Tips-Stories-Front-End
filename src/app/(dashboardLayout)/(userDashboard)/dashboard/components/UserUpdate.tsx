@@ -4,7 +4,8 @@
 import { useGetProfile, useUpdateProfile } from "@/hook/user.Hook";
 import Image from "next/image";
 import { useState } from "react";
-import Profilecard from "../../(userDashboard)/dashboard/components/Profilecard";
+import Profilecard from "./Profilecard";
+
 
 
 
@@ -12,7 +13,7 @@ const imgbbAPIKey = "c5f5e32f7744e81176cd5899a97c4257";
 
 const ProfileUpdates = () => {
   const { data: userData, isLoading, isError } = useGetProfile();
-  const { mutate ,isSuccess,isPending} = useUpdateProfile();
+  const { mutate ,isPending} = useUpdateProfile();
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

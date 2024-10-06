@@ -8,7 +8,8 @@ import axios from "axios";
 import "react-quill/dist/quill.snow.css";
 import { updatePost } from "@/Services/Post";
 import { toast } from "sonner";
-import LoadingSkeleton from "../../components/updateContentloading";
+import LoadingSkeleton from "@/app/(dashboardLayout)/(userDashboard)/dashboard/components/updateContentloading";
+
 
 const ReactQuill = dynamic(() => import("react-quill").then(mod => mod.default), { ssr: false, loading: () => <p>Loading...</p> });
 
@@ -21,7 +22,6 @@ const UpdatePost = (params) => {
 
   const quillModules = {
     toolbar: {
-
       container: [
         [{ header: "1" }, { header: "2" }, { font: [] }],
         [{ list: "ordered" }, { list: "bullet" }],
@@ -86,6 +86,9 @@ const UpdatePost = (params) => {
       premiumContent: data.premiumContent,
     };
 
+
+
+    
         const response = await updatePost(formData);
         
         if (response) {

@@ -14,6 +14,7 @@ import { logout } from "@/Services/AuthServices";
 
 
 
+
 // import { ThemeSwitcher } from "./ThemeSwitcher";
 export default function NavBar() {
   const routeMap: Record<string, string> = {
@@ -22,15 +23,18 @@ export default function NavBar() {
   };
  
 
+
   const {user,setIsLoading:userLoading,setUser}=useUser();
 
-  console.log(user);
+  
   
   const logOutUser = () => {
 
     logout();
     setUser(null);
     userLoading(false);
+    
+    
    
   
   };

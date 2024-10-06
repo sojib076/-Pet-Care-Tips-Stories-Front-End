@@ -16,7 +16,9 @@ export default function AdminDashboardLayout({
   return (
     <div>
       <DashboardLayout> 
-  <Adminlayout> {children} </Adminlayout>
+  <Adminlayout>   <div className="lg:px-10 px-4 pt-10">
+            {children}
+          </div> </Adminlayout>
 
       </DashboardLayout>
       

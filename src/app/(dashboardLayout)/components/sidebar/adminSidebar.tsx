@@ -1,4 +1,4 @@
-import {  DollarSign, Home, Laptop, User, } from "lucide-react";
+import {  DollarSign, Home, Laptop, Pen, User, } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -44,24 +44,52 @@ export const SidebarWrapper = () => {
               href="/admin-dashboard"
             />
             <SidebarItem
-              title="All User"
+              title="All Users"
               icon={<User />}
               isActive={pathname === "/admin-dashboard/alluser"}
               href="/admin-dashboard/alluser"
             />
             <SidebarItem
-              title="All Post"
+              title="Users Posts "
+              icon={<User />}
+              isActive={pathname === "/admin-dashboard/userspost"}
+              href="/admin-dashboard/userspost"
+            />
+
+            <SidebarItem
+              title="Your Posts"
               icon={<Laptop />}
               isActive={pathname === "/admin-dashboard/allpost"}
               href="/admin-dashboard/allpost"
             />
             <SidebarItem
-              title="All Post"
-              icon={<DollarSign />}
-              isActive={pathname === "/admin-dashboard/allpost"}
-              href="/admin-dashboard/allpost"
+              title="Create Post"
+              icon={<Pen />}
+              isActive={pathname === "/admin-dashboard/creation"}
+              href="/admin-dashboard/creation"
             />
-   
+               <SidebarItem
+              title="Create PDF"
+              icon={<Laptop />}
+              isActive={pathname === "/dashboard/createpdf"}
+              href="/admin-dashboard/createpdf"
+            />
+
+
+
+            <SidebarItem
+              title="Reset Password"
+              icon={<Laptop />}
+              isActive={pathname === "/forget-password"}
+              href="/forget-password"
+            />
+           
+            <SidebarItem
+              title="Forget Password"
+              icon={<Laptop />}
+              isActive={pathname === "/forget-password"}
+              href="/forget-password"
+            />
 
          
    

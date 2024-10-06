@@ -1,12 +1,12 @@
+import YourpostAllpost from "../../(userDashboard)/dashboard/components/Yourpost";
 
 
-const page = () => {
-    return (
-        <div>
-            Hi from AllPost
-            
-        </div>
-    );
+const Yourpost= () => {
+  return (
+    <div>
+      <YourpostAllpost path={'admin-dashboard'} />
+    </div>
+  );
 };
 
-export default page;
+export default Yourpost;

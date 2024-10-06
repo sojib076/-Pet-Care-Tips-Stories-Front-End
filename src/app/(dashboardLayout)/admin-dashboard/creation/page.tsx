@@ -142,7 +142,7 @@ useEffect(() => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none w-full hover:scale-80 transition-transform duration-200"
+          className="px-4 py-2 bg-blue-900 text-white rounded-lg shadow-md hover:bg-blue-900 focus:outline-none w-full hover:scale-95 transition-transform duration-200 "
         >
           Submit
         </button>

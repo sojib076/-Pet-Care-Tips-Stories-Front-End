@@ -16,7 +16,7 @@ export default function Adminlayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex">
+    <div className="flex ">
 
       <SidebarWrapper/>
     

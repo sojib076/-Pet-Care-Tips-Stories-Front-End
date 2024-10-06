@@ -22,6 +22,9 @@ const LoadingSkeleton = () => {
           <div className="h-10 w-full bg-gray-200 rounded-lg"></div>
         </div>
   
+
+
+  
         {/* Monetization Checkbox Skeleton */}
         <div className="mb-4 flex items-center">
           <div className="h-4 w-4 bg-gray-300 mr-2 rounded"></div>

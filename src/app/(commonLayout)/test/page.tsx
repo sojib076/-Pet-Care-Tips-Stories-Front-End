@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import useDebounce from "@/hook/debounce.hook";
 import { useGetPost } from "@/hook/post.hook";
 import { useGetProfile } from "@/hook/user.Hook";
@@ -13,7 +11,6 @@ import { ArrowBigDown, ArrowBigUp, SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { array } from "zod";
 import CardLoading from "../components/page/home/cardLoading";
 
 const PostCard = () => {

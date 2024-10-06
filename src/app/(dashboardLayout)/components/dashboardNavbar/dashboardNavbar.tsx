@@ -19,10 +19,11 @@ export const NavbarWrapper = ({ children }: Props) => {
 
   const {user,setUser,setIsLoading}=useUser();
   const logOutUser = () => {
+    router.push("/login");
     logout();
     setUser(null);
     setIsLoading(true);
-    router.push("/login");
+    
 
 
    
