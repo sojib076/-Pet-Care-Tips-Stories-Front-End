@@ -1,3 +1,7 @@
+import FAQSection from "./components/page/about/FAQ";
+import Banner from "./components/page/home/Banner";
+import Happypets from "./components/page/home/Happypets";
+import TutorSteps from "./components/page/home/TutorSteps";
 
 
 
@@ -6,9 +10,10 @@ const Home = () => {
 
   return (
     <div>
-      <h1> 
-        Welcome to the Home page!
-      </h1>
+     <Banner />
+     <Happypets />
+     <TutorSteps />
+     <FAQSection />
      
       
     </div>

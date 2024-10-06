@@ -1,5 +1,5 @@
 "use client"
-import Image from "next/image";
+
 import React, { useRef, useState } from "react";
 
 interface FAQItem {
@@ -39,21 +39,16 @@ const FAQSection: React.FC = () => {
     return (
         <section className=" lg:py-40 md:pt-0  px-6 bg-gray-50 grid lg:grid-cols-2 grid-cols-1   lg:gap-2 gap-10 items-center py-20 ">
             <div className=" lg:w-[80%]  mx-auto text-center md:mt-0 ">
-                <h2 className="text-xl text-red-500 font-bold">Why Choose Us</h2>
-                <Image
-                    src="https://demo.themedraft.net/wp/doctio/wp-content/uploads/2022/06/line-1.png"
-                    alt="line"
-                    width={1000}
-                    height={500}
-
-                    className="lg:w-[25%] w-[40%] lg:mt-5 mt-2 mx-auto"
-                />
+                <h2 className="text-xl text-blue-900 font-bold"> Why this website ?</h2>
+               
 
                 <h3 className="text-4xl font-extrabold text-gray-900 my-4  ">
                     Have Any Questions? Feel Free To Ask.
                 </h3>
                 <p className="text-gray-600 lg:mb-8 m-0 text-left">
-                    Sed ut pers piciatis unde omnis iste natus error sit volu ptatem accus antium one dolor emque laudan tium, totam rem aperiam, eaque ipsa quae ab illo invetore off veritatis et quasi <span className="text-primaryown underline"> and visit our service page</span> architecto beatae vitae dicta suntpli. Nemoe ipsam volup and tate quia voluptas sit aspernatur aut odit aut fugit, sedon quia cquuntur magni dolores eos qui ratione.
+                    YOur story and tips are important to us. Your tips and stories can help others to take care of their pets.
+                    it can also help others to learn about the different types of animals and their care and needs.
+                    Most new pet owners are not aware of the needs of their pets. Your tips can help them to take care of their pets.
                 </p>
             </div>
 
