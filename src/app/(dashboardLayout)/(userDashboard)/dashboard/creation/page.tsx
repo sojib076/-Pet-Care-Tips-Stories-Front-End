@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 "use client";
 
-import {useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useForm, FormProvider } from 'react-hook-form';
 import 'react-quill/dist/quill.snow.css';
 import { useCreatpost } from '@/hook/post.hook';
 import axios from 'axios';
-
+import imageCompression from 'browser-image-compression';
 const ReactQuill = dynamic(() => import('react-quill').then(mod => mod.default), { ssr: false, loading: () => <p>Loading...</p> });
 
 export default function CreateContent() {
@@ -29,11 +29,10 @@ export default function CreateContent() {
     },
   };
 
-  useEffect(() => {
+useEffect(() => {
     if (quillRef.current) {
       const editor = quillRef.current.getEditor();
 
-      
       editor.getModule('toolbar').addHandler('image', () => {
         const input = document.createElement('input');
         input.setAttribute('type', 'file');
@@ -43,28 +42,38 @@ export default function CreateContent() {
         input.onchange = async () => {
           const file = input.files ? input.files[0] : null;
           if (file) {
-            const formData = new FormData();
-            formData.append('image', file);
-
             try {
+              // Compress the image before uploading
+              const options = {
+                maxSizeMB: 0.5, 
+                maxWidthOrHeight: 800, // Resize to keep width/height reasonable
+                useWebWorker: true,
+              };
+
+              const compressedFile = await imageCompression(file, options);
+              console.log('Compressed file size:', compressedFile.size);
+
+              const formData = new FormData();
+              formData.append('file', compressedFile);
+              formData.append('upload_preset', 'jcukyhbk'); 
+
               const res = await axios.post(
-                'https://api.imgbb.com/1/upload?key=c5f5e32f7744e81176cd5899a97c4257',
+                'https://api.cloudinary.com/v1_1/dg8ppqvbb/image/upload', // Replace with your Cloudinary cloud name
                 formData
               );
-              const imageUrl = res.data.data.url;
+
+              const imageUrl = res.data.secure_url;
 
               const range = editor.getSelection();
               editor.insertEmbed(range.index, 'image', imageUrl);
             } catch (error) {
-              console.error('Image upload failed:', error);
+              console.error('Image compression or upload failed:', error);
             }
           }
         };
       });
     }
   }, [quillRef]);
-
-
 
   const onSubmit = (data: any) => {
     const formData = new FormData();
@@ -74,18 +83,12 @@ export default function CreateContent() {
     formData.append('title', data.title);
  
     createPost(data);
-
-
-   
   };
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="lg:max-w-4xl mx-auto lg:p-8">
         <h1 className="lg:text-2xl font-bold mb-6">Create Pet Care Content</h1>
-
-
-      
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Title</label>
@@ -95,21 +98,18 @@ export default function CreateContent() {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-      
 
         {/* Content Editor */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Content
           </label>
-        
           <ReactQuill
-           
             theme="snow"
             modules={quillModules}
             onChange={(value) => setValue('content', value)}
             placeholder="Write your pet care tips or stories..."
-            className="bg-gray-50 border border-gray-300 rounded-lg shadow-sm lg:p-2  "
+            className="bg-gray-50 border border-gray-300 rounded-lg shadow-sm lg:p-2"
           />
         </div>
 
@@ -127,7 +127,6 @@ export default function CreateContent() {
           </select>
         </div>
 
-   
         {/* Monetization Checkbox */}
         <div className="mb-4">
           <label className="flex items-center">

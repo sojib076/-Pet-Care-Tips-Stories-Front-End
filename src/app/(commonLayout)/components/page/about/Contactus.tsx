@@ -3,7 +3,7 @@ import { Play } from "lucide-react";
 export default function Contactus() {
     return (
       <div
-        className="relative bg-cover bg-center  py-10 bg-black pb-10"       style={{
+        className="relative bg-cover bg-center  py-10 bg-blue-900 pb-10"       style={{
           backgroundImage: `url('')`,
         }}
       >
@@ -14,7 +14,7 @@ export default function Contactus() {
           <h2 className="text-lg md:text-xl font-semibold uppercase mb-2">
             Get In Touch
           </h2>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white/90 ">
             Best Website TO find Animal Tips and Story
           </h1>
           <p className="mt-4 text-base md:text-lg">

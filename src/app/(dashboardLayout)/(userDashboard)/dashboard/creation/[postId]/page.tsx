@@ -33,7 +33,7 @@ const UpdatePost = (params) => {
 
   useEffect(() => {
     if (data && data.data) {
-      // Populate the form fields with the existing post data
+    
       setValue("title", data.data.title);
       setValue("content", data.data.content);
       setValue("category", data.data.category);

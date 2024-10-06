@@ -6,11 +6,12 @@ import Image from "next/image";
 import { useState } from "react";
 import Profilecard from "../components/Profilecard";
 
+
 const imgbbAPIKey = "c5f5e32f7744e81176cd5899a97c4257"; 
 
 const ProfileUpdates = () => {
   const { data: userData, isLoading, isError } = useGetProfile();
-  const { mutate } = useUpdateProfile();
+  const { mutate ,isSuccess,isPending} = useUpdateProfile();
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -71,13 +72,14 @@ const ProfileUpdates = () => {
       };
 
       mutate(updatedProfile);
-      console.log(updatedProfile);
+   
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
       setIsUploading(false);
     }
   };
+ 
 
   return (
     <div>
@@ -86,7 +88,7 @@ const ProfileUpdates = () => {
       <div className="container mx-auto lg:p-6">
         <div className="bg-white shadow-lg rounded-2xl dark:bg-gray-900 dark:text-white relative overflow-hidden pb-10">
           {/* Gradient Background */}
-          <div className="relative bg-gradient-to-r from-purple-500 to-indigo-500 h-48 rounded-t-lg"></div>
+          <div className="relative bg-gradient-to-r from-purple-900 to-indigo-900 h-48 rounded-t-lg"></div>
 
           {/* Profile Image */}
           <div className="absolute top-32 left-5">
@@ -145,9 +147,11 @@ const ProfileUpdates = () => {
               <button
                 type="submit"
                 disabled={isUploading}
-                className="inline-flex items-center justify-center px-6 py-3 mt-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                className="inline-flex items-center justify-center px-6 py-3 mt-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-900 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2
+                 focus:ring-indigo-500 disabled:opacity-50"
               >
-                {isUploading ? 'Updating...' : 'Update Profile'}
+                {isPending ? 'Updating...' : 'Update Profile'}
+               
               </button>
             </form>
           </div>

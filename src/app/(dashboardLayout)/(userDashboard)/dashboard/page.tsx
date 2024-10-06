@@ -26,7 +26,7 @@ const Profile = () => {
     <div className="container mx-auto lg:p-6">
     <div className="bg-[#ffffffa5] shadow-lg rounded-2xl dark:bg-gray-900 dark:text-white relative overflow-hidden">
       {/* Gradient Background */}
-      <div className="relative bg-gradient-to-r from-purple-500 to-indigo-500 h-60 rounded-t-lg">
+      <div className="relative bg-gradient-to-r from-purple-900 to-indigo-900 h-60 rounded-t-lg">
         {/* Profile Image */}
         <div className="absolute -bottom-12 left-6">
           <Image
@@ -61,7 +61,7 @@ const Profile = () => {
           
                 <Facebook className="mr-2" />
                 <span>{user?.facebook || 'N/A'}</span>
-                
+
               </div>
 
     

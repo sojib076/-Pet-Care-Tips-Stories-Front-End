@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 
-const AppointmentForm = () => {
+const StoryShareForm = () => {
   return (
     <div className="  py-16 px-4 lg:w-[80%] mx-auto">
       <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
@@ -9,8 +9,8 @@ const AppointmentForm = () => {
         {/* Left Image Section */}
         <div className="lg:w-[70%] md:w-1/2">
           <img
-            src="https://i0.wp.com/demo.themedraft.net/wp/doctio/wp-content/uploads/2022/06/form-left-image.jpg"
-            alt="Doctors"
+            src="https://plus.unsplash.com/premium_photo-1679429320974-ab1de58bcad9?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Pets"
             className="h-full lg:w-[80%] object-cover"
           />
         </div>
@@ -19,9 +19,9 @@ const AppointmentForm = () => {
         <div className="w-full md:w-1/2 p-8">
           {/* Form Heading */}
           <div className="text-left mb-6">
-            <p className="text-red-500 text-sm uppercase font-bold">Book Now</p>
+            <p className="text-red-500 text-sm uppercase font-bold">Share Your Issue</p>
             <h2 className="lg:text-3xl font-bold text-gray-800">
-              Make An Appointment To Book Your Seat
+              Submit Your Issue
             </h2>
             <div className="w-16 h-1 bg-green-500 mt-2"></div>
           </div>
@@ -31,7 +31,7 @@ const AppointmentForm = () => {
             {/* Name and Email */}
             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
               <div className="w-full">
-                <label className="block text-sm font-semibold text-gray-700">Name*</label>
+                <label className="block text-sm font-semibold text-gray-700">Your Name*</label>
                 <input
                   type="text"
                   placeholder="Your Name"
@@ -39,7 +39,7 @@ const AppointmentForm = () => {
                 />
               </div>
               <div className="w-full">
-                <label className="block text-sm font-semibold text-gray-700">Email*</label>
+                <label className="block text-sm font-semibold text-gray-700">Your Email*</label>
                 <input
                   type="email"
                   placeholder="Your Email"
@@ -48,52 +48,34 @@ const AppointmentForm = () => {
               </div>
             </div>
 
-            {/* Service and Doctors Selection */}
-            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-              <div className="w-full">
-                <label className="block text-sm font-semibold text-gray-700">Choose A Service</label>
-                <select className="mt-1 block w-full border border-gray-300 rounded-lg p-2">
-                  <option>Select a Service</option>
-                  <option>Service 1</option>
-                  <option>Service 2</option>
-                </select>
-              </div>
-              <div className="w-full">
-                <label className="block text-sm font-semibold text-gray-700">Select Doctors</label>
-                <select className="mt-1 block w-full border border-gray-300 rounded-lg p-2">
-                  <option>Select a Doctor</option>
-                  <option>Doctor 1</option>
-                  <option>Doctor 2</option>
-                </select>
-              </div>
+            {/* Story or Tip */}
+            <div className="w-full">
+              <label className="block text-sm font-semibold text-gray-700">Your Issue or inquiry*</label>
+              <textarea
+                placeholder="Write your pet story or tip here"
+                className="mt-1 block w-full border border-gray-300 rounded-lg p-2 h-40"
+              ></textarea>
             </div>
 
-            {/* Date and Branch Selection */}
-            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-              <div className="w-full">
-                <label className="block text-sm font-semibold text-gray-700">Select Date</label>
-                <input
-                  type="date"
-                  className="mt-1 block w-full border border-gray-300 rounded-lg p-2"
-                />
-              </div>
-              <div className="w-full">
-                <label className="block text-sm font-semibold text-gray-700">Select Branch</label>
-                <select className="mt-1 block w-full border border-gray-300 rounded-lg p-2">
-                  <option>Select a Branch</option>
-                  <option>Branch 1</option>
-                  <option>Branch 2</option>
-                </select>
-              </div>
+            {/* Pet Category */}
+            <div className="w-full">
+              <label className="block text-sm font-semibold text-gray-700">Select Pet Type</label>
+              <select className="mt-1 block w-full border border-gray-300 rounded-lg p-2">
+                <option>Select a Pet Type</option>
+                <option>Dog</option>
+                <option>Cat</option>
+                <option>Bird</option>
+                <option>Other</option>
+              </select>
             </div>
 
             {/* Submit Button */}
             <div>
               <button
                 type="submit"
-                className="w-full md:w-auto bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition-colors"
+                className="w-full md:w-auto bg-blue-900/90 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-colors"
               >
-                SEND NOW
+               SUBMIT NOW
               </button>
             </div>
           </form>
@@ -103,4 +85,4 @@ const AppointmentForm = () => {
   );
 };
 
-export default AppointmentForm;
+export default StoryShareForm;

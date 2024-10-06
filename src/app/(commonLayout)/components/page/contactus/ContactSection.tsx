@@ -35,7 +35,7 @@ const contactInfo = [
   
   const ContactSection = () => {
     return (
-      <div className="bg-white py-16">
+      <div className="bg-white py-16 ">
         <div className="text-center mb-10">
           <p className="text-red-500 text-sm uppercase font-bold">Get In Touch</p>
           <h1 className="text-4xl font-bold text-gray-800 relative">
@@ -44,9 +44,9 @@ const contactInfo = [
           <div className="w-16 h-1 bg-green-500 mx-auto mt-2"></div>
         </div>
   
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 my-20">
           {contactInfo.map((info) => (
-            <div key={info.id} className="bg-blue-50 p-8 rounded-lg flex items-start">
+            <div key={info.id} className="bg-blue-50 p-8 rounded-lg flex items-start hover:scale-110 transition-all hover:translate-y-[-30px] cursor-pointer ">
               <div className="bg-white p-3 rounded-md shadow-lg mr-4">
                 {info.icon}
               </div>

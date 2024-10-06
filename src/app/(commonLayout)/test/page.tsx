@@ -13,11 +13,14 @@ import { ArrowBigDown, ArrowBigUp, SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { array } from "zod";
+import CardLoading from "../components/page/home/cardLoading";
 
 const PostCard = () => {
     const { register, handleSubmit, watch } = useForm();
     const [cateLoading, setCategoryLoading] = useState(false);
     const [searchCategory, setSearchCategory] = useState<string>('Tip');
+    const [activeCategory, setActiveCategory] = useState<string>('All');
     const [post, setPosts] = useState<any>();
     const [userFollowing, setUserFollowing] = useState<string[]>([]);
     const [commentInput, setCommentInput] = useState<Record<string, string>>({});
@@ -69,6 +72,7 @@ const PostCard = () => {
 
     const handelCategory = async (category: string) => {
         setCategoryLoading(true);
+        setActiveCategory(category);
         setPosts([]);
         const result = await getcategory(category);
         setPosts(result?.data?.posts);
@@ -80,7 +84,9 @@ const PostCard = () => {
 
     const handelall = async () => {
         setCategoryLoading(true);
+        setActiveCategory('All');
         setPosts([]);
+
         const result = await getPost();
         setPosts(result?.data?.posts);
         setCategoryLoading(false);
@@ -136,7 +142,7 @@ const PostCard = () => {
                     return {
                         ...item,
                         downvotes: item.downvotes + 1,
-                        upvotes:  item.upvotes ? item.upvotes - 1 : 0,
+                        upvotes: item.upvotes ? item.upvotes - 1 : 0,
 
                     };
                 }
@@ -199,7 +205,7 @@ const PostCard = () => {
         const comment = commentInput[postId];
         if (comment) {
             try {
-                 await addCommentToPost(postId, comment);
+                await addCommentToPost(postId, comment);
 
                 setPosts((prev) => {
                     return prev?.map((item) => {
@@ -270,6 +276,7 @@ const PostCard = () => {
     const handleFollowing = async () => {
         setCategoryLoading(true);
         setPosts([]);
+        setActiveCategory('Following');
 
         try {
             const result = await getFollowedUsersPosts();
@@ -282,9 +289,7 @@ const PostCard = () => {
         }
     }
 
-    if (isLoading) {
-        return <div>Loading... Main Post</div>
-    }
+
 
     const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
         console.log('sorting by', sortBy);
@@ -301,9 +306,9 @@ const PostCard = () => {
         const userId = user?._id;
         toast.info('payment processing....');
         try {
-            // Call payment API
+            
             const response = await axios.post(`http://localhost:5000/api/v1/payment/initiate?postId=${postId}&userId=${userId}`)
-            console.log(response);
+           
 
             if (response.data?.success) {
                 const paymentUrl = response.data?.data?.payment_url;
@@ -327,11 +332,11 @@ const PostCard = () => {
                 <div className="grid grid-cols-1 gap-10 mt-10">
                     <div className="flex gap-5">
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="w-[90%] lg:w-[95%]">
+                            <div className="w-[90%] lg:w-[100%]">
                                 <Input
                                     {...register("search")}
                                     aria-label="Search"
-                                    classNames={{ inputWrapper: "bg-default-100", input: "text-sm" }}
+                                    classNames={{ inputWrapper: "bg-default-200", input: "text-sm" }}
                                     placeholder="Search..."
                                     size="lg"
                                     startContent={<SearchIcon className="pointer-events-none flex-shrink-0 text-base text-default-400" />}
@@ -359,17 +364,22 @@ const PostCard = () => {
                         </div>
 
                         <div className="flex justify-between my-5">
-                            <button className="px-4 py-2 rounded bg-gray-200"
+                            <button className={`px-4 py-2 rounded ${activeCategory === 'Tip' ? 'bg-blue-900 text-white' : 'bg-gray-200 '}`}
+
+
+
                                 onClick={() => handelCategory('Tip')}
 
                             >Tip</button>
-                            <button className="px-4 py-2 rounded bg-gray-200"
+                            <button className={`px-4 py-2 rounded ${activeCategory === 'Story' ? 'bg-blue-900 text-white' : 'bg-gray-200 '}`}
                                 onClick={() => handelCategory('Story')}
 
 
                             >Story</button>
-                            <button className="px-4 py-2 ml-2 rounded bg-gray-200" onClick={handelall}>All</button>
-                            <button className="px-4 py-2 rounded bg-gray-200"
+                            <button className={`px-4 py-2 rounded  ${activeCategory === 'All' ? 'bg-blue-900 text-white' : ' bg-gray-200'}`}
+
+                                onClick={handelall}>All</button>
+                            <button className={`px-4 py-2 rounded ${activeCategory === 'Following' ? 'bg-blue-900 text-white' : 'bg-gray-200 '}`}
                                 onClick={() => handleFollowing()}
                             >Following</button>
                         </div>
@@ -377,11 +387,15 @@ const PostCard = () => {
                 </div>
             </div>
 
-            {cateLoading && <div className="text-center">Loading....</div>}
+            {
+                cateLoading || isLoading ?
+                    Array.from({ length: 4 }).map((_, i) => <CardLoading key={i} />)
+                    : null
+            }
 
             {
 
-                post?.map((post: any) => (
+             post?.map((post: any) => (
                     <div key={post._id} className="w-[90%] mx-auto bg-white border border-gray-800 rounded-lg mb-6 shadow-md p-8 ">
                         <div className='flex justify-end gap-5 items-end'>
                             {post.premiumContent && (
@@ -463,16 +477,16 @@ const PostCard = () => {
                                     onClick={() => handleUpvote(post._id)}
 
                                 >
-                                    <ArrowBigUp size={40}  
-                                      
-                                      className="hover:translate-y-[-10px]
+                                    <ArrowBigUp size={40}
+
+                                        className="hover:translate-y-[-10px]
                                     
                                       transition-all
 
                                       "
                                     />
-                                    
-                                     <span>{post.upvotes}</span>
+
+                                    <span>{post.upvotes}</span>
                                 </button>
                                 <button
                                     className={`flex items-center space-x-1 ${(post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'down')
@@ -482,11 +496,11 @@ const PostCard = () => {
                                     onClick={() => handeldownvote(post._id)}
 
                                 >
-                                    <ArrowBigDown size={40}  className="hover:translate-y-[10px]
+                                    <ArrowBigDown size={40} className="hover:translate-y-[10px]
                                     
                                     transition-all 
                                     " />
-                                     <span>{post.downvotes}</span>
+                                    <span>{post.downvotes}</span>
                                 </button>
                             </div>
                             <div className="text-xs">{post.comments.length} Comments</div>
@@ -564,7 +578,7 @@ const PostCard = () => {
                                     onClick={() => handleCommentSubmit(post._id)}>
                                     Submit Comment
                                 </Button>
-                      
+
 
                             </div>
                         ) : <>
@@ -573,7 +587,16 @@ const PostCard = () => {
 
                         }
                     </div>
-                ))
+                )) 
+
+               
+            }
+            {
+                 post?.length === 0 && (
+                    <div className="text-center text-gray-500 text-xl mt-10">
+                        No posts found
+                    </div>
+                )
             }
 
 

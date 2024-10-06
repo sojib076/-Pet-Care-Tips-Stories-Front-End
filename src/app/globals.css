@@ -1,10 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.ProseMirror {
-    margin-top: 4px;
-    padding: 48px 8px 8px;
-        height: 400px;
-    border: 2px solid var(--color-gray-4);
-    border-radius: 4px;
-  }
+
+body{
+  
+    background-color: #f5f5f5;
+}
+
+

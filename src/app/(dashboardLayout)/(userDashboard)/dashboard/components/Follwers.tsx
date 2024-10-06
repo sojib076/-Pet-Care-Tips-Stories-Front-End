@@ -34,7 +34,7 @@ const Followers = ({ followers, following }: {
               <TableCell>{follower.name}</TableCell>
               <TableCell>{follower.email}</TableCell>
               <TableCell>
-                <Button>
+                <Button className='bg-indigo-900 text-white'>
 
                   Mail
                 </Button>

@@ -18,13 +18,13 @@ const petNutritionData: PetNutritionData = {
       { age: "Puppy (0-1 year)", weightRange: "5-10 kg", calories: 800 },
       { age: "Adult (1-7 years)", weightRange: "5-10 kg", calories: 700 },
       { age: "Senior (7+ years)", weightRange: "5-10 kg", calories: 650 },
-      // Add more weight ranges and age groups as needed
+      
     ],
     Cat: [
       { age: "Kitten (0-1 year)", weightRange: "2-4 kg", calories: 250 },
       { age: "Adult (1-10 years)", weightRange: "2-4 kg", calories: 200 },
       { age: "Senior (10+ years)", weightRange: "2-4 kg", calories: 180 },
-      // Add more weight ranges and age groups as needed
+    
     ],
   };
   
