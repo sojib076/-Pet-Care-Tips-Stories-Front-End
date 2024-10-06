@@ -4,7 +4,7 @@ import { useGetallUsers } from "@/hook/admin.hook";
 
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/table"; 
 import PostHistoryTableSkeleton from "../../(userDashboard)/dashboard/components/PostHistoryTableSkeleton";
-import { updateUser, updateUserRole } from "@/Services/Admin";
+import { updateUser, updateUserRole, userBlock } from "@/Services/Admin";
 import { toast } from "sonner";
 
 const AllUser = () => {
@@ -43,8 +43,18 @@ const AllUser = () => {
     }
   };
 
-  const handleBlockUser = () => {
+  const handleBlockUser = async(userIb: string) => {
 
+    const result = await userBlock(userIb);
+    if (result?.success) {
+        refetch();
+        toast.success(result?.message);
+      
+    } else {
+      console.log("Failed to block user");
+    }
+    
+    
   };
 
   return (
@@ -64,6 +74,7 @@ const AllUser = () => {
               name: string;
               email: string;
               role: string;
+              isblocked: boolean;
             }) => (
               <TableRow key={user._id}>
                 <TableCell>{user.name}</TableCell>
@@ -89,7 +100,9 @@ const AllUser = () => {
                     onClick={() => handleBlockUser(user._id as string)}
                     className="bg-red-500 text-white px-3 py-1 rounded"
                   >
-                    Block User
+                   {
+                    user?.isblocked ? 'Unblock' : 'Block'
+                   }
                   </button>
                 </TableCell>
               </TableRow>

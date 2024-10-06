@@ -26,13 +26,13 @@ const PostCard = () => {
     const [editCommentValue, setEditCommentValue] = useState<string>('');
 
     const { data: userData } = useGetProfile();
-
+  
 
     const user = userData?.data;
 
     useEffect(() => {
         if (user) {
-            // just set their id without the rest of the user object
+
             setUserFollowing(user.following.map((user: any) => user._id));
             setUserPaidPosts(user.paidfor);
 
