@@ -5,7 +5,7 @@ import Link from "next/link";
 const Banner = () => {
   return (
     <>
-      <div className="bg-blue-900 lg:w-[100%] lg:h-[500px] lg:flex flex-row lg:justify-center lg:items-end relative lg:px-10">
+      <div className="bg-blue-900 lg:w-[100%] lg:h-[500px] lg:flex flex-row lg:justify-center lg:items-end relative lg:px-10  ">
         <motion.div
           className="lg:w-[50%] p-5 lg:top-[-30%] relative"
           initial={{ opacity: 0, x: -50 }}
@@ -18,7 +18,7 @@ const Banner = () => {
           </h1>
 
 
-          <div className="flex lg:gap-10 flex-row lg:justify-start  justify-between gap-5 lg:w-full w-[70%]">
+          <div className=" flex flex-col lg:flex-row lg:justify-start lg:gap-5 justify-between">
             <Link href={'/newsfeed'}>
             <motion.button
               className=" px-4 py-2 bg-yellow-600 text-white mt-5 rounded-full font-medium text-sm"
@@ -30,13 +30,14 @@ const Banner = () => {
             </Link>
             <Link href={'/newsfeed'}>
             <motion.button
-              className=" lg:px-4 px-3 py-2 bg-black text-white mt-5 rounded-full font-medium text-sm"
+              className=" px-4 py-2 bg-yellow-600 text-white mt-5 rounded-full font-medium text-sm"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              Contact us 
+              View News Feed
             </motion.button>
             </Link>
+       
      
           </div>
         </motion.div>

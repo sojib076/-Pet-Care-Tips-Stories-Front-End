@@ -57,14 +57,14 @@ const TeamMember = () => {
                                         src={member.image}
                                         alt={member.name}
                                     />
-                                    <h3 className="mt-4 text-xl font-semibold text-black/90">{member.name}</h3>
+                                    <h3 className="mt-4 text-xl font-semibold text-black/90 group-hover:text-white ">{member.name}</h3>
                                     <p className="text-xl font-bold">{member.role}</p>
-                                    <div className="mt-4 w-[90%] mx-auto flex justify-between items-center">
+                                    <div className="mt-4 lg:w-[90%] mx-auto flex justify-between items-center gap-2">
                                         {member.social.map((social, idx) => (
                                             <a
                                                 key={idx}
                                                 href={social.url}
-                                                className="text-xl bg-blue-800 border border-blue-600 text-white p-2 px-5 rounded-md"
+                                                className="text-xl bg-blue-800/80 border border-blue-600 text-white p-2 px-5 rounded-md"
                                             >
                                                 {social.platform}
                                             </a>

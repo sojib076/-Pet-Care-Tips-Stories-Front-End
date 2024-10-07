@@ -1,16 +1,14 @@
 'use client';
 
+import Image from "next/image";
+
 const Happypets = () => {
   return (
-    <div className="my-[10%] lg:my-20">
+    <div className="my-[10%] lg:my-20 overflow-hidden">
       <div className="lg:flex gap-2.5 items-center justify-between">
         {/* Contained Image */}
         <div className="lg:h-[601.08px] pl-[40px] max-w-full lg:max-w-[50%] overflow-hidden">
-          <img
-            src="https://i.ibb.co.com/m4Nykmv/humancarrypet.png"
-            alt="Human carrying pet"
-            className="object-contain w-full h-auto"
-          />
+          <Image   src="https://i.ibb.co.com/m4Nykmv/humancarrypet.png" alt="Happy Pets" layout="responsive" width={601.08} height={601.08} className="object-contain w-full h-auto"   />
         </div>
 
         <div className="flex flex-col items-center">

@@ -291,7 +291,7 @@ const PostCard = () => {
 
 
 
-    const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
+const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
         console.log('sorting by', sortBy);
         setPosts((prevPosts) => {
             if (sortBy === 'upvotes') {
