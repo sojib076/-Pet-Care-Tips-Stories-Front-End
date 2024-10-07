@@ -1,4 +1,4 @@
-import {      Home, Laptop, User } from "lucide-react";
+import {      Home, Laptop, Lock, NotebookIcon, Pen, PenBoxIcon, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -60,19 +60,19 @@ export const SidebarWrapper = () => {
             />
             <SidebarItem
               title="ALL POST"
-              icon={<User />}
+              icon={<NotebookIcon />}
               isActive={pathname === "/dashboard/allpost"}
               href="/dashboard/allpost"
             />
             <SidebarItem
               title="Create Story"
-              icon={<User />}
+              icon={<PenBoxIcon />}
               isActive={pathname === "/dashboard/creation"}
               href="/dashboard/creation"
             />
             <SidebarItem
               title="Create PDF"
-              icon={<Laptop />}
+              icon={<Pen />}
               isActive={pathname === "/dashboard/createpdf"}
               href="/dashboard/createpdf"
             />
@@ -81,14 +81,14 @@ export const SidebarWrapper = () => {
 
             <SidebarItem
               title="Reset Password"
-              icon={<Laptop />}
+              icon={<Lock />}
               isActive={pathname === "/forget-password"}
               href="/forget-password"
             />
            
             <SidebarItem
               title="Forget Password"
-              icon={<Laptop />}
+              icon={<Lock />}
               isActive={pathname === "/forget-password"}
               href="/forget-password"
             />

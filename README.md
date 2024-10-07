@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pet Tips & Story Share Website
+
+## Overview
+
+Welcome to the Pet Tips & Story Share website! This application is built using **Next.js** and **Tailwind CSS**, providing a sleek and responsive front-end experience for pet lovers. The platform allows users to share tips, stories, and connect with other pet owners.
+
+## Live Demo
+Check out the live version of the website [here](https://petcareblogs.vercel.app/).
+
+## User Credentials
+- **ADMIN**: admin@gmail.com  , password: 123456
+- **USER**: user@gmail.com , password: 123456
+
+## Features
+
+- **User Roles**: Two distinct roles for users: **Admin** and **User**.
+- **Post Creation**: Users can create and share their posts about pet care tips and stories.
+- **Premium Content**: Users can make payments to access premium posts.
+- **Engagement**: Users can upvote and downvote posts, comment on them, and interact with other users.
+- **Follow Other Pet Owners**: Users can follow other pet owners to see their posts in a personalized feed.
+- **PDF Generation**: Users can generate PDFs based on their pets' name, age, and calorie needs.
+- **Admin Capabilities**: Admins can create posts, view all users and their posts, manage user accounts by blocking or unblocking them, and unpublished any posts.
+- **Payment Tracking**: Admins can view all transactions related to premium content access.
+- **Password Management**: Both users and admins have options to reset forgotten passwords and update their passwords.
+
+## Technologies Used
+
+- **Next.js**: A React framework for building server-side rendered applications.
+- **Tailwind CSS**: A utility-first CSS framework for styling and responsive design.
+- **Nextauth**:  it help to social media login  .
+
+
 
 ## Getting Started
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Make sure you have the following installed:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Node.js](https://nodejs.org/en/download/)
+- [npm](https://www.npmjs.com/get-npm) (comes with Node.js)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
 
-## Learn More
+1. Clone the repository:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   git clone https://github.com/yourusername/pet-tips-and-story-share.git

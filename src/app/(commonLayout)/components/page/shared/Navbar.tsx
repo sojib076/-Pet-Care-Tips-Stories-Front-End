@@ -38,7 +38,7 @@ export default function NavBar() {
   return (
     <>
 
-      <Navbar maxWidth="2xl" className="lg:block hidden">
+      <Navbar maxWidth="2xl" className="lg:block hidden font-bold">
         <NavbarBrand>
           <Link className="flex" href="/">
            
@@ -152,18 +152,19 @@ export default function NavBar() {
           )}
          {
             !user && (
-            <div> 
+         <>
                 <Link href={'/login'} className="cursor-pointer hover:text-primary-100 transition-all">
                 Login
               </Link>
+
               <Link href={'/register'} className="cursor-pointer hover:text-primary-100 transition-all">
                 Register
               </Link>
-            </div>
+         </>
             )
          }
         </div>
-        <Button onClick={logOutUser}  variant="flat"  className="cursor-pointer hover:text-white bg-yellow-50 my-5 " >
+        <Button onClick={logOutUser}  variant="flat"  className="cursor-pointe text-white bg-yellow-500/70 font-semibold my-5 ml-4  " >
           Logout
         </Button>
 

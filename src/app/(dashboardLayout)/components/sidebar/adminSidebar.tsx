@@ -1,4 +1,4 @@
-import {   Home, Laptop, Pen, User, } from "lucide-react";
+import {   DollarSign, Home, Laptop, Lock, LucideCreativeCommons, Notebook, Pen, User, } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -49,16 +49,23 @@ export const SidebarWrapper = () => {
               isActive={pathname === "/admin-dashboard/alluser"}
               href="/admin-dashboard/alluser"
             />
+
             <SidebarItem
               title="Users Posts "
               icon={<User />}
               isActive={pathname === "/admin-dashboard/usersposts"}
               href="/admin-dashboard/usersposts"
             />
+            <SidebarItem
+              title="Payments "
+              icon={<DollarSign />}
+              isActive={pathname === "/admin-dashboard/userspayments"}
+              href="/admin-dashboard/userspayments"
+            />
 
             <SidebarItem
               title="Your Posts"
-              icon={<Laptop />}
+              icon={<Notebook />}
               isActive={pathname === "/admin-dashboard/allpost"}
               href="/admin-dashboard/allpost"
             />
@@ -70,7 +77,7 @@ export const SidebarWrapper = () => {
             />
                <SidebarItem
               title="Create PDF"
-              icon={<Laptop />}
+              icon={<LucideCreativeCommons />}
               isActive={pathname === "/dashboard/createpdf"}
               href="/admin-dashboard/createpdf"
             />
@@ -79,14 +86,14 @@ export const SidebarWrapper = () => {
 
             <SidebarItem
               title="Reset Password"
-              icon={<Laptop />}
+              icon={<Lock />}
               isActive={pathname === "/forget-password"}
               href="/forget-password"
             />
            
             <SidebarItem
               title="Forget Password"
-              icon={<Laptop />}
+              icon={<Lock />}
               isActive={pathname === "/forget-password"}
               href="/forget-password"
             />
