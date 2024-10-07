@@ -280,6 +280,7 @@ const PostCard = () => {
 
         try {
             const result = await getFollowedUsersPosts();
+            console.log(result, 'result');
             if (result) {
                 setPosts(result?.data?.posts);
                 setCategoryLoading(false);
@@ -357,7 +358,11 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
                     <div>
                         <h1 className="text-center lg:text-5xl text-3xl my-5 font-bold">Category</h1>
                         <div className="flex justify-center gap-4">
-                            <button className="px-4 py-2 bg-gray-200" onClick={() => handelbysort('upvotes')} > Sort by Upvotes </button>
+                            <button className="px-4 py-2 bg-gray-200"
+
+                            
+
+                            onClick={() => handelbysort('upvotes')} > Sort by Upvotes </button>
                             <button className="px-4 py-2 bg-gray-200" onClick={() => handelbysort('downvotes')} > Sort by Downvotes </button>
                         </div>
 
@@ -472,6 +477,7 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
                                         ? 'text-blue-900'
                                         : 'text-gray-600'
                                         }`}
+                                        
                                     onClick={() => handleUpvote(post._id)}
 
                                 >
@@ -501,6 +507,7 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
                                     <span>{post.downvotes}</span>
                                 </button>
                             </div>
+                            
                             <div className="text-xs">{post.comments.length} Comments</div>
                         </div>
 

@@ -17,9 +17,8 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ posts }) => {
   const [posttate, setPosts] = React.useState(posts);
 
-
   const getSnippet = (htmlContent: string) => {
-    const text = htmlContent.replace(/<[^>]*>?/gm, ''); // Remove HTML tags
+    const text = htmlContent.replace(/<[^>]*>?/gm, ''); 
     return text.length > 20 ? text.substring(0, 20) + '...' : text;
   };
 

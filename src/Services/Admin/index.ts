@@ -4,10 +4,11 @@
 import axiosInstance from "@/app/lib/AxiosInstance/axiosInstance";
 
 
-export const getAllUser = async ( ) => {
+export const getAllUser = async ( page:number ) => {
+    console.log(page, 'page');
 
         try {
-            const { data } = await axiosInstance.get(`/admin/getalluser`,);
+            const { data } = await axiosInstance.get(`/admin/getalluser?page=${page}`,);
             return data;
             
         } catch (error) {
@@ -28,6 +29,7 @@ export const updateUserRole = async (userId: string) => {
         return error?.response?.data;
     }
 }
+
 export const updateUser = async (userId: string) => {
    
     try {
@@ -39,8 +41,10 @@ export const updateUser = async (userId: string) => {
         return error?.response?.data;
     }
 }
+
+
 export const userBlock = async (userId: string) => {
-    
+
     try {
         const { data } = await axiosInstance.put(`/admin/userblock?id=${userId}` );
       console.log(userId, 'data');

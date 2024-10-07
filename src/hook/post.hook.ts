@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createPost, getcategory, getPost, getPostById, upvotePost } from "@/Services/Post";
+import { createPost, getallpostadmin, getcategory, getPost, getPostById, upvotePost } from "@/Services/Post";
 import {  QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -36,6 +36,10 @@ export  const useCreatpost = () => {
       queryFn: async () => await getPost(), 
 
       refetchInterval: 30000,
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchIntervalInBackground: true,
       
     });
   };
@@ -80,9 +84,14 @@ export  const useCreatpost = () => {
     })
     
   }
+
+
   
 
+  export const useGetPostforadmin = (page: number ) => {
+    return useQuery<any, Error>({
+      queryKey: ["getPost",], 
+      queryFn: async () => await getallpostadmin(page)
 
-
-
-
+    });
+  };

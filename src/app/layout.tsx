@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+
 import "./globals.css";
 import Providers from "./lib/Providers";
 import { Fredoka } from 'next/font/google';
@@ -11,10 +11,7 @@ const fredoka = Fredoka({
 });
 
 
-export const metadata: Metadata = {
-  title: "Wheels",
-  description: "Next Level Riding Sharing Service",
-};
+
 
 export default function RootLayout({
   children,

@@ -101,26 +101,30 @@ const PostCard = () => {
         const result = await upvotePost(postId);
 
         console.log(result?.data?.alreayvoted);
+try {
+  
+  if (result?.data?.alreayvoted) {
+    toast.error('You already voted');
+    return
+} else {
+    setPosts((prev) => {
+        return prev?.map((item) => {
+            if (item._id === postId) {
+                return {
+                    ...item,
+                    upvotes: item.upvotes + 1,
+                    downvotes: item.downvotes ? item.downvotes - 1 : 0,
+                };
+            }
+            return item;
+        });
+    });
 
-        if (result?.data?.alreayvoted) {
-            toast.error('You already voted');
-            return
-        } else {
-            setPosts((prev) => {
-                return prev?.map((item) => {
-                    if (item._id === postId) {
-                        return {
-                            ...item,
-                            upvotes: item.upvotes + 1,
-                            downvotes: item.downvotes ? item.downvotes - 1 : 0,
-                        };
-                    }
-                    return item;
-                });
-            });
-
-            toast.success('Post upvoted successfully');
-        }
+    toast.success('Post upvoted successfully');
+}
+} catch (error) {
+  console.log(error, 'error');
+}
 
 
 
@@ -434,7 +438,7 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
                                             {userFollowing && userFollowing.includes(post.author._id) ? 'Unfollow' : 'Follow'}
                                         </button>
                                     ) : (
-                                        <span className="text-gray-500 text-xs">YOUR POST </span> // Change this to whatever you'd like to show
+                                        <span className="text-gray-500 text-xs font-semibold ">YOUR POST </span> // Change this to whatever you'd like to show
                                     )}
 
                                 </div>
@@ -473,9 +477,7 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
                                         ? 'text-blue-900'
                                         : 'text-gray-600'
                                         }`}
-                                    onClick={() => handleUpvote(post._id)}
-
-                                >
+                                    onClick={() => handleUpvote(post._id)} >
                                     <ArrowBigUp size={40}
 
                                         className="hover:translate-y-[-10px]
@@ -581,7 +583,7 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
 
                             </div>
                         ) : <>
-                            <div className="text-xs text-gray-500 mt-2">Please login to comment</div>
+                            <div className="lg:text-2xl text-sm text-center text-gray-500 mt-2 font-bold  ">Please login to vote follow and comment</div>
                         </>
 
                         }

@@ -35,3 +35,15 @@ export interface IInput {
     }[];
   }
   
+  export interface Postadimin {
+    _id: string;
+    title: string;
+    author: {
+      name: string;
+      email: string;
+    };
+    category: string;
+    premiumContent: boolean;
+    ispublished: boolean;
+  }
+  

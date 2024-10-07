@@ -184,7 +184,7 @@ export const getcategory = async (category:string) => {
   }
 } 
 
-export const handelpayment = async (postId,userId) => {
+export const handelpayment = async (postId: string,userId: string) => {
   try {
     const { data } = await axiosInstance.post(`/payment/initiate?postId=${postId}&userId=${userId}`, );
     return data;
@@ -192,3 +192,24 @@ export const handelpayment = async (postId,userId) => {
     return error?.response?.data;
   }
 } 
+
+
+export const getallpostadmin = async (page: number) => {
+  console.log(page, 'page');
+  try {
+    const { data } = await axiosInstance.get(`/admin/getallpost?page=${page}`);
+
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+};
+
+export const postpublish = async (postId: string) => {
+  try {
+    const { data } = await axiosInstance.post(`/admin/postpublish`, { postId });
+    return data;
+  } catch (error: any) {
+    return error?.response?.data;
+  }
+}

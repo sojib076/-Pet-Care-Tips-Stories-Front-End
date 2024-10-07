@@ -6,7 +6,7 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
-import { AlignCenterIcon, Dog, X } from "lucide-react";
+import { AlignCenterIcon,  X } from "lucide-react";
 import Link from "next/link";
 
 import { useUser } from "@/context/uAuthContext";
@@ -24,10 +24,7 @@ export default function NavBar() {
   };
 
 
-
   const { user, setIsLoading: userLoading, setUser } = useUser();
-
-
 
   const logOutUser = () => {
 
@@ -44,12 +41,12 @@ export default function NavBar() {
       <Navbar maxWidth="2xl" className="lg:block hidden">
         <NavbarBrand>
           <Link className="flex" href="/">
-            <Dog size={32} />
-            <p className="font-bold text-inherit px-4"> </p>
+           
+            <p className="font-bold text-inherit px-4"> PsTips </p>
           </Link>
         </NavbarBrand>
 
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarContent className="hidden sm:flex gap-4" justify="center" >
           <NavbarItem>
             <Link color="foreground" href="/">
               Home
@@ -63,6 +60,11 @@ export default function NavBar() {
           <NavbarItem >
             <Link href="about" >
               About
+            </Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link href="contact">
+              Contact
             </Link>
           </NavbarItem>
           <NavbarItem>
@@ -92,7 +94,7 @@ export default function NavBar() {
 
       <div className="flex md:hidden justify-between px-4 py-3 bg-blue-900 text-white">
         <div>
-          <h1 className="text-2xl font-bold text-primary-100">Logo</h1>
+          <h1 className="text-3xl font-bold text-primary-100">PsTips</h1>
         </div>
         <button
           className="text-white focus:outline-none"
@@ -117,7 +119,7 @@ export default function NavBar() {
         className={`fixed top-0 right-0 h-full w-3/4  bg-blue-900/90 pl-5 text-white z-50 transform transition-transform duration-700 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="flex justify-between px-4 py-3">
-          <h1 className="text-2xl font-bold text-primary-100">Logo</h1>
+          <h1 className="text-2xl font-bold text-primary-100">PsTips</h1>
           <button
             className="text-white focus:outline-none mr-5"
             onClick={() => setMobileMenuOpen(false)}

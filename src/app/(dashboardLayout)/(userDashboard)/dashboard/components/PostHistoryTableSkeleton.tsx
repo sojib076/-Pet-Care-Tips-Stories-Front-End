@@ -5,14 +5,10 @@ const PostHistoryTableSkeleton = () => {
   const skeletonRows = Array.from({ length: 5 });
 
   return (
-    <table className="min-w-full table-auto">
+    <table className="min-w-full table-auto mt-20">
       <thead>
         <tr>
-          <th className="px-4 py-2 text-left">Title</th>
-          <th className="px-4 py-2 text-left">Category</th>
-          <th className="px-4 py-2 text-left">Content</th>
-          <th className="px-4 py-2 text-left">Type</th>
-          <th className="px-4 py-2 text-left">Actions</th>
+        
         </tr>
       </thead>
       <tbody>

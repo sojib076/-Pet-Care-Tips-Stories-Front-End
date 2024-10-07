@@ -4,7 +4,7 @@ import NavBar from "./components/page/shared/Navbar";
 
 export const metadata: Metadata = {
   title: "Home -",
-  description: "Next Level Riding Sharing Service",
+  description: "Pet social media platform",
 };
 
 export default function DashboardLayout({

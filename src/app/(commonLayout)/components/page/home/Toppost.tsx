@@ -7,10 +7,12 @@ import { useForm, FormProvider } from 'react-hook-form';
 import 'react-quill/dist/quill.snow.css';
 import { useCreatpost } from '@/hook/post.hook';
 import axios from 'axios';
+import { useUser } from '@/context/uAuthContext';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 export default function CreateContent() {  
+  const {user} = useUser();
 
   const methods = useForm();
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -72,22 +74,29 @@ export default function CreateContent() {
     formData.append('content', data.content);
     formData.append('category', data.category);
     formData.append('premiumContent', data.isPremium);
-
+    formData.append('title', data.title);
+    
     createPost(data);
   };
 
   return (
     <FormProvider {...methods}>
-      <div className="max-w-4xl mx-auto p-4">
+    {
+      user ? <>
+        <div className="max-w-4xl mx-auto p-4">
         <button
           onClick={() => setIsFormVisible(!isFormVisible)}
-          className="w-full px-4 py-3 bg-gray-100 text-gray-700 rounded-lg shadow-sm hover:bg-gray-200 focus:outline-none text-left"
+          className="w-full px-4 py-3 bg-gray-300 text-gray-700 rounded-lg shadow-sm hover:bg-gray-200 focus:outline-none text-left"
         >
           {isFormVisible ? "Hide Post Creation" : "What's on your mind?"}
         </button>
       </div>
+      </> :   <h1 className='text-center mt-10 font-bold'> 
+        Please login to create content 
+      </h1>
+    }
 
-      {/* Conditionally render the form based on visibility */}
+    
       {isFormVisible && (
         <div className="max-w-4xl mx-auto mt-4 bg-white rounded-lg shadow-md p-6">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,7 +128,7 @@ export default function CreateContent() {
 
             </div>
 
-            {/* Category Selection */}
+         
             <div className="mb-4">
               <label className="block text-gray-700 text-sm mb-2">Category</label>
               <select
@@ -131,7 +140,7 @@ export default function CreateContent() {
               </select>
             </div>
 
-            {/* Monetization Checkbox */}
+           
             <div className="mb-4 flex items-center">
               <input
                 type="checkbox"
@@ -141,16 +150,16 @@ export default function CreateContent() {
               <label className="text-gray-700">Make this content premium</label>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg shadow-sm hover:bg-blue-600 focus:outline-none"
+              className="px-4 py-2 bg-blue-900 text-white rounded-lg shadow-sm hover:bg-blue-800 w-full focus:outline-none"
             >
               Submit
             </button>
           </form>
         </div>
       )}
+
     </FormProvider>
   );
 }
