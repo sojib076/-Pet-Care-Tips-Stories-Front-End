@@ -17,9 +17,7 @@ export const useUserLogin = () => {
           toast.error(data.message);
         }
       },
-      onError: (error) => {
-        console.log(error.message);
-      },
+    
     });
   };
 
@@ -33,9 +31,7 @@ export const useUserRegister = () => {
           toast.success(data.message);
         }
       },
-      onError: (error) => {
-        console.log(error.message);
-      },
+      
     });
   };
   
@@ -47,14 +43,11 @@ export const useUserRegister = () => {
       mutationFn: async (userData) => await forgetuserPassword(userData),
       onSuccess: (data) => {
         if (data) {
-          console.log(data);
+         
           toast.success(data.message);
         }
       },
-      onError: (error) => {
-        console.log(error.message);
-        console.log(error.message);
-      },
+     
     });
 
   };

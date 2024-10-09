@@ -15,7 +15,7 @@ export const AuthOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ profile, account }: any) {
       try {
-        console.log({ profile, account });
+    
 
         if (!profile || !account) {
           return false;
@@ -43,6 +43,7 @@ export const AuthOptions: NextAuthOptions = {
         }
       } catch (error) {
         console.log(error);
+      
         return false;
       }
     },

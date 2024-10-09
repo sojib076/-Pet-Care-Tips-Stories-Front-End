@@ -95,7 +95,7 @@ className="lg:grid grid-cols-2 items-center justify-center lg:w-[90%] px-10 pt-1
         </motion.div>
 
         <Button
-          className="my-3 w-full rounded-md bg-lime-900 font-semibold text-white button"
+          className="my-3 w-full rounded-md bg-blue-900 font-semibold text-white button"
           size="lg"
           type="submit"
         >

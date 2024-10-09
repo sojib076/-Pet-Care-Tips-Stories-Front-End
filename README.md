@@ -28,6 +28,17 @@ Check out the live version of the website [here](https://petcareblogs.vercel.app
 - **Next.js**: A React framework for building server-side rendered applications.
 - **Tailwind CSS**: A utility-first CSS framework for styling and responsive design.
 - **Nextauth**:  it help to social media login  .
+- **Amarpay**: A payment processing platform for handling transactions.
+- **MongoDB**: A NoSQL database for storing user and post data.
+- **Mongoose**: An Object Data Modeling (ODM) library for MongoDB and Node.js.
+- **React Hook Form**: A library for managing form state and validation in React applications.
+- **React-Query**: A library for managing server state in React applications.
+- **Axios**: A promise-based HTTP client for making requests to the server.   
+- **React-Toastify**: A library for displaying notifications in React applications.
+- **PDF-LIB**: A library for generating PDFs in the browser.
+- **React-Quill**: A rich text editor for creating posts.
+- **lucide-icons**: A library of popular icons for React applications.
+- **Vercel**: A cloud platform for deploying applications.
 
 
 

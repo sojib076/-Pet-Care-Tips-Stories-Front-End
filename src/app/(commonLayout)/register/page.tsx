@@ -132,7 +132,7 @@ const RegisterPage = () => {
               )}
 
               {/* Submit Button */}
-              <Button className="my-3 w-full rounded-md bg-lime-900 font-semibold text-white button" size="lg" type="submit">
+              <Button className="my-3 w-full rounded-md bg-blue-900 font-semibold text-white button" size="lg" type="submit">
                 {!isPending && (
                   <motion.span initial={{ x: 0, opacity: 1 }} animate={{ x: isPending ? -100 : 0, opacity: isPending ? 0 : 1 }} transition={{ duration: 0.2 }} style={{ position: 'absolute' }}>
                     Register

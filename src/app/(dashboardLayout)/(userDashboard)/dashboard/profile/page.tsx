@@ -50,7 +50,7 @@ const ProfileUpdates = () => {
         throw new Error("Image upload failed");
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+     
       throw error;
     }
   };

@@ -6,8 +6,9 @@ import Contactus from '../components/page/about/Contactus';
 const page = () => {
     return (
         <div>
-            <Contactus/>
+           
             <ContactSection/>
+             <Contactus/>
             <AppointmentForm/>
             
         </div>

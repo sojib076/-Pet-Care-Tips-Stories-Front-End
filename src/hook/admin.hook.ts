@@ -1,4 +1,4 @@
-import { getAllUser } from "@/Services/Admin";
+import { getAllUser, userAllPayment } from "@/Services/Admin";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetallUsers = (page:number) => {
@@ -9,4 +9,13 @@ export const useGetallUsers = (page:number) => {
     });
 
   
+};
+
+
+export const useGetallPayment = (page:number) => {
+    return useQuery<any, Error>({
+        queryKey: ["getAllPayment"],
+        queryFn: async () =>  userAllPayment(page),
+        refetchInterval: 30000,
+    });
 };

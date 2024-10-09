@@ -45,7 +45,7 @@ const YourpostAllpost = ({path}) => {
       setPosts(updatedPosts);
     } else {
       toast.error('Failed to delete post');
-      console.log(res);
+      
     }
   };
 

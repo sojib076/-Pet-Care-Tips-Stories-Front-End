@@ -26,10 +26,11 @@ const PostCard = () => {
     const [userPaidPosts, setUserPaidPosts] = useState<string[]>([]);
     const [editCommentValue, setEditCommentValue] = useState<string>('');
 
-    const { data: userData } = useGetProfile();
-  
+    const { data: userData, } = useGetProfile();
+
 
     const user = userData?.data;
+
 
     useEffect(() => {
         if (user) {
@@ -56,7 +57,7 @@ const PostCard = () => {
             if (searchTerm) {
 
                 const result = await getsearch(searchTerm, searchCategory);
-                console.log('result', result);
+
 
                 setPosts(result?.data?.posts);
             }
@@ -100,31 +101,32 @@ const PostCard = () => {
 
         const result = await upvotePost(postId);
 
-        console.log(result?.data?.alreayvoted);
-try {
-  
-  if (result?.data?.alreayvoted) {
-    toast.error('You already voted');
-    return
-} else {
-    setPosts((prev) => {
-        return prev?.map((item) => {
-            if (item._id === postId) {
-                return {
-                    ...item,
-                    upvotes: item.upvotes + 1,
-                    downvotes: item.downvotes ? item.downvotes - 1 : 0,
-                };
-            }
-            return item;
-        });
-    });
 
-    toast.success('Post upvoted successfully');
-}
-} catch (error) {
-  console.log(error, 'error');
-}
+        try {
+
+            if (result?.data?.alreayvoted) {
+                toast.error('You already voted');
+                return
+            } else {
+                setPosts((prev) => {
+                    return prev?.map((item) => {
+                        if (item._id === postId) {
+                            return {
+                                ...item,
+                                upvotes: item.upvotes + 1,
+                                downvotes: item.downvotes ? item.downvotes - 1 : 0,
+                            };
+                        }
+                        return item;
+                    });
+                });
+
+                toast.success('Post upvoted successfully');
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Post upvote failed');
+        }
 
 
 
@@ -156,7 +158,7 @@ try {
 
     const handleEditSubmit = async (postId: string, commentId: any) => {
         const updatedComment = await editcomment(postId, commentId, editCommentValue);
-        console.log(updatedComment, 'updatedComment');
+
 
         if (updatedComment) {
             setPosts((prev) => {
@@ -241,6 +243,7 @@ try {
 
             } catch (error: any) {
                 console.log(error);
+
                 toast.error('Comment failed');
             }
 
@@ -248,7 +251,7 @@ try {
 
     };
     const handleDeleteComment = async (postId: string, commentId: string) => {
-        console.log('deleting comment......');
+        toast.info('Deleting comment...');
         const data = await deleteComment(postId, commentId);
 
         if (data) {
@@ -291,12 +294,13 @@ try {
             }
         } catch (error: any) {
             console.log(error);
+            toast.error('something went wrong');
         }
     }
 
 
 
-const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
+    const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
         console.log('sorting by', sortBy);
         setPosts((prevPosts) => {
             if (sortBy === 'upvotes') {
@@ -304,14 +308,14 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
             } else if (sortBy === 'downvotes') {
                 return [...prevPosts].sort((a, b) => b.downvotes - a.downvotes); // Most downvotes first
             }
-            return prevPosts; 
+            return prevPosts;
         });
     };
     const handlePayment = async (postId: string) => {
         const userId = user?._id;
         toast.info('payment processing....');
         try {
-            
+
             const response = await handelpayment(postId, userId);
 
             if (response?.success) {
@@ -398,7 +402,7 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
 
             {
 
-             post?.map((post: any) => (
+                post?.map((post: any) => (
                     <div key={post._id} className="w-[90%] mx-auto bg-white border border-gray-800 rounded-lg mb-6 shadow-md p-8 ">
                         <div className='flex justify-end gap-5 items-end'>
                             {post.premiumContent && (
@@ -432,11 +436,25 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
 
                                     {post.author._id !== user?._id ? (
                                         <button
-                                            className="text-blue-500 font-semibold text-xs hover:underline"
+                                        disabled={!user}
+                                            className="text-blue-500 font-semibold text-xs hover:underline group "
                                             onClick={() => handleFollow(post.author._id)}
                                         >
-                                            {userFollowing && userFollowing.includes(post.author._id) ? 'Unfollow' : 'Follow'}
+                                            {userFollowing && user && userFollowing.includes(post.author._id) ? 'Unfollow' : 'Follow'}
+                                            
+                                            {
+                                                !user && <> 
+                                                    <h1>
+                                                        Please login to follow
+                                                    </h1>
+                                                </>
+                                            }
                                         </button>
+
+                                        
+
+
+                                        
                                     ) : (
                                         <span className="text-gray-500 text-xs font-semibold ">YOUR POST </span> // Change this to whatever you'd like to show
                                     )}
@@ -455,24 +473,36 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
                                 {post.title}
                             </h1>
 
+
                             {(!post.premiumContent || userPaidPosts?.includes(post._id)) || post?.author?._id == user?._id ? (
                                 <p dangerouslySetInnerHTML={{ __html: post.content }} />
                             ) : (
                                 <>
                                     <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 150) }} />
-                                    <button
-                                        className="bg-blue-500 text-white px-3 py-1 rounded text-xs mt-2 hover:bg-blue-600"
-                                        onClick={() => handlePayment(post._id)}
-                                    >
-                                        Pay 100 TK to Unlock Full Content
-                                    </button>
+                                    <div className="relative group">
+                                        <button
+                                            disabled={!user}
+                                            className="bg-blue-900 text-white px-3 py-1 rounded text-xs mt-2 hover:bg-blue-900/90 disabled:bg-gray-400"
+                                            onClick={() => handlePayment(post._id)}
+                                        >
+                                            Pay 100 TK to Unlock Full Content
+                                        </button>
+                                        {!user && (
+                                            <span className="absolute left-1/4 w-[250px] transform -translate-x-1/2 -translate-y-8 bg-gray-700 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                Please login to proceed with payment
+                                            </span>
+                                        )}
+                                    </div>
                                 </>
                             )}
+
+
                         </div>
 
                         <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
                             <div className="flex space-x-4">
                                 <button
+                                disabled={!user}
                                     className={`flex items-center space-x-1 ${(post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'up')
                                         ? 'text-blue-900'
                                         : 'text-gray-600'
@@ -490,6 +520,7 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
                                     <span>{post.upvotes}</span>
                                 </button>
                                 <button
+                                    disabled={!user}
                                     className={`flex items-center space-x-1 ${(post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'down')
                                         ? 'text-red-500'
                                         : 'text-gray-600'
@@ -588,12 +619,12 @@ const handelbysort = async (sortBy: 'upvotes' | 'downvotes') => {
 
                         }
                     </div>
-                )) 
+                ))
 
-               
+
             }
             {
-                 post?.length === 0 && (
+                post?.length === 0 && (
                     <div className="text-center text-gray-500 text-xl mt-10">
                         No posts found
                     </div>

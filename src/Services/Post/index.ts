@@ -5,7 +5,7 @@ import { FieldValues } from "react-hook-form";
 
     
    export const createPost = async (userData: FieldValues) => {
-      console.log(userData,'userData');
+    
       try {
         const { data } = await axiosInstance.post("/post/createpost", userData);
         return data;
@@ -20,10 +20,10 @@ export const getPost = async ( ) => {
 
   try {
     const { data } = await axiosInstance.get(`/post/get`,);
-console.log(data, 'data');
+
     return data;
   } catch (error: any) { 
-    console.log(error, 'error');
+    
     return error?.response?.data;
    
   }
@@ -31,13 +31,13 @@ console.log(data, 'data');
 
 
 export const upvotePost = async (postId: string) => {
-  console.log(postId, 'postId');
+
   try {
     const { data } = await axiosInstance.post(`/post/upvotepost/`, { postId }); 
     
     return data;
   } catch (error: any) {
-    console.log(error, 'error');
+   
     return error?.response?.data;
   }
 }
@@ -51,7 +51,7 @@ export const downvotePost = async (postId: string) => {
   }
 };
 export const addCommentToPost = async (postId: string, comment: string) => {
-  console.log(postId, 'postId');
+ 
   try {
     const { data } = await axiosInstance.post(`/post/addcomment`, { postId, comment });
     return data;
@@ -119,7 +119,7 @@ export const getFollowedUsersPosts = async () => {
 
 
 export  const getsearch =  async (searchTerm: string, searchCategory: string) => {
-  console.log(searchTerm, 'searchTerm');
+  
   try {
     const { data } = await axiosInstance.get(`/post/search?searchTerm=${searchTerm}&searchCategory=${searchCategory}`);
     return data;
@@ -135,7 +135,7 @@ export const getPostById = async (postId: string) => {
  
   try {
     const { data } = await axiosInstance.get(`/post/${postId}`);
-    console.log(data, 'data');
+    
     return data;
   } catch (error: any) {
     return error?.response?.data;
@@ -173,10 +173,10 @@ export const getuserposts = async () => {
 
 
 export const getcategory = async (category:string) => {
-  console.log(category, 'category');
+  
   try {
       const { data } = await axiosInstance.get(`post/category?category=${category}`);
-      console.log(data);
+   
       return data;
   } catch (error) {
     return error?.response?.data;
@@ -195,7 +195,7 @@ export const handelpayment = async (postId: string,userId: string) => {
 
 
 export const getallpostadmin = async (page: number) => {
-  console.log(page, 'page');
+
   try {
     const { data } = await axiosInstance.get(`/admin/getallpost?page=${page}`);
 

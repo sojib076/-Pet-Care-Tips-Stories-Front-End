@@ -5,7 +5,7 @@ import { useSidebarContext } from "@/app/(dashboardLayout)/layout/layout-context
 import { useUser } from "@/context/uAuthContext";
 
 import { logout } from "@/Services/AuthServices";
-import { useRouter } from "next/navigation";
+
 
 interface Props {
   children: React.ReactNode;
@@ -15,11 +15,15 @@ export const NavbarWrapper = ({ children }: Props) => {
   const { collapsed, setCollapsed } = useSidebarContext();
 
 
-  const router = useRouter();
 
   const {user,setUser,setIsLoading}=useUser();
+
+
+
   const logOutUser = () => {
-    router.push("/login");
+
+  window.location.href = "/login";
+
     logout();
     setUser(null);
     setIsLoading(true);

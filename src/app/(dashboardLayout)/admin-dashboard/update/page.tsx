@@ -76,6 +76,7 @@ const ProfileUpdates = () => {
    
     } catch (error) {
       console.error("Error updating profile:", error);
+      
     } finally {
       setIsUploading(false);
     }

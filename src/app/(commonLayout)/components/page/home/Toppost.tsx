@@ -8,6 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useCreatpost } from '@/hook/post.hook';
 import axios from 'axios';
 import { useUser } from '@/context/uAuthContext';
+import { toast } from 'sonner';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -61,7 +62,8 @@ export default function CreateContent() {
               const range = editor.getSelection();
               editor.insertEmbed(range.index, 'image', imageUrl);
             } catch (error) {
-              console.error('Image upload failed:', error);
+              console.log(error);
+              toast.error('Image upload failed');
             }
           }
         };

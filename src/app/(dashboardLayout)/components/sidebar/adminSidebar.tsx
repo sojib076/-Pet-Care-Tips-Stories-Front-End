@@ -1,4 +1,4 @@
-import {   DollarSign, Home, Laptop, Lock, LucideCreativeCommons, Notebook, Pen, User, } from "lucide-react";
+import {   DollarSign, Home, Lock, LucideCreativeCommons, Notebook, Pen, User, } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

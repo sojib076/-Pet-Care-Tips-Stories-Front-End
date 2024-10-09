@@ -23,10 +23,7 @@ export const useUpdateProfile = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["USER_PROFILE"] }); 
     },
-    onError: (error) => {
-      // Optionally handle errors here
-      console.error("Error updating profile:", error);
-    },
+   
   });
 };
 

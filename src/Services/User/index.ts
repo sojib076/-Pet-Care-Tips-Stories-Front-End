@@ -4,6 +4,7 @@
 import axiosInstance from "@/app/lib/AxiosInstance/axiosInstance";
 
 export const userProfile = async()=>{
+
     try {
         const {data} = await axiosInstance.get('/user/me');
        
@@ -11,7 +12,7 @@ export const userProfile = async()=>{
 
         
     } catch (error:any) {
-        console.log(error?.response?.data,'hi');
+    
         return error?.response?.data;
     }
 

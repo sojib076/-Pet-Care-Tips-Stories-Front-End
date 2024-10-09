@@ -11,18 +11,21 @@ export  const useCreatpost = () => {
       mutationKey: ["createPost"],
       mutationFn: async (userData) => await createPost(userData),
       onSuccess: (data) => {
+        console.log(data);
         if (data?.success) {
           toast.success('Post created successfully');
           queryClient.invalidateQueries({ queryKey: ["getPost"] });
         }
         else{
-          console.log(data);
+       
           toast.error('Post creation failed');
         }
       },
       onError: (error) => {
-        console.log(error.message);
-      },
+        console.log(error);
+        toast.error('Post creation failed');
+      }
+     
     });
 
   };
@@ -50,19 +53,7 @@ export  const useCreatpost = () => {
     return useMutation<any, Error,string>({
       mutationKey: ["upvotePost"],
       mutationFn: async (postId) => await upvotePost(postId),
-      onSuccess: (data) => {
-        if (data?.success) {
-             
-            console.log(data);
-        } 
-  
-        else{
-          toast.error('Post upvote failed');
-        }
-      },
-      onError: (error) => {
-        console.log(error.message);
-      },
+    
     });
   };
 

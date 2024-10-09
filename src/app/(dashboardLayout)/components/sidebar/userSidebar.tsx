@@ -1,4 +1,4 @@
-import {      Home, Laptop, Lock, NotebookIcon, Pen, PenBoxIcon, User } from "lucide-react";
+import {  Home, Lock, NotebookIcon, Pen, PenBoxIcon, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

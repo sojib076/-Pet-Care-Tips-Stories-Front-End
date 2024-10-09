@@ -15,7 +15,7 @@ export default function CreateContent() {
 
   const { handleSubmit, register, setValue } = methods;
   const { mutate: createPost } = useCreatpost();
-  const quillRef = useRef<any>(null); 
+  const quillRef = useRef<any>(null);
 
   const quillModules = {
     toolbar: {
@@ -29,7 +29,7 @@ export default function CreateContent() {
     },
   };
 
-useEffect(() => {
+  useEffect(() => {
     if (quillRef.current) {
       const editor = quillRef.current.getEditor();
 
@@ -43,19 +43,19 @@ useEffect(() => {
           const file = input.files ? input.files[0] : null;
           if (file) {
             try {
-              
+
               const options = {
-                maxSizeMB: 0.5, 
-                maxWidthOrHeight: 800, 
+                maxSizeMB: 0.5,
+                maxWidthOrHeight: 800,
                 useWebWorker: true,
               };
 
               const compressedFile = await imageCompression(file, options);
-              console.log('Compressed file size:', compressedFile.size);
+
 
               const formData = new FormData();
               formData.append('file', compressedFile);
-              formData.append('upload_preset', 'jcukyhbk'); 
+              formData.append('upload_preset', 'jcukyhbk');
 
               const res = await axios.post(
                 'https://api.cloudinary.com/v1_1/dg8ppqvbb/image/upload', // Replace with your Cloudinary cloud name
@@ -67,7 +67,8 @@ useEffect(() => {
               const range = editor.getSelection();
               editor.insertEmbed(range.index, 'image', imageUrl);
             } catch (error) {
-              console.error('Image compression or upload failed:', error);
+              console.log(error);
+
             }
           }
         };
@@ -81,7 +82,7 @@ useEffect(() => {
     formData.append('category', data.category);
     formData.append('premiumContent', data.isPremium);
     formData.append('title', data.title);
- 
+
     createPost(data);
   };
 
@@ -128,7 +129,7 @@ useEffect(() => {
         </div>
 
         {/* Monetization Checkbox */}
-        <div className="mb-4">
+        <div className="mb-4 relative group">
           <label className="flex items-center">
             <input
               type="checkbox"
@@ -137,12 +138,16 @@ useEffect(() => {
             />
             <span className="text-gray-700">Make this content premium</span>
           </label>
+          <span className="absolute left-1/3 transform -translate-x-1/2 -translate-y-6 bg-gray-700 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+           Premium content earns 80 tk per payment 20tk for admin 
+          </span>
         </div>
+
 
         {/* Submit Button */}
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none w-full hover:scale-80 transition-transform duration-200"
+          className="px-4 py-2 bg-blue-900 text-white rounded-lg shadow-md hover:bg-blue-900/80 focus:outline-none w-full hover:scale-95 transition-transform duration-200"
         >
           Submit
         </button>

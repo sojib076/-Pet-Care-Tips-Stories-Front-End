@@ -15,7 +15,7 @@ export default function CreateContent() {
 
   const { handleSubmit, register, setValue } = methods;
   const { mutate: createPost } = useCreatpost();
-  const quillRef = useRef<any>(null); 
+  const quillRef = useRef<any>(null);
 
   const quillModules = {
     toolbar: {
@@ -29,7 +29,7 @@ export default function CreateContent() {
     },
   };
 
-useEffect(() => {
+  useEffect(() => {
     if (quillRef.current) {
       const editor = quillRef.current.getEditor();
 
@@ -43,10 +43,10 @@ useEffect(() => {
           const file = input.files ? input.files[0] : null;
           if (file) {
             try {
-              
+
               const options = {
-                maxSizeMB: 0.5, 
-                maxWidthOrHeight: 800, 
+                maxSizeMB: 0.5,
+                maxWidthOrHeight: 800,
                 useWebWorker: true,
               };
 
@@ -55,7 +55,7 @@ useEffect(() => {
 
               const formData = new FormData();
               formData.append('file', compressedFile);
-              formData.append('upload_preset', 'jcukyhbk'); 
+              formData.append('upload_preset', 'jcukyhbk');
 
               const res = await axios.post(
                 'https://api.cloudinary.com/v1_1/dg8ppqvbb/image/upload', // Replace with your Cloudinary cloud name
@@ -81,7 +81,6 @@ useEffect(() => {
     formData.append('category', data.category);
     formData.append('premiumContent', data.isPremium);
     formData.append('title', data.title);
- 
     createPost(data);
   };
 
@@ -113,7 +112,7 @@ useEffect(() => {
           />
         </div>
 
-        {/* Category Selection */}
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Category
@@ -127,8 +126,7 @@ useEffect(() => {
           </select>
         </div>
 
-        {/* Monetization Checkbox */}
-        <div className="mb-4">
+        <div className="mb-4 relative group">
           <label className="flex items-center">
             <input
               type="checkbox"
@@ -137,14 +135,19 @@ useEffect(() => {
             />
             <span className="text-gray-700">Make this content premium</span>
           </label>
+          <span className="absolute left-1/2 transform -translate-x-1/2 -translate-y-6 bg-gray-700 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+            You will earn 80 TK per payment
+          </span>
         </div>
 
-        {/* Submit Button */}
+
+
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-900 text-white rounded-lg shadow-md hover:bg-blue-900 focus:outline-none w-full hover:scale-95 transition-transform duration-200 "
+          className="px-4 py-2 bg-blue-900 text-white rounded-lg shadow-md hover:bg-blue-900 focus:outline-none w-full 
+           transition-transform duration-200 "
         >
-          Submit
+          Submit Now
         </button>
       </form>
     </FormProvider>

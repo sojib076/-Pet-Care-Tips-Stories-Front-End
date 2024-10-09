@@ -53,6 +53,8 @@ export const getCurrentUser = async () => {
 };
 
 export const logout = () => {
+  
+    
   cookies().delete("accessToken");
   
 
@@ -74,10 +76,10 @@ export const resetPassword = async (userData: FieldValues) => {
 export const forgetuserPassword = async (email:FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/auth/forget-password", email);
-    console.log(data);
+  
     return data;
   } catch (error: any) { 
-    console.log(error);
+   
     return error?.response?.data;
    
   }

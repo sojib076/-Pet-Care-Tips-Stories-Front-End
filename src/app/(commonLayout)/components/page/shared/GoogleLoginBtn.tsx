@@ -44,7 +44,7 @@ const GoogleLoginBtn = () => {
         />
         <path fill="none" d="M0 0h48v48H0z" />
       </svg>
-      <span className="ml-2">Login with Google</span>
+      <span className="ml-2"> Google</span>
     </button>
   );
 };
