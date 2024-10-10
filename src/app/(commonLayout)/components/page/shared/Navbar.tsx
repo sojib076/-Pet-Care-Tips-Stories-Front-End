@@ -6,7 +6,7 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
-import { AlignCenterIcon,  X } from "lucide-react";
+import { AlignCenterIcon, X } from "lucide-react";
 import Link from "next/link";
 
 import { useUser } from "@/context/uAuthContext";
@@ -41,7 +41,7 @@ export default function NavBar() {
       <Navbar maxWidth="2xl" className="lg:block hidden font-bold">
         <NavbarBrand>
           <Link className="flex" href="/">
-           
+
             <p className="font-bold text-inherit px-4"> PsTips </p>
           </Link>
         </NavbarBrand>
@@ -143,30 +143,30 @@ export default function NavBar() {
             About
           </Link>
           <Link href={'/contact'} className="cursor-pointer hover:text-primary-100 transition-all">
-          Contact
+            Contact
           </Link>
           {user && (
             <Link href={routeMap[user?.role]} className="cursor-pointer hover:text-primary-100 transition-all">
               Dashboard
             </Link>
           )}
-         {
-            !user && (
-         <>
+          {
+            user ? <Button onClick={logOutUser} variant="flat" className="cursor-pointe text-white bg-yellow-500/70 font-semibold my-5 ml-4  " >
+              Logout
+            </Button> : (
+              <>
                 <Link href={'/login'} className="cursor-pointer hover:text-primary-100 transition-all">
-                Login
-              </Link>
+                  Login
+                </Link>
 
-              <Link href={'/register'} className="cursor-pointer hover:text-primary-100 transition-all">
-                Register
-              </Link>
-         </>
+                <Link href={'/register'} className="cursor-pointer hover:text-primary-100 transition-all">
+                  Register
+                </Link>
+              </>
             )
-         }
+          }
         </div>
-        <Button onClick={logOutUser}  variant="flat"  className="cursor-pointe text-white bg-yellow-500/70 font-semibold my-5 ml-4  " >
-          Logout
-        </Button>
+
 
       </div>
 
