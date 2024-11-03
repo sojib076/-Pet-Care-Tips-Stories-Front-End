@@ -4,7 +4,7 @@ const Profilecard = () => {
     return (
 
         <div className="container mx-auto lg:p-4">
-            <div className="bg-white shadow-md rounded-lg pb-20 dark:bg-black">
+            <div className="bg-white shadow-md rounded-lg pb-20  ">
                 <div className="relative">
                     {/* Banner Skeleton */}
                     <div className="w-full h-48 bg-gray-300 rounded-t-lg animate-pulse"></div>

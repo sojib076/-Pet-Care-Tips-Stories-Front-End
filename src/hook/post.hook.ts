@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createPost, getallpostadmin, getcategory, getPost, getPostById, upvotePost } from "@/Services/Post";
+import { createPost, getallpostadmin, getcategory, getPost, getPostById, getuserpostbyid, upvotePost } from "@/Services/Post";
 import {  QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -84,5 +84,16 @@ export  const useCreatpost = () => {
       queryKey: ["getPost",], 
       queryFn: async () => await getallpostadmin(page)
 
+    });
+  };
+
+
+
+  export const useGetPostsbyUserId = (userId: string) => {
+    return useQuery({
+      queryKey: ["POST_BY_USER_ID", userId],
+      queryFn: async () => await getuserpostbyid(userId),
+   
+      
     });
   };

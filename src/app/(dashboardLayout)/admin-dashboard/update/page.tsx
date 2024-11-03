@@ -85,10 +85,10 @@ const ProfileUpdates = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-semibold mb-6 text-gray-800 dark:text-white">Update Your Profile</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-gray-800 dark:text-white  ">Update Your Profile</h1>
 
       <div className="container mx-auto lg:p-6">
-        <div className="bg-white shadow-lg rounded-2xl dark:bg-gray-900 dark:text-white relative overflow-hidden pb-10">
+        <div className="bg-white dark:bg-gray-600 shadow-lg rounded-2xl  relative overflow-hidden pb-10">
           {/* Gradient Background */}
           <div className="relative bg-gradient-to-r from-purple-900 to-indigo-900 h-48 rounded-t-lg"></div>
 
@@ -103,11 +103,11 @@ const ProfileUpdates = () => {
             />
           </div>
 
-          {/* User Information */}
+         
           <div className="lg:flex justify-between items-center px-6 mt-16">
             <div className="space-y-2">
-              <h1 className="text-3xl font-semibold">{user?.name || 'User Name'}</h1>
-              <p className="text-gray-600 dark:text-gray-300">{user?.email || 'Bio or a brief description of the user.'}</p>
+              <h1 className="text-3xl font-semibold dark:text-white">{user?.name || 'User Name'}</h1>
+              <p className="text-gray-600  ">{user?.email || 'Bio or a brief description of the user.'}</p>
             </div>
           </div>
 
@@ -117,7 +117,7 @@ const ProfileUpdates = () => {
               <div className="lg:flex justify-between gap-6">
                 {/* Name Field */}
                 <div className="mb-4 w-full">
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2  dark:text-white  ">
                     Name
                   </label>
                   <input
@@ -125,13 +125,13 @@ const ProfileUpdates = () => {
                     id="name"
                     name="name"
                     defaultValue={user?.name}
-                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300"
+                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm "
                   />
                 </div>
 
                 {/* Upload Image Field */}
                 <div className="mb-4 w-full">
-                  <label htmlFor="img" className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
+                  <label htmlFor="img" className="block text-sm font-medium text-gray-700 mb-2 dark:text-white  ">
                     Upload Image
                   </label>
                   <input
@@ -140,7 +140,7 @@ const ProfileUpdates = () => {
                     name="img"
                     accept="image/*"
                     onChange={handleFileChange}
-                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300"
+                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm  "
                   />
                 </div>
               </div>

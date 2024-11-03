@@ -15,6 +15,7 @@ export default function Hookinput({
   type = "text",
   label,
   name,
+
 }: IProps) {
   const {
     register,
@@ -33,6 +34,7 @@ export default function Hookinput({
       size={size}
       type={type}
       variant={variant}
+    
     />
   );
 }

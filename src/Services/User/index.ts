@@ -27,3 +27,13 @@ export const userUpdate = async (userdata: any)=>{
         return error?.response?.data;
     }
 }
+
+export const  getUserbyProfile = async (userId: string)=>{
+    try {
+        const {data} = await axiosInstance.get(`/user/${userId}`);
+        return data;
+    } catch (error:any) {
+        console.log(error);
+        return error?.response?.data;
+    }
+}

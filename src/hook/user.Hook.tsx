@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { userProfile, userUpdate } from "@/Services/User";
+import { getUserbyProfile, userProfile, userUpdate } from "@/Services/User";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"; 
 import { FieldValues } from "react-hook-form";
 
@@ -26,4 +26,18 @@ export const useUpdateProfile = () => {
    
   });
 };
+
+
+
+export const useGetUserById = (userId: string) => {
+  return useQuery({
+    queryKey: ["USER_BY_ID", userId],
+    queryFn: async () => await getUserbyProfile(userId),
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
+    
+  });
+};
+
 

@@ -12,11 +12,13 @@ import Link from "next/link";
 import { useUser } from "@/context/uAuthContext";
 import { logout } from "@/Services/AuthServices";
 import { useState } from "react";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 
 
 
-// import { ThemeSwitcher } from "./ThemeSwitcher";
+
+
 export default function NavBar() {
   const routeMap: Record<string, string> = {
     user: "/dashboard",
@@ -27,7 +29,6 @@ export default function NavBar() {
   const { user, setIsLoading: userLoading, setUser } = useUser();
 
   const logOutUser = () => {
-
     logout();
     setUser(null);
     userLoading(false);
@@ -67,6 +68,13 @@ export default function NavBar() {
               Contact
             </Link>
           </NavbarItem>
+
+          <NavbarItem>
+            <ThemeSwitcher />
+            </NavbarItem>
+
+
+
           <NavbarItem>
             {user && <Link href={routeMap[user?.role]}>Dashboard</Link>}
           </NavbarItem>

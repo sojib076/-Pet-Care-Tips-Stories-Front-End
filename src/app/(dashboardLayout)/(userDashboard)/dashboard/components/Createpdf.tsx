@@ -53,11 +53,11 @@ const petNutritionData: PetNutritionData = {
   };
 
   return (
-    <div className="max-w-[90%] pb-20 mx-auto p-6 bg-white border rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">Pet Nutrition Invoice</h2>
+    <div className="max-w-[90%] pb-20 mx-auto p-6 dark:bg-black bg-white border rounded shadow">
+      <h2 className="text-2xl font-bold mb-4 text-center dark:text-white ">Pet Nutrition Invoice</h2>
 
       <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Pet Type</label>
+        <label className="block text-gray-700 mb-2 dark:text-white">Pet Type</label>
         <select
           value={petType}
           onChange={(e) => {
@@ -76,14 +76,14 @@ const petNutritionData: PetNutritionData = {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Age Category</label>
+        <label className="block text-gray-700 mb-2 dark:text-white">Age Category</label>
         <select
           value={ageCategory}
           onChange={(e) => {
             setAgeCategory(e.target.value);
             setNutritionInfo(null);
           }}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded dark:text-white "
         >
           <option value="">--Select Age Category--</option>
           {petNutritionData[petType].map((item, index) => (

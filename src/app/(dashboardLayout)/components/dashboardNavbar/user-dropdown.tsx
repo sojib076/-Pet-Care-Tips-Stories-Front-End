@@ -2,6 +2,8 @@
 
 
 import { ThemeSwitcher } from "@/app/(commonLayout)/components/page/shared/ThemeSwitcher";
+import { useUser } from "@/context/uAuthContext";
+import { logout } from "@/Services/AuthServices";
 import {
   Avatar,
   Dropdown,
@@ -9,10 +11,21 @@ import {
   DropdownMenu,
   DropdownTrigger,
   NavbarItem,
+
 } from "@nextui-org/react";
 
 
 export const UserDropdown = () => {
+  const {user,setUser,setIsLoading}=useUser();
+  const logOutUser = () => {
+
+    window.location.href = "/login";
+  
+      logout();
+      setUser(null);
+      setIsLoading(true);
+     
+    };
 
   return (
     <Dropdown>
@@ -22,7 +35,7 @@ export const UserDropdown = () => {
             as="button"
             color="secondary"
             size="md"
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            src={user?.img}
           />
         </DropdownTrigger>
       </NavbarItem>
@@ -30,19 +43,14 @@ export const UserDropdown = () => {
         aria-label="User menu actions"
         onAction={(actionKey) => console.log({ actionKey })}
       >
-        <DropdownItem
-          key="profile"
-          className="flex flex-col justify-start w-full items-start"
-        >
-          <p>Signed in as</p>
-          {/* <p>{user?.email}</p> */}
-        </DropdownItem>
+  
    
         <DropdownItem
         
           key="logout"
           color="danger"
           className="text-danger "
+          onClick={logOutUser}
         >
           Log Out
         </DropdownItem>

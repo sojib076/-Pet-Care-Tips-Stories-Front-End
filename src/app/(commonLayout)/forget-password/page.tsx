@@ -12,12 +12,14 @@ const ForgetPassword = () => {
         forgetPassword(data);
     };
     return (
-        <div className="w-[50%] mx-auto mt-[10%]">
+        <div className="dark:bg-black"> 
+            <div className="w-[50%] mx-auto py-20 min-h-screen  ">
             <h1>Please Enter Your Email </h1>
             <HookForm onSubmit={onSubmit}>
                 <Hookinput name="email" label="Email" type="email" required />
-                <Button type="submit" className='mt-5 w-full bg-blue-900 text-white dark:bg-gray-500' >Send Email</Button>
+                <Button type="submit" className='mt-5 w-full bg-blue-900 text-white ' >Send Email</Button>
             </HookForm>
+        </div>
         </div>
     );
 };

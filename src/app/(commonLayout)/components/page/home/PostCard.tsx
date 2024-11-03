@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import CardLoading from "./cardLoading";
+import Link from "next/link";
 
 
 const PostCard = () => {
@@ -281,6 +282,7 @@ const PostCard = () => {
         const userList = await followUser(authorId);
         setUserFollowing(userList?.data?.following);
     };
+
     const handleFollowing = async () => {
         setCategoryLoading(true);
         setPosts([]);
@@ -334,9 +336,9 @@ const PostCard = () => {
         }
     };
     return (
-        <div className="grid gap-6">
-            <div className="flex flex-col items-center mb-4">
-                <div className="grid grid-cols-1 gap-10 mt-10">
+        <div className="grid gap-6 min-h-screen ">
+            <div className="flex flex-col  mb-4">
+                <div className=" mt-10">
                     <div className="flex gap-5">
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="w-[90%] lg:w-[100%]">
@@ -363,14 +365,14 @@ const PostCard = () => {
                         </select>
                     </div>
 
-                    <div>
+                    <div className="">
                         <h1 className="text-center lg:text-5xl text-3xl my-5 font-bold">Category</h1>
                         <div className="flex justify-center gap-4">
                             <button className="px-4 py-2 bg-gray-200" onClick={() => handelbysort('upvotes')} > Sort by Upvotes </button>
                             <button className="px-4 py-2 bg-gray-200" onClick={() => handelbysort('downvotes')} > Sort by Downvotes </button>
                         </div>
 
-                        <div className="flex justify-between my-5">
+                        <div className="flex justify-between my-5 bg-gray-300 p-4 rounded-2xl w-full  ">
                             <button className={`px-4 py-2 rounded ${activeCategory === 'Tip' ? 'bg-blue-900 text-white' : 'bg-gray-200 '}`}
 
 
@@ -420,51 +422,52 @@ const PostCard = () => {
                                 </div>
                             )}
                         </div>
+                        <Link href={`/profile/${post.author._id}`}>
+                            <div className="flex items-start space-x-3 mb-3">
+                                <img
+                                    src={post.author.img || "/default-profile.png"}
+                                    alt={post.author.name || "Anonymous"}
+                                    className="w-10 h-10 rounded-full"
+                                />
+                                <div className="flex-grow">
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <h3 className="text-base font-semibold text-pink-800 ">{post.author.name || "Anonymous"}</h3>
 
-                        <div className="flex items-start space-x-3 mb-3">
-                            <img
-                                src={post.author.img || "/default-profile.png"}
-                                alt={post.author.name || "Anonymous"}
-                                className="w-10 h-10 rounded-full"
-                            />
-                            <div className="flex-grow">
-                                <div className="flex justify-between items-center">
-                                    <div>
-                                        <h3 className="text-base font-semibold text-pink-800 ">{post.author.name || "Anonymous"}</h3>
+                                        </div>
+
+                                        {post.author._id !== user?._id ? (
+                                            <button
+                                                disabled={!user}
+                                                className="text-blue-500 font-semibold text-xs hover:underline group "
+                                                onClick={() => handleFollow(post.author._id)}
+                                            >
+                                                {userFollowing && user && userFollowing.includes(post.author._id) ? 'Unfollow' : 'Follow'}
+
+                                                {
+                                                    !user && <>
+                                                        <h1>
+                                                            Please login to follow
+                                                        </h1>
+                                                    </>
+                                                }
+                                            </button>
+
+
+
+
+
+                                        ) : (
+                                            <span className="text-gray-500 text-xs font-semibold ">YOUR POST </span> // Change this to whatever you'd like to show
+                                        )}
 
                                     </div>
 
-                                    {post.author._id !== user?._id ? (
-                                        <button
-                                        disabled={!user}
-                                            className="text-blue-500 font-semibold text-xs hover:underline group "
-                                            onClick={() => handleFollow(post.author._id)}
-                                        >
-                                            {userFollowing && user && userFollowing.includes(post.author._id) ? 'Unfollow' : 'Follow'}
-                                            
-                                            {
-                                                !user && <> 
-                                                    <h1>
-                                                        Please login to follow
-                                                    </h1>
-                                                </>
-                                            }
-                                        </button>
-
-                                        
-
-
-                                        
-                                    ) : (
-                                        <span className="text-gray-500 text-xs font-semibold ">YOUR POST </span> // Change this to whatever you'd like to show
-                                    )}
-
+                                    <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span>
                                 </div>
 
-                                <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span>
                             </div>
-
-                        </div>
+                        </Link>
 
 
                         <div className="text-sm text-gray-700 mb-2">
@@ -502,7 +505,7 @@ const PostCard = () => {
                         <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
                             <div className="flex space-x-4">
                                 <button
-                                disabled={!user}
+                                    disabled={!user}
                                     className={`flex items-center space-x-1 ${(post.voters ?? []).some((voter: { userId: string | undefined; voteType: string; }) => voter.userId === user?._id && voter.voteType === 'up')
                                         ? 'text-blue-900'
                                         : 'text-gray-600'

@@ -167,6 +167,7 @@ export const getuserposts = async () => {
     const { data } = await axiosInstance.get(`/user/getuserposts`);
     return data;
   } catch (error: any) {
+    console.log(error);
     return error?.response?.data;
   }
 };
@@ -213,3 +214,15 @@ export const postpublish = async (postId: string) => {
     return error?.response?.data;
   }
 }
+
+// get post by userId 
+
+export const getuserpostbyid = async (userId: string) => {
+  try {
+    const { data } = await axiosInstance.get(`/post/getuserpostbyid/${userId}`);
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return error?.response?.data;
+  }
+};

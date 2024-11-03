@@ -19,7 +19,7 @@ export default function UserDashboardLayout({
     <div>
       <DashboardLayout>
         <UserLayout>
-          <div className="lg:px-10 px-4 pt-10">
+          <div className="lg:px-10 px-4 pt-10 dark:bg-gray-800 min-h-screen">
             {children}
           </div>
         </UserLayout>

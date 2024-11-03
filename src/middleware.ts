@@ -13,11 +13,11 @@ export async function middleware(request: NextRequest) {
   const accessToken = cookies().get("accessToken")?.value;
 
   if (!accessToken) {
-    //Protecting hybrid routes
+    
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
-      //   return NextResponse.redirect(new URL("/login", request.url));
+     
       return NextResponse.redirect(
         new URL(
           pathname ? `/login?redirect=${pathname}` : "/login",

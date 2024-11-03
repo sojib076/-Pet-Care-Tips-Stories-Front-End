@@ -7,7 +7,7 @@ const GoogleLoginBtn = () => {
  
   return (
     <button
-      className="flex justify-center items-center px-16 py-3 bg-white rounded-md shadow-md"
+      className="flex justify-center items-center px-16 py-3 text-black bg-white rounded-md shadow-md"
       onClick={() => {
         signIn("google", { callbackUrl: "/dashboard" });
       }}

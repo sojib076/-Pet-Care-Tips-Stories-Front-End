@@ -16,11 +16,11 @@ export default function Adminlayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex ">
+    <div className="flex dark:bg-black">
+      
+             <SidebarWrapper/>
 
-      <SidebarWrapper/>
-    
-        <NavbarWrapper> {children} </NavbarWrapper>
+       <NavbarWrapper> {children} </NavbarWrapper>
       
     </div>
   );

@@ -107,7 +107,7 @@ const ProfileUpdates = () => {
           <div className="lg:flex justify-between items-center px-6 mt-16">
             <div className="space-y-2">
               <h1 className="text-3xl font-semibold">{user?.name || 'User Name'}</h1>
-              <p className="text-gray-600 dark:text-gray-300">{user?.email || 'Bio or a brief description of the user.'}</p>
+              <p className="text-gray-600 ">{user?.email || 'Bio or a brief description of the user.'}</p>
             </div>
           </div>
 
@@ -117,7 +117,7 @@ const ProfileUpdates = () => {
               <div className="lg:flex justify-between gap-6">
                 {/* Name Field */}
                 <div className="mb-4 w-full">
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 ">
                     Name
                   </label>
                   <input
@@ -125,13 +125,13 @@ const ProfileUpdates = () => {
                     id="name"
                     name="name"
                     defaultValue={user?.name}
-                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300"
+                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm dark:bg-gray-800 dark:border-gray-700 "
                   />
                 </div>
 
                 {/* Upload Image Field */}
                 <div className="mb-4 w-full">
-                  <label htmlFor="img" className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
+                  <label htmlFor="img" className="block text-sm font-medium text-gray-700 mb-2 ">
                     Upload Image
                   </label>
                   <input
@@ -140,7 +140,7 @@ const ProfileUpdates = () => {
                     name="img"
                     accept="image/*"
                     onChange={handleFileChange}
-                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300"
+                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm "
                   />
                 </div>
               </div>

@@ -20,6 +20,7 @@ const YourpostAllpost = ({path}) => {
 
     const fetchPosts = async () => {
       const posts = await getuserposts();
+    
       if (posts) {
         setPosts(posts.data);
         setIsLoading(false);
@@ -59,7 +60,7 @@ const YourpostAllpost = ({path}) => {
       }
 
       {
-        posts.length  > 0 ? (
+        posts?.length  > 0 ? (
           <div className='mt-10'>
             <h1 className='text-xl font-bold mb-5'>POST HISTORY</h1>
             <Table aria-label="Post history table">

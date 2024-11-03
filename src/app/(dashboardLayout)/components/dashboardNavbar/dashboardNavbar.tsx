@@ -4,7 +4,8 @@ import { ChevronLeft, Menu, SearchCheck } from "lucide-react";
 import { useSidebarContext } from "@/app/(dashboardLayout)/layout/layout-context";
 import { useUser } from "@/context/uAuthContext";
 
-import { logout } from "@/Services/AuthServices";
+
+import { UserDropdown } from "./user-dropdown";
 
 
 interface Props {
@@ -20,18 +21,7 @@ export const NavbarWrapper = ({ children }: Props) => {
 
 
 
-  const logOutUser = () => {
 
-  window.location.href = "/login";
-
-    logout();
-    setUser(null);
-    setIsLoading(true);
-    
-
-
-   
-  };
   
 
   return (
@@ -69,9 +59,7 @@ export const NavbarWrapper = ({ children }: Props) => {
         >
           {
             user && (<>
-            <Button onClick={logOutUser} color="primary" variant="flat">
-              Logout
-            </Button>
+            <UserDropdown></UserDropdown>
             </>)
           }
         </NavbarContent>
