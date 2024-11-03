@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Happypets = () => {
   return (
-    <div className="my-[10%] lg:my-20 overflow-hidden">
+    <div className="my-[10%] lg:my-20 overflow-hidden ">
       <div className="lg:flex gap-2.5 items-center justify-between">
         {/* Contained Image */}
         <div className="lg:h-[601.08px] pl-[40px] max-w-full lg:max-w-[50%] overflow-hidden">

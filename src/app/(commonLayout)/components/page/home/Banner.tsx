@@ -5,7 +5,7 @@ import Link from "next/link";
 const Banner = () => {
   return (
     <>
-      <div className="bg-blue-900 lg:w-[100%] lg:h-[500px] lg:flex flex-row lg:justify-center lg:items-end relative lg:px-10  ">
+      <div className=" dark:bg-gray-900 bg-blue-900 lg:w-[100%] lg:h-[500px] lg:flex flex-row lg:justify-center lg:items-end relative lg:px-10  ">
         <motion.div
           className="lg:w-[50%] p-5 lg:top-[-30%] relative"
           initial={{ opacity: 0, x: -50 }}

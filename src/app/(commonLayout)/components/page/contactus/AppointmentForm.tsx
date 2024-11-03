@@ -4,7 +4,7 @@ import React from 'react';
 const StoryShareForm = () => {
   return (
     <div className="  py-16 px-4 lg:w-[80%] mx-auto">
-      <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="flex flex-col md:flex-row bg-white dark:bg-black shadow-lg rounded-lg overflow-hidden">
         
         {/* Left Image Section */}
         <div className="lg:w-[70%] md:w-1/2">
@@ -19,8 +19,8 @@ const StoryShareForm = () => {
         <div className="w-full md:w-1/2 p-8">
           {/* Form Heading */}
           <div className="text-left mb-6">
-            <p className="text-red-500 text-sm uppercase font-bold">Share Your Issue</p>
-            <h2 className="lg:text-3xl font-bold text-gray-800">
+            <p className="text-red-500 text-sm uppercase font-bold  dark:text-white">Share Your Issue</p>
+            <h2 className="lg:text-3xl font-bold text-gray-800  dark:text-white">
               Submit Your Issue
             </h2>
             <div className="w-16 h-1 bg-green-500 mt-2"></div>
@@ -31,7 +31,7 @@ const StoryShareForm = () => {
             {/* Name and Email */}
             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
               <div className="w-full">
-                <label className="block text-sm font-semibold text-gray-700">Your Name*</label>
+                <label className="block text-sm font-semibold text-gray-700  dark:text-white">Your Name*</label>
                 <input
                   type="text"
                   placeholder="Your Name"
@@ -39,18 +39,18 @@ const StoryShareForm = () => {
                 />
               </div>
               <div className="w-full">
-                <label className="block text-sm font-semibold text-gray-700">Your Email*</label>
+                <label className="block text-sm font-semibold text-gray-700  dark:text-white">Your Email*</label>
                 <input
                   type="email"
                   placeholder="Your Email"
-                  className="mt-1 block w-full border border-gray-300 rounded-lg p-2"
+                  className="mt-1 block w-full border border-gray-300 rounded-lg p-2  dark:text-white"
                 />
               </div>
             </div>
 
             {/* Story or Tip */}
             <div className="w-full">
-              <label className="block text-sm font-semibold text-gray-700">Your Issue or inquiry*</label>
+              <label className="block text-sm font-semibold text-gray-700  dark:text-white">Your Issue or inquiry*</label>
               <textarea
                 placeholder="Write your pet story or tip here"
                 className="mt-1 block w-full border border-gray-300 rounded-lg p-2 h-40"
@@ -59,8 +59,8 @@ const StoryShareForm = () => {
 
             {/* Pet Category */}
             <div className="w-full">
-              <label className="block text-sm font-semibold text-gray-700">Select Pet Type</label>
-              <select className="mt-1 block w-full border border-gray-300 rounded-lg p-2">
+              <label className="block text-sm font-semibold text-gray-700  dark:text-white ">Select Pet Type</label>
+              <select className="mt-1 block w-full border border-gray-300 rounded-lg p-2  dark:text-white">
                 <option>Select a Pet Type</option>
                 <option>Dog</option>
                 <option>Cat</option>

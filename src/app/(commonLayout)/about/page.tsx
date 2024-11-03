@@ -6,12 +6,12 @@ import TeamMember from "../components/page/about/TeamMember";
 
 const About = () => {
     return (
-        <> 
+        <div className="dark:bg-black"> 
             <Aboutus/>
             <TeamMember/>
             <FAQSection></FAQSection>
             
-        </>
+        </div>
       
     );
 };

@@ -38,8 +38,8 @@ const TeamMember = () => {
             <div className=" lg:py-32  py-10 lg:w-[90%] mx-auto mt-20 ">
 
                 <header className="text-center mb-10">
-                    <h1 className="text-4xl font-bold text-gray-800">Meet Our Team</h1>
-                    <p className="text-lg text-gray-600 mt-3">We care about your pets and your store!</p>
+                    <h1 className="text-4xl font-bold text-gray-800  dark:text-white">Meet Our Team</h1>
+                    <p className="text-lg text-gray-600 mt-3  dark:text-white">We care about your pets and your store!</p>
                 </header>
 
 

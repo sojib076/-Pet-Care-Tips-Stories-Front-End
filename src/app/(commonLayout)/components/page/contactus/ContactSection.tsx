@@ -35,10 +35,10 @@ const contactInfo = [
   
   const ContactSection = () => {
     return (
-      <div className="bg-white py-16 ">
+      <div className="bg-white dark:bg-black py-16 ">
         <div className="text-center mb-10">
           <p className="text-red-500 text-sm uppercase font-bold">Get In Touch</p>
-          <h1 className="text-4xl font-bold text-gray-800 relative">
+          <h1 className="text-4xl font-bold text-gray-800 relative  dark:text-gray-200">
             Feel Free To Contact
           </h1>
           <div className="w-16 h-1 bg-green-500 mx-auto mt-2"></div>

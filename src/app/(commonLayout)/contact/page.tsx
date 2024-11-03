@@ -5,7 +5,7 @@ import Contactus from '../components/page/about/Contactus';
 
 const page = () => {
     return (
-        <div>
+        <div className='dark:bg-black'>
            
             <ContactSection/>
              <Contactus/>

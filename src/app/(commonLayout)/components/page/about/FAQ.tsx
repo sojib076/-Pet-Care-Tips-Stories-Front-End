@@ -37,15 +37,15 @@ const FAQSection: React.FC = () => {
     };
 
     return (
-        <section className=" lg:py-40 md:pt-0  px-6 bg-gray-50 grid lg:grid-cols-2 grid-cols-1   lg:gap-2 gap-10 items-center py-20 ">
+        <section className=" lg:py-40 md:pt-0  px-6 dark:bg-black bg-gray-50 grid lg:grid-cols-2 grid-cols-1   lg:gap-2 gap-10 items-center py-20 ">
             <div className=" lg:w-[80%]  mx-auto text-center md:mt-0 ">
                 <h2 className="text-xl text-blue-900 font-bold"> Why this website ?</h2>
                
 
-                <h3 className="text-4xl font-extrabold text-gray-900 my-4  ">
+                <h3 className="text-4xl font-extrabold text-gray-900 my-4   dark:text-white ">
                     Have Any Questions? Feel Free To Ask.
                 </h3>
-                <p className="text-gray-600 lg:mb-8 m-0 text-left">
+                <p className="text-gray-600 lg:mb-8 m-0 text-left  dark:text-white">
                     YOur story and tips are important to us. Your tips and stories can help others to take care of their pets.
                     it can also help others to learn about the different types of animals and their care and needs.
                     Most new pet owners are not aware of the needs of their pets. Your tips can help them to take care of their pets.
@@ -58,9 +58,9 @@ const FAQSection: React.FC = () => {
 
             <div className="">
                 {faqs.map((faq, index) => (
-                    <div key={index} className="border-b border-gray-200">
+                    <div key={index} className="border-b border-gray-200  dark:text-white">
                         <button
-                            className="w-full text-left p-4 font-semibold text-gray-800 flex justify-between items-center"
+                            className="w-full text-left p-4 font-semibold text-gray-800 flex justify-between items-center  dark:text-gray-200"
                             onClick={() => toggleFAQ(index)}
                         >
                             {faq.question}
@@ -75,10 +75,10 @@ const FAQSection: React.FC = () => {
                             ref={(el) => {
                                 answerRefs.current[index] = el;
                             }}
-                            className="overflow-hidden transition-all duration-300"
+                            className="overflow-hidden transition-all duration-300  dark:text-white"
                             style={{ height: openIndex === index ? "auto" : "0px" }}
                         >
-                            <div className="p-4 text-gray-600">
+                            <div className="p-4 text-gray-600  dark:text-white">
                                 {faq.answer}
                             </div>
                         </div>
