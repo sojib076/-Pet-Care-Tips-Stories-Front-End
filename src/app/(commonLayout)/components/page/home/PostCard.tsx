@@ -422,20 +422,25 @@ const PostCard = () => {
                                 </div>
                             )}
                         </div>
-                        <Link href={`/profile/${post.author._id}`}>
+                      
                             <div className="flex items-start space-x-3 mb-3">
+                            <Link href={`/profile/${post.author._id}`}>
                                 <img
                                     src={post.author.img || "/default-profile.png"}
                                     alt={post.author.name || "Anonymous"}
                                     className="w-10 h-10 rounded-full"
                                 />
+                                </Link>
+
+
                                 <div className="flex-grow">
                                     <div className="flex justify-between items-center">
+                                    <Link href={`/profile/${post.author._id}`}>
                                         <div>
                                             <h3 className="text-base font-semibold text-pink-800 ">{post.author.name || "Anonymous"}</h3>
 
                                         </div>
-
+                                        </Link>
                                         {post.author._id !== user?._id ? (
                                             <button
                                                 disabled={!user}
@@ -467,7 +472,7 @@ const PostCard = () => {
                                 </div>
 
                             </div>
-                        </Link>
+                       
 
 
                         <div className="text-sm text-gray-700 mb-2">

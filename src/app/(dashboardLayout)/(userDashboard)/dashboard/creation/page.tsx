@@ -89,20 +89,20 @@ export default function CreateContent() {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="lg:max-w-4xl mx-auto lg:p-8">
-        <h1 className="lg:text-2xl font-bold mb-6">Create Pet Care Content</h1>
+        <h1 className="lg:text-2xl font-bold mb-6 dark:text-white">Create Pet Care Content</h1>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Title</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white">Title</label>
           <input
             type="text"
             {...register('title')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border dark:text-white border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         {/* Content Editor */}
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white">
             Content
           </label>
           <ReactQuill
@@ -115,8 +115,8 @@ export default function CreateContent() {
         </div>
 
         {/* Category Selection */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+        <div className="mb-4 dark:text-white">
+          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white">
             Category
           </label>
           <select
@@ -129,16 +129,16 @@ export default function CreateContent() {
         </div>
 
         {/* Monetization Checkbox */}
-        <div className="mb-4 relative group">
+        <div className="mb-4 relative group dark:text-white">
           <label className="flex items-center">
             <input
               type="checkbox"
               {...register("premiumContent")}
               className="mr-2"
             />
-            <span className="text-gray-700">Make this content premium</span>
+            <span className="text-gray-700 dark:text-white ">Make this content premium</span>
           </label>
-          <span className="absolute left-1/3 transform -translate-x-1/2 -translate-y-6 bg-gray-700 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="absolute left-1/3 transform -translate-x-1/2 -translate-y-6 bg-gray-700 dark:text-white text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
            Premium content earns 80 tk per payment 20tk for admin 
           </span>
         </div>

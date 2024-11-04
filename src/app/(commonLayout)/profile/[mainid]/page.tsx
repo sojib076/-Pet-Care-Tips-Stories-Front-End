@@ -38,7 +38,74 @@ const Profile = () => {
 
 
 
-    if (isLoading || postLoading) return <div>Loading...</div>;
+    if (isLoading || postLoading) return <div>
+        <div className='lg:p-20 p-10 min-h-screen dark:bg-black'>
+    <div
+        style={{
+            backgroundImage: 'url(https://www.radiustheme.com/demo/wordpress/themes/cirkle/wp-content/uploads/buddypress/members/1/cover-image/60b0724fc9a1a-bp-cover-image.jpg)',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat'
+        }}
+        className='bg-pink-500 lg:h-80 rounded-2xl grid lg:grid-cols-2 p-5 gap-10 items-center'
+    >
+        {/* Profile Section Loading Skeleton */}
+        <div className="flex lg:flex-row flex-col items-center gap-20 p-8 bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
+            <div className="relative w-32 h-32 flex items-center justify-center shimmer-animation">
+                <div className="w-24 h-24 rounded-full bg-gray-300 shimmer"></div>
+            </div>
+            <div>
+                <div className="h-6 bg-gray-300 rounded w-32 shimmer mb-4"></div>
+                <div className="flex mt-4 space-x-4">
+                    <div className="w-8 h-8 bg-gray-300 rounded-full shimmer"></div>
+                    <div className="w-8 h-8 bg-gray-300 rounded-full shimmer"></div>
+                    <div className="w-8 h-8 bg-gray-300 rounded-full shimmer"></div>
+                </div>
+            </div>
+        </div>
+
+        {/* Stats Section Loading Skeleton */}
+        <div className="bg-blue-900 mt-6 p-4 rounded-lg w-full flex justify-around items-center text-white">
+            <div className="flex items-center space-x-2 shimmer">
+                <div className="w-5 h-5 bg-gray-300 rounded-full"></div>
+                <span className="w-16 h-4 bg-gray-300 rounded shimmer"></span>
+            </div>
+            <div className="flex items-center space-x-2 shimmer">
+                <div className="w-5 h-5 bg-gray-300 rounded-full"></div>
+                <span className="w-16 h-4 bg-gray-300 rounded shimmer"></span>
+            </div>
+        </div>
+    </div>
+
+    <div className="mt-6 space-y-4 flex lg:flex-row flex-col-reverse gap-10">
+        {/* Posts Section Loading Skeleton */}
+        <div className='lg:w-[75%] gap-5'>
+            {[...Array(3)].map((_, index) => (
+                <div key={index} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md my-10 shimmer-animation">
+                    <div className="w-2/3 h-6 bg-gray-300 rounded mb-4 shimmer"></div>
+                    <div className="w-full h-4 bg-gray-300 rounded mb-4 shimmer"></div>
+                    <div className="w-1/2 h-4 bg-gray-300 rounded shimmer"></div>
+                </div>
+            ))}
+        </div>
+
+        {/* Followers Section Loading Skeleton */}
+        <div className="lg:w-[20%] lg:min-w-[300px] h-96 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mt-10">
+            <div className="p-4 border-b">
+                <div className="w-32 h-6 bg-gray-300 rounded shimmer"></div>
+            </div>
+            <div className="overflow-y-auto max-h-[300px] space-y-2 p-4">
+                {[...Array(5)].map((_, index) => (
+                    <div key={index} className="flex items-center space-x-4 shimmer">
+                        <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+                        <div className="w-3/4 h-4 bg-gray-300 rounded"></div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>;
 
     const handlePayment = async (postId: string) => {
         const userId = user?._id;
@@ -121,7 +188,10 @@ const Profile = () => {
                 <div className="bg-blue-900 mt-6 p-4 rounded-lg w-full flex justify-around items-center text-white">
                     <div className="flex items-center space-x-2">
                         <FileText size={20} />
-                        <span className="font-semibold">Posts: 34</span>
+                        <span className="font-semibold">
+
+                            {posts?.length} Posts
+                        </span>
                     </div>
                     <div className="flex items-center space-x-2">
                         <Calendar size={20} />
@@ -132,12 +202,12 @@ const Profile = () => {
             </div>
 
             <div className="mt-6 space-y-4 flex lg:flex-row flex-col-reverse gap-10">
-                <div className='lg:w-[75%] grid grid-cols-1 gap-5 '>
+                <div className='lg:w-[75%] gap-5 '>
 
 
                     {
                          posts?.map((post: any) => (
-                            <div key={post.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+                            <div key={post.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md my-10">
                                 <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{post.title}</h3>
                                {
                                   (!post.premiumContent || userPaidPosts?.includes(post._id)  ) || post?.author?._id == currentuser ? (

@@ -93,7 +93,7 @@ export default function CreateContent() {
           {isFormVisible ? "Hide Post Creation" : "What's on your mind?"}
         </button>
       </div>
-      </> :   <h1 className='text-center mt-10 font-bold'> 
+      </> :   <h1 className='text-center mt-10 font-bold '> 
         Please login to create content 
       </h1>
     }

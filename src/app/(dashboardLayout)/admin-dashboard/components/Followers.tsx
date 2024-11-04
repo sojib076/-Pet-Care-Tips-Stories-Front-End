@@ -1,62 +1,23 @@
 import React from 'react';
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/table";
 import Image from 'next/image';
+import { User } from 'lucide-react';
 
-const Followers = ({ followers, following }:{
-    followers: { img: string; name: string }[];
-    following: { img: string; name: string }[];
+const Followers = ({ followers }:{
+   
 } ) => {
   return (
-    <div className="mt-10">
-      {/* Followers Table */}
-      <h1 className="text-xl font-bold mb-5">Followers</h1>
-      <Table aria-label="Followers table">
-        <TableHeader>
-          <TableColumn>IMAGE</TableColumn>
-          <TableColumn>NAME</TableColumn>
-        </TableHeader>
-        <TableBody>
-          {followers.map((follower, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <Image
-                  src={follower.img || '/path/to/default-profile-picture.jpg'}
-                  alt={follower.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
-              </TableCell>
-              <TableCell>{follower.name}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      {/* Following Table */}
-      <h1 className="text-xl font-bold mb-5 mt-10">Following</h1>
-      <Table aria-label="Following table">
-        <TableHeader>
-          <TableColumn>IMAGE</TableColumn>
-          <TableColumn>NAME</TableColumn>
-        </TableHeader>
-        <TableBody>
-          {following.map((follow, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <Image
-                  src={follow.img || '/path/to/default-profile-picture.jpg'}
-                  alt={follow.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
-              </TableCell>
-              <TableCell>{follow.name}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="flex items-center p-3 hover:bg-gray-50  dark:bg-gray-800 ">
+      <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+        {followers.img ? (
+          <img src={followers.img} alt={followers.name} className="w-10 h-10 rounded-full object-cover" />
+        ) : (
+          <User className="w-6 h-6 text-gray-400" />
+        )}
+      </div>
+      <div>
+        <h3 className="text-sm font-medium text-gray-900 dark:text-white ">{followers.name}</h3>
+      </div>
     </div>
   );
 };

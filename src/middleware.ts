@@ -59,9 +59,10 @@ export const config = {
   matcher: [
     "/login",
     "/register",
+    "/newsfeed",
     "/dashboard/:page*",
     "/admin-dashboard/:page*",
-
+   
   ],
 };
 

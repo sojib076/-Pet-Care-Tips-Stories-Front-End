@@ -15,14 +15,15 @@ export default function AdminDashboardLayout({
 }>) {
   return (
     <div>
-      <DashboardLayout> 
-  <Adminlayout>   <div className="lg:px-10 px-4 pt-10">
-            {children}
-          </div> </Adminlayout>
+      <DashboardLayout>
+        <Adminlayout>   <div className="lg:px-10 px-4 pt-10">
+          {children}
+        </div> 
+        </Adminlayout>
 
       </DashboardLayout>
-      
-    
+
+
     </div>
   );
 }

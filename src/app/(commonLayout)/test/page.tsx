@@ -1,99 +1,119 @@
 "use client"
 
-import { AlignEndVerticalIcon,   } from "lucide-react";
+import { AlignEndVerticalIcon, Compass, UserPlus, } from "lucide-react";
 
 
 import CreateContent from "../components/page/home/Toppost";
 import { useGetProfile } from "@/hook/user.Hook";
 import Link from "next/link";
+import PostCard from "../components/page/home/PostCard";
 
 
 
 
 const Profile = () => {
 
-  
- 
+
+
 
   const { data } = useGetProfile();
 
-const user = data?.data
+  const user = data?.data
 
- 
 
-    return (
-      <div className="flex flex-col lg:grid lg:grid-cols-7 gap-4">
-        
- 
-      <div className="   dark:bg-gray-800   lg:col-span-1 ">
 
-        
-          
-      {
-         user && (
-     
-       <div className=" bg-gray-900  dark:bg-gray-800  p-4 text-white lg:fixed ">
-         
-         <Link href={`/profile/${user._id}`}>
-         <div className="flex items-center space-x-4 p-4 mb-6 border-b cursor-pointer  ">
-           <img
-             src={user?.img}
-             alt="profile"
-             className="rounded-full h-14 w-14"
-           />
-           <div>
-             <h2 className="font-bold text-lg ">{
-               user ? user?.name : "John Doe"
-               }</h2>
-                <p className="text-sm text-gray-400">{user?.followers?.length  
-               } Followers
-               </p>
-           </div>
-         </div>
-         </Link>
-      
-         <div className="space-y-4">
-           <div className="flex items-center space-x-4 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
-             <AlignEndVerticalIcon className="text-xl" />
-             <span>Home</span>
-           </div>
-           <div className="flex items-center space-x-4 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
-             <AlignEndVerticalIcon className="text-xl" />
-             <span>Messages</span>
-           </div>
-           <div className="flex items-center space-x-4 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
-             <AlignEndVerticalIcon className="text-xl" />
-             <span>Notifications</span>
-           </div>
-           <div className="flex items-center space-x-4 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
-             <AlignEndVerticalIcon className="text-xl" />
-             <span>Friends</span>
-           </div>
-           <div className="flex items-center space-x-4 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
-             <AlignEndVerticalIcon className="text-xl" />
-             <span>Settings</span>
-           </div>
-         </div>
+  return (
+    <div className=" dark:bg-black  bg-white flex flex-col lg:grid lg:grid-cols-7 gap-4 lg:px-5">
 
-       </div>
-        
-        ) 
-      }
+      <div className="  shadow-inner  shadow-gray-500   lg:col-span-1 ">
 
+        {
+          user && (
+
+            <div className="    p-4 dark:text-white text-black lg:fixed ">
+
+              <Link href={`/profile/${user._id}`}>
+                <div className="flex items-center space-x-4 p-4 mb-6 border-b cursor-pointer  ">
+                  <img
+                    src={user?.img}
+                    alt="profile"
+                    className="rounded-full h-14 w-14"
+                  />
+                  <div>
+                    <h2 className="font-bold text-lg ">{
+                      user ? user?.name : "John Doe"
+                    }</h2>
+                    <p className="text-sm text-gray-400">{user?.followers?.length
+                    } Followers
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              <div className="space-y-4">
+                <div className="flex items-center space-x-4 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+                  <AlignEndVerticalIcon className="text-xl" />
+                  <span>Home</span>
+                </div>
+
+
+
+
+                <div className="flex items-center space-x-4 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
+                  <AlignEndVerticalIcon className="text-xl" />
+                  <span>Dashboard</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          )
+        }
+
+      </div>
+
+
+      <div className=" shadow-inner  shadow-gray-500  text-white justify-center lg:col-span-1 lg:order-3 py-10 ">
+      <div className="flex h-full flex-col lg:fixed">
+          <div className="border-b border-gray-200 dark:border-gray-700 p-4">
+            <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Groups</h2>
+           {
+              user ? (
+                <nav className="space-y-2">
+                <Link className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+  
+                 href={
+                  user?.role === "admin" ? "/admin-dashboard/creategroup" : "/dashboard/creategroup"
+                 }
+                 
+                 >
+                  <UserPlus className="h-4 w-4" />
+                  Create Group
+                </Link>
+                <Link 
+                href="/groups"
+                
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+                  <Compass className="h-4 w-4" />
+                  Discover Groups
+                </Link>
+              </nav>
+              ):(
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-gray-400">Loading...</p>
+                </div>
+              )
+           }
+          </div>
+          </div>
       </div>
 
     
-      <div className="bg-blue-700 text-white justify-center lg:col-span-1 lg:order-3 p-4 ">
-        <div className=" lg:fixed text-white text-xl"> 
-          other content
-        </div>
-      </div>
-
-      {/* Main Content (Center) */}
-      <div className="col-span-5 bg-white p-6 lg:p-10">
+      <div className="col-span-5 dark:bg-black bg-white  lg:p-10">
         <div className="bg-gradient-to-r from-blue-800 to-blue-900 dark:bg-gray-700 px-5 rounded-lg 
         flex  ">
-          {/* Notification Icon and Text */}
+
           <div className="flex items-center space-x-4">
             <AlignEndVerticalIcon className="text-white lg:text-4xl" />
             <div>
@@ -120,10 +140,10 @@ const user = data?.data
             <img
               src="https://www.radiustheme.com/demo/wordpress/themes/cirkle/wp-content/uploads/2021/04/people_2.png"
               alt="Group of friends"
-          
+
             />
           </div>
-          
+
 
         </div>
         <CreateContent />
@@ -131,13 +151,11 @@ const user = data?.data
 
         {/* Fake Data List */}
         <div className="mt-6 space-y-4">
-         {
           
-         }
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default Profile;

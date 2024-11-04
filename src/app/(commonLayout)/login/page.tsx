@@ -21,7 +21,6 @@ const LoginPage = () => {
   const { mutate: userLogin, isPending, isSuccess } = useUserLogin();
   const { setIsLoading: isloading, } = useUser()
   const [email, setEmail] = useState('');
-  const [passwords, setPasswords] = useState('123456');
 
 
 
@@ -41,7 +40,7 @@ const LoginPage = () => {
 
     } else {
       setEmail('admin@gmail.com');
-      setPasswords('123456');
+      setPassword('123456');
 
     }
 

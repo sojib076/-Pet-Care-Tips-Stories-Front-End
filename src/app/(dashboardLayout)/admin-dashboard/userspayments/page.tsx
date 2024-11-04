@@ -34,28 +34,28 @@ const UsersPayments = () => {
 
     return (
         <div >
-            <div className="bg-white p-6 rounded-lg shadow-md  mx-auto my-10">
+            <div className="bg-white p-6 rounded-lg shadow-md  mx-auto my-10 dark:bg-black">
             <h2 className="text-2xl font-bold text-blue-900 mb-4 flex items-center">
-                <DollarSign className="mr-2 text-blue-900" />Payment History
+                <DollarSign className="mr-2 text-blue-900  dark:text-white  " />Payment History
             </h2>
 
             <div className="grid grid-cols-3 gap-5">
             <div className="flex items-center mb-3">
-                <BarChart2 className="text-blue-900 mr-3" />
-                <p className="text-lg font-semibold">
-                    Admin Commission: <span className="font-bold text-gray-700">{paymentlength * 20}</span>
+                <BarChart2 className="text-blue-900 mr-3  dark:text-white" />
+                <p className="text-lg font-semibold  dark:text-white ">
+                    Admin Commission: <span className="font-bold text-gray-700  dark:text-white">{paymentlength * 20}</span>
                 </p>
             </div>
-            <div className="flex items-center mb-3">
+            <div className="flex items-center mb-3  dark:text-white">
                 <DollarSign className="text-blue-900 mr-3" />
                 <p className="text-lg font-semibold">
-                    Total Payment: <span className="font-bold text-gray-700">{paymentlength * 100}</span>
+                    Total Payment: <span className="font-bold text-gray-700  dark:text-white">{paymentlength * 100}</span>
                 </p>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center  dark:text-white">
                 <User className="text-blue-900 mr-3" />
-                <p className="text-lg font-semibold">
-                    Author Due: <span className="font-bold text-gray-700">{paymentlength * 80}</span>
+                <p className="text-lg font-semibold  dark:text-white">
+                    Author Due: <span className="font-bold text-gray-700  dark:text-white">{paymentlength * 80}</span>
                 </p>
             </div>
             </div>

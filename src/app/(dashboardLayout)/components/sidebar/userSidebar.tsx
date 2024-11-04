@@ -1,4 +1,4 @@
-import {  Home, Lock, NotebookIcon, Pen, PenBoxIcon, User } from "lucide-react";
+import {  Group, Home, Lock, NotebookIcon, Pen, PenBoxIcon, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -8,6 +8,7 @@ import { Sidebar } from "./sidebar.styles";
 
 import { useSidebarContext } from "../../layout/layout-context";
 import { SidebarItem } from "./sidebar-item";
+import { RadioGroup } from "@nextui-org/react";
 
 
 
@@ -20,7 +21,7 @@ export const SidebarWrapper = () => {
  
 
   return (
-    <aside className="h-auto z-[20] sticky top-0  ">
+    <aside className="h-auto z-[20] sticky top-0 dark:bg-black  ">
       {collapsed ? 
       
       <div className={Sidebar.Overlay()} /> : null}
@@ -75,6 +76,18 @@ export const SidebarWrapper = () => {
               icon={<Pen />}
               isActive={pathname === "/dashboard/createpdf"}
               href="/dashboard/createpdf"
+            />
+            <SidebarItem
+              title="Create Group"
+              icon={<RadioGroup />}
+              isActive={pathname === "/dashboard/createpdf"}
+              href="/dashboard/creategroup"
+            />
+            <SidebarItem
+              title=" My  Group"
+              icon={<Group />}
+              isActive={pathname === "/dashboard/createpdf"}
+              href="/dashboard/mycreatedgroup"
             />
 
 

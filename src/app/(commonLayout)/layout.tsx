@@ -13,7 +13,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="dark:bg-black">
       <NavBar></NavBar>
       {children}
     </div>

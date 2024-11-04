@@ -19,7 +19,7 @@ export const SidebarWrapper = () => {
 
 
   return (
-    <aside className="h-auto z-[20] sticky top-0  ">
+    <aside className="z-[20] sticky top-0 py-10  ">
       {collapsed ? 
       
       <div className={Sidebar.Overlay()} /> : null}
@@ -62,6 +62,20 @@ export const SidebarWrapper = () => {
               isActive={pathname === "/admin-dashboard/userspayments"}
               href="/admin-dashboard/userspayments"
             />
+            <SidebarItem
+              title="Create Group"
+              icon={<User />}
+              isActive={pathname === "/admin-dashboard/creategroup"}
+              href="/admin-dashboard/creategroup">
+
+              </SidebarItem>
+            <SidebarItem
+              title="My  Groups"
+              icon={<User />}
+              isActive={pathname === "/admin-dashboard/mycreatedgroups"}
+              href="/admin-dashboard/mycreatedgroups">
+
+              </SidebarItem>
 
             <SidebarItem
               title="Your Posts"
