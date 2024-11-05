@@ -41,7 +41,7 @@ useEffect(() => {
   }
     , [user]);
     const chartData = posts.map((post, index) => ({
-        name: `Post ${index + 1}`,
+        name: `${post?.title} ${index + 1}`,
        
         PostTime :  new Date(post.createdAt).toLocaleTimeString(),
     }));
@@ -66,7 +66,11 @@ useEffect(() => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
-                  <Tooltip />
+                  <Tooltip 
+                    wrapperStyle={{ backgroundColor: '#ccc' }}
+                    contentStyle={{ backgroundColor: '#ccc' }}
+                    labelStyle={{ color: '#000' }}
+                  />
                   <Legend />
                   <Line type="monotone" dataKey="PostTime" stroke="#8884d8"  />
               </LineChart>

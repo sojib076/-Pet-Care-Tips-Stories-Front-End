@@ -1,4 +1,4 @@
-import { Button, Input, Navbar, NavbarContent } from "@nextui-org/react";
+import {  Input, Navbar, NavbarContent } from "@nextui-org/react";
 import React from "react";
 import { ChevronLeft, Menu, SearchCheck } from "lucide-react";
 import { useSidebarContext } from "@/app/(dashboardLayout)/layout/layout-context";
@@ -17,7 +17,7 @@ export const NavbarWrapper = ({ children }: Props) => {
 
 
 
-  const {user,setUser,setIsLoading}=useUser();
+  const {user}=useUser();
 
 
 

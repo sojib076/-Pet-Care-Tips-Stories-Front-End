@@ -30,3 +30,13 @@ export const discoverGroups = async () => {
       return error?.response?.data;
     }
 };
+
+
+export const  deletegroup = async (id) => {
+    try {
+      const { data } = await axiosInstance.delete(`/group/deletegroup/${id}`);
+      return data;
+    } catch (error: any) {
+      return error?.response?.data;
+    }
+}

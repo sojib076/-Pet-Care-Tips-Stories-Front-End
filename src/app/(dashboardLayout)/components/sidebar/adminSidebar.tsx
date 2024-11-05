@@ -19,7 +19,7 @@ export const SidebarWrapper = () => {
 
 
   return (
-    <aside className="z-[20] sticky top-0 py-10  ">
+    <aside className=" z-[20] sticky top-0 dark:bg-black  ">
       {collapsed ? 
       
       <div className={Sidebar.Overlay()} /> : null}

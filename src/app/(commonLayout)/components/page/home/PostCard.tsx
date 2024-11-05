@@ -339,7 +339,7 @@ const PostCard = () => {
         <div className="grid gap-6 min-h-screen ">
             <div className="flex flex-col  mb-4">
                 <div className=" mt-10">
-                    <div className="flex gap-5">
+                    <div className="flex gap-5 lg:ml-[38%]">
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="w-[90%] lg:w-[100%]">
                                 <Input
@@ -368,27 +368,27 @@ const PostCard = () => {
                     <div className="">
                         <h1 className="text-center lg:text-5xl text-3xl my-5 font-bold">Category</h1>
                         <div className="flex justify-center gap-4">
-                            <button className="px-4 py-2 bg-gray-200" onClick={() => handelbysort('upvotes')} > Sort by Upvotes </button>
-                            <button className="px-4 py-2 bg-gray-200" onClick={() => handelbysort('downvotes')} > Sort by Downvotes </button>
+                            <button className="px-4 py-2 bg-gray-200 dark:text-black" onClick={() => handelbysort('upvotes')} > Sort by Upvotes </button>
+                            <button className="px-4 py-2 bg-gray-200 dark:text-black" onClick={() => handelbysort('downvotes')} > Sort by Downvotes </button>
                         </div>
 
                         <div className="flex justify-between my-5 bg-gray-300 p-4 rounded-2xl w-full  ">
-                            <button className={`px-4 py-2 rounded ${activeCategory === 'Tip' ? 'bg-blue-900 text-white' : 'bg-gray-200 '}`}
+                            <button className={`px-4 py-2 rounded ${activeCategory === 'Tip' ? 'bg-blue-900 text-white' : 'bg-gray-200  text-black'}`}
 
 
 
                                 onClick={() => handelCategory('Tip')}
 
                             >Tip</button>
-                            <button className={`px-4 py-2 rounded ${activeCategory === 'Story' ? 'bg-blue-900 text-white' : 'bg-gray-200 '}`}
+                            <button className={`px-4 py-2 rounded ${activeCategory === 'Story' ? 'bg-blue-900 text-white' : 'bg-gray-200 text-black '}`}
                                 onClick={() => handelCategory('Story')}
 
 
                             >Story</button>
-                            <button className={`px-4 py-2 rounded  ${activeCategory === 'All' ? 'bg-blue-900 text-white' : ' bg-gray-200'}`}
+                            <button className={`px-4 py-2 rounded  ${activeCategory === 'All' ? 'bg-blue-900 text-white' : ' bg-gray-200 text-black'}`}
 
                                 onClick={handelall}>All</button>
-                            <button className={`px-4 py-2 rounded ${activeCategory === 'Following' ? 'bg-blue-900 text-white' : 'bg-gray-200 '}`}
+                            <button className={`px-4 py-2 rounded ${activeCategory === 'Following' ? 'bg-blue-900 text-white' : 'bg-gray-200 text-black '}`}
                                 onClick={() => handleFollowing()}
                             >Following</button>
                         </div>

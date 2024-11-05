@@ -18,9 +18,13 @@ export default function Adminlayout({
   return (
     <div className="flex dark:bg-black">
 
-      <SidebarWrapper />
+     <div> 
+     <SidebarWrapper />
+     </div>
 
-      <NavbarWrapper> {children} </NavbarWrapper>
+     <div className="flex-1">
+     <NavbarWrapper> {children} </NavbarWrapper>
+     </div>
 
     </div>
   );

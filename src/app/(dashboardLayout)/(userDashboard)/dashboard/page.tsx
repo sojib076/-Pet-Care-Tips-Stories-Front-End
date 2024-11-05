@@ -55,7 +55,7 @@ const Profile = () => {
 
         <div className="lg:min-w-[300px] h-96 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mt-10">
           <div className="p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Follwers</h2>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Following</h2>
           </div>
 
           <div className="overflow-y-auto max-h-[300px]">
@@ -70,7 +70,7 @@ const Profile = () => {
 
                 :
                 <h1 className='text-center  font-bold text-2xl dark:text-white'>
-                  No Followers
+                 Following
                 </h1>
             }
 

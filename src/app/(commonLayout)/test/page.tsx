@@ -58,11 +58,16 @@ const Profile = () => {
 
 
 
-
+                  <Link href={
+                  user?.role === "admin" ? "/admin-dashboard" : "/dashboard"
+                 }>
                 <div className="flex items-center space-x-4 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
                   <AlignEndVerticalIcon className="text-xl" />
                   <span>Dashboard</span>
                 </div>
+                
+                </Link>
+                
 
               </div>
 

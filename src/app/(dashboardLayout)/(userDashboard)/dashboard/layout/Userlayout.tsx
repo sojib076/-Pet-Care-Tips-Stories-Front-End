@@ -15,10 +15,17 @@ export default function UserLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex">
-      <SidebarWrapper />
+    <div className="flex justify-between dark:bg-black">
 
-        <NavbarWrapper> {children} </NavbarWrapper>
+      <div className=""> 
+      <SidebarWrapper />
+      </div>
+
+
+   
+    <div className="flex-1">
+    <NavbarWrapper> {children} </NavbarWrapper>
+    </div>
       
     </div>
   );
