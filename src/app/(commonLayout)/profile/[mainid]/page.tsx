@@ -16,9 +16,9 @@ const Profile = () => {
 
     const { mainid } = useParams();
     const userId = mainid as string;
-    const { data, isLoading, isError } = useGetUserById(userId);
+    const { data, isLoading,  } = useGetUserById(userId);
 
-    const { data: postData, isLoading: postLoading, isError: postErorr } = useGetPostsbyUserId(userId);
+    const { data: postData, isLoading: postLoading, } = useGetPostsbyUserId(userId);
     const { data: currentuserdata, } = useGetProfile();
 
     const {user}=useUser()
@@ -29,8 +29,7 @@ const Profile = () => {
 
     const userData = data?.data;
     const userPaidPosts = currentuserdata?.data?.paidfor
-    console.log(userPaidPosts);
-
+   
     const posts = postData?.data.posts
 
 
@@ -211,7 +210,7 @@ const Profile = () => {
                                 <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{post.title}</h3>
                                {
                                   (!post.premiumContent || userPaidPosts?.includes(post._id)  ) || post?.author?._id == currentuser ? (
-                                    <p dangerouslySetInnerHTML={{ __html: post.content }} />
+                                    <p className='dark:text-gray-50' dangerouslySetInnerHTML={{ __html: post.content }} />
                                 ) : (
                                     <>
                                         <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 150) }} />

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Globe, Lock, Users, } from 'lucide-react'
+import { Globe,  } from 'lucide-react'
 import { useCreateGroup } from '@/hook/group.hook'
 
 
@@ -11,11 +11,7 @@ export default function CreateGroup() {
   const [description, setDescription] = useState('')
 
   const {mutate:createGroup} = useCreateGroup();
-
- 
-
-
-
+  
   const handleCreateGroup = () => {
     const groupData = {
       name: groupName,

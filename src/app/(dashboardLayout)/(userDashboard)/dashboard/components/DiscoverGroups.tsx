@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Search, Users, Globe, Lock, ChevronDown, Moon, Sun } from 'lucide-react'
-import { useGetUserCreateGroup } from '@/hook/group.hook'
+import { Search, Users, Globe, Lock, ChevronDown, } from 'lucide-react'
+import { useDiscoverGroups } from '@/hook/group.hook'
 import { useUser } from '@/context/uAuthContext'
+import Link from 'next/link'
 
 // Mock data for groups
 
@@ -12,19 +13,14 @@ const JoinGroups = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [privacyFilter, setPrivacyFilter] = useState('all')
 
-  const { user, isLoading: userLoding } = useUser()
 
 
 
 
-
-
-
-  const { data, isLoading, isError } = useGetUserCreateGroup()
+  const { data, isLoading,  } = useDiscoverGroups()
+  console.log(data);
 
   const groups = data?.data
-
-
   const filteredGroups = groups?.filter(group =>
     group.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (privacyFilter === 'all' || group.privacy === privacyFilter)
@@ -86,15 +82,10 @@ const JoinGroups = () => {
                   <Users className="h-5 w-5 mr-2" />
                   <span>{group?.members?.length} members</span>
                 </div>
-                <button
-                  disabled={user?._id === group.admin}
-                  className={`w-full ${user?._id === group.admin
-                    ? 'bg-gray-400 text-gray-800 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700 text-white'
-                    } font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out`}
-                >
-                  {user?._id === group.admin ? 'You are the admin' : 'Join Group'}
-                </button>
+
+               <Link href={`/groups/${group._id}`}>
+                View Group
+                </Link>
 
 
 

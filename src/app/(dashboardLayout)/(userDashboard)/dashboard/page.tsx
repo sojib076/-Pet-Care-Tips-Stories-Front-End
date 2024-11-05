@@ -3,7 +3,7 @@
 import Image from 'next/image';
 
 import { useGetProfile } from '@/hook/user.Hook';
-import Followers from './components/Follwers';
+
 import Profilecard from './components/Profilecard';
 import { Facebook, Mail, Shield, User } from 'lucide-react';
 import { UserItem } from '@/app/(commonLayout)/components/Profile/Followers';

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Search, Users, Globe, Lock, Settings, MoreVertical, Plus, Trash, } from 'lucide-react'
+import { Search, Users, Globe, Lock, MoreVertical, Plus, Trash, } from 'lucide-react'
 import { useDeleteGroup, useGetUserCreateGroup } from '@/hook/group.hook'
 import Link from 'next/link'
 import { useUser } from '@/context/uAuthContext'
@@ -14,9 +14,9 @@ import { toast } from 'sonner'
 
 const MyCreatedGroups = () => {
   const [searchTerm, setSearchTerm] = useState('')
-  const { data, isLoading, refetch } = useGetUserCreateGroup()
+  const { data, isLoading,  } = useGetUserCreateGroup()
   // deletegroup
-  const {mutate:deleteuserGroup,data:deletedata ,isSuccess} = useDeleteGroup()
+  const {mutate:deleteuserGroup, isSuccess} = useDeleteGroup()
   const { user  } = useUser()
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

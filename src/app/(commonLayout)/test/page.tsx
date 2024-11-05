@@ -6,7 +6,7 @@ import { AlignEndVerticalIcon, Compass, UserPlus, } from "lucide-react";
 import CreateContent from "../components/page/home/Toppost";
 import { useGetProfile } from "@/hook/user.Hook";
 import Link from "next/link";
-import PostCard from "../components/page/home/PostCard";
+
 
 
 

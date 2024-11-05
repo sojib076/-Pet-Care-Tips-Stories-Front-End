@@ -483,7 +483,7 @@ const PostCard = () => {
 
 
                             {(!post.premiumContent || userPaidPosts?.includes(post._id)) || post?.author?._id == user?._id ? (
-                                <p dangerouslySetInnerHTML={{ __html: post.content }} />
+                                <p className='' dangerouslySetInnerHTML={{ __html: post.content }} />
                             ) : (
                                 <>
                                     <p dangerouslySetInnerHTML={{ __html: post.content.slice(0, 150) }} />

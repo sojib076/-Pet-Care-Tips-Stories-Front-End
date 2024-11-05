@@ -6,7 +6,7 @@ import GoogleLoginBtn from "../components/page/shared/GoogleLoginBtn";
 import Link from "next/link";
 
 import { useUserLogin } from "@/hook/auth.hook";
-import { FieldValues } from "react-hook-form";
+
 import Image from "next/image";
 import { motion } from 'framer-motion';
 
@@ -27,7 +27,7 @@ const LoginPage = () => {
 
 
   const [password, setPassword] = useState('');
-  const onSubmit = (data: FieldValues) => {
+  const onSubmit = () => {
 
     userLogin({ email, password });
     isloading(true);
@@ -146,23 +146,28 @@ const LoginPage = () => {
             >
               <span className="ml-2">
                 <GoogleLoginBtn />
-              </span>
-            </motion.div>
-            <div className="flex space-x-4 mb-8 ">
-              <Button onClick={() => setDefaultCredentials('user')} className=" text-white
+                <div className="  mb-8 lg:ml-[5%] mt-5 ">
+                  Default Credentials
+                  <div className="space-x-5 mt-5"> 
+                  <Button onClick={() => setDefaultCredentials('user')} className=" text-white
                 bg-blue-900 ">
-                User
-              </Button>
-              <Button onClick={() => setDefaultCredentials('admin')} className="
+                    User
+                  </Button>
+                  <Button onClick={() => setDefaultCredentials('admin')} className="
                   text-white
                 bg-blue-900 
                 
                 
                 
                 ">
-                Admin
-              </Button>
-            </div>
+                    Admin
+                  </Button>
+                  </div>
+
+                </div>
+              </span>
+            </motion.div>
+
 
             <motion.div className="text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.8 }}>
               Don&rsquo;t have an account? <Link href={"/register"}>Register</Link>

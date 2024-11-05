@@ -24,7 +24,7 @@ export const getUserCreateGroup = async () => {
 
 export const discoverGroups = async () => {
     try {
-      const { data } = await axiosInstance.get("/group/discovergroups");
+      const { data } = await axiosInstance.get("/group/discovergroup");
       return data;
     } catch (error: any) {
       return error?.response?.data;
@@ -40,3 +40,12 @@ export const  deletegroup = async (id) => {
       return error?.response?.data;
     }
 }
+
+export const getSingeGroup = async (id) => {
+    try {
+      const { data } = await axiosInstance.get(`/group/getsinglegroup/${id}`);
+      return data;
+    } catch (error: any) {
+      return error?.response?.data;
+    }
+};

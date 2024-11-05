@@ -11,6 +11,7 @@ import PostCard from "../components/page/home/PostCard";
 
 
 
+
 const Profile = () => {
 
 
@@ -58,11 +59,16 @@ const Profile = () => {
 
 
 
-
+                  <Link href={
+                  user?.role === "admin" ? "/admin-dashboard" : "/dashboard"
+                 }>
                 <div className="flex items-center space-x-4 p-3 hover:bg-gray-700 rounded-lg cursor-pointer">
                   <AlignEndVerticalIcon className="text-xl" />
                   <span>Dashboard</span>
                 </div>
+                
+                </Link>
+                
 
               </div>
 
@@ -78,25 +84,33 @@ const Profile = () => {
       <div className="flex h-full flex-col lg:fixed">
           <div className="border-b border-gray-200 dark:border-gray-700 p-4">
             <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Groups</h2>
-            <nav className="space-y-2">
-              <Link className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
-
-               href={
-                user?.role === "admin" ? "/admin-dashboard/creategroup" : "/dashboard/creategroup"
-               }
-               
-               >
-                <UserPlus className="h-4 w-4" />
-                Create Group
-              </Link>
-              <Link 
-              href="/groups"
-              
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
-                <Compass className="h-4 w-4" />
-                Discover Groups
-              </Link>
-            </nav>
+           {
+              user ? (
+                <nav className="space-y-2">
+                <Link className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+  
+                 href={
+                  user?.role === "admin" ? "/admin-dashboard/creategroup" : "/dashboard/creategroup"
+                 }
+                 
+                 >
+                  <UserPlus className="h-4 w-4" />
+                  Create Group
+                </Link>
+                <Link 
+                href="/groups"
+                
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+                  <Compass className="h-4 w-4" />
+                  Discover Groups
+                </Link>
+              </nav>
+              ):(
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-gray-400">Loading...</p>
+                </div>
+              )
+           }
           </div>
           </div>
       </div>
@@ -143,9 +157,7 @@ const Profile = () => {
 
         {/* Fake Data List */}
         <div className="mt-6 space-y-4">
-          {
             <PostCard />
-          }
         </div>
       </div>
     </div>

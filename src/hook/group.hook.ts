@@ -1,9 +1,15 @@
-import { createGroup, deletegroup, discoverGroups, getUserCreateGroup } from "@/Services/Group";
+import { createGroup, deletegroup, discoverGroups, getSingeGroup, getUserCreateGroup } from "@/Services/Group";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+type GroupData = {
+  name: string;
+  privacy: string;
+  description: string;
+};
+
 export  const useCreateGroup = () => {
-    return useMutation<any, Error>({
+    return useMutation<any, Error, GroupData>({
       mutationKey: ["createGroup"],
       mutationFn: async (groupData) => await createGroup(groupData),
         onSuccess: (data) => {
@@ -54,3 +60,12 @@ export  const useCreateGroup = () => {
         },
     });
    };
+
+
+  export const useGetSingleGroup = (id) => {
+    return useQuery({
+      queryKey: ["getSingleGroup", id],
+      queryFn: async () => await getSingeGroup(id),
+
+  })
+}
