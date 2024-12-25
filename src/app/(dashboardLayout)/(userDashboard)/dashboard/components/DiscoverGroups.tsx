@@ -3,10 +3,9 @@
 import React, { useState } from 'react'
 import { Search, Users, Globe, Lock, ChevronDown, } from 'lucide-react'
 import { useDiscoverGroups } from '@/hook/group.hook'
-import { useUser } from '@/context/uAuthContext'
 import Link from 'next/link'
 
-// Mock data for groups
+
 
 
 const JoinGroups = () => {

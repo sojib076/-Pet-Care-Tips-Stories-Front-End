@@ -6,7 +6,7 @@ import { useGetPostsbyUserId } from '@/hook/post.hook';
 import { useGetProfile } from '@/hook/user.Hook';
 import { handelpayment } from '@/Services/Post';
 
-import { Bell, ThumbsUp, Users, Video } from 'lucide-react';
+import { Bell, ThumbsUp,  } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';

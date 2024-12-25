@@ -14,6 +14,8 @@ export function ThemeSwitcher() {
 
   if (!mounted) return <Switch />;
 
+  
+
   return (
     <Switch
       isSelected={theme === "dark" ? true : false}
