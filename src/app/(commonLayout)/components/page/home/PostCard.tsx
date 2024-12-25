@@ -5,7 +5,7 @@ import { useGetPost } from "@/hook/post.hook";
 import { useGetProfile } from "@/hook/user.Hook";
 import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getcategory, getFollowedUsersPosts, getPost, getsearch, handelpayment, upvotePost } from "@/Services/Post";
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
-import { ArrowBigDown, ArrowBigUp, Award, ChevronDown, ChevronUp, MessageCircle, MoreHorizontal, SearchIcon, Share2 } from "lucide-react";
+import { Award, ChevronDown, ChevronUp, MessageCircle, SearchIcon,  } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -338,7 +338,7 @@ const PostCard = () => {
         }
     };
 
-    console.log(posts);
+
     return (
         // <div className="grid gap-6 min-h-screen ">
         //     <div className="flex flex-col  mb-4">
@@ -651,6 +651,64 @@ const PostCard = () => {
         // </div>
 
         <main className="w-full  mx-auto ">
+            <div className="flex flex-col  mb-4">
+                <div className=" mt-10">
+                    <div className="flex gap-5 lg:ml-[38%]">
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className="w-[90%] lg:w-[100%]">
+                                <Input
+                                    {...register("search")}
+                                    aria-label="Search"
+                                    classNames={{ inputWrapper: "bg-default-200", input: "text-sm" }}
+                                    placeholder="Search..."
+                                    size="lg"
+                                    startContent={<SearchIcon className="pointer-events-none flex-shrink-0 text-base text-default-400" />}
+                                    type="text"
+                                />
+                            </div>
+                        </form>
+
+
+                        <select
+                            name="searchType"
+                            className="border border-gray-300 rounded-md p-2"
+                            onChange={(e) => setSearchCategory(e.target.value)}
+                        >
+                            <option value="Tip">Tip</option>
+                            <option value="Story">Story</option>
+                        </select>
+                    </div>
+
+                    <div className="">
+                        <h1 className="text-center lg:text-5xl text-3xl my-5 font-bold">Category</h1>
+                        <div className="flex justify-center gap-4">
+                            <button className="px-4 py-2 bg-gray-200 dark:text-black" onClick={() => handelbysort('upvotes')} > Sort by Upvotes </button>
+                            <button className="px-4 py-2 bg-gray-200 dark:text-black" onClick={() => handelbysort('downvotes')} > Sort by Downvotes </button>
+                        </div>
+
+                        <div className="flex justify-between my-5 bg-gray-300 p-4 rounded-2xl w-full  ">
+                            <button className={`px-4 py-2 rounded ${activeCategory === 'Tip' ? 'bg-blue-900 text-white' : 'bg-gray-200  text-black'}`}
+
+
+
+                                onClick={() => handelCategory('Tip')}
+
+                            >Tip</button>
+                            <button className={`px-4 py-2 rounded ${activeCategory === 'Story' ? 'bg-blue-900 text-white' : 'bg-gray-200 text-black '}`}
+                                onClick={() => handelCategory('Story')}
+
+
+                            >Story</button>
+                            <button className={`px-4 py-2 rounded  ${activeCategory === 'All' ? 'bg-blue-900 text-white' : ' bg-gray-200 text-black'}`}
+
+                                onClick={handelall}>All</button>
+                            <button className={`px-4 py-2 rounded ${activeCategory === 'Following' ? 'bg-blue-900 text-white' : 'bg-gray-200 text-black '}`}
+                                onClick={() => handleFollowing()}
+                            >Following</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {
                 cateLoading || isLoading ?
                     Array.from({ length: 4 }).map((_, i) => <CardLoading key={i} />)
@@ -662,16 +720,16 @@ const PostCard = () => {
                     {posts?.map((post: any) => (
                         <Card key={post._id} className="w-full max-w-4xl mx-auto">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <div className="flex items-center space-x-4">
+                                <div className="flex items-center  space-x-4">
                                     <Link href={`/profile/${post?.author?._id}`}>
                                         <Avatar
-                                            name='User'
+                                            src={user?.img}
                                         >
 
                                         </Avatar>
                                     </Link>
                                     <div>
-                                        <p className="font-semibold">User </p>
+                                        <p className="font-semibold">{post.author.name || "Anonymous"} </p>
                                         <div className="flex items-center">
                                             <p className="text-sm text-muted-foreground"><span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span> </p>
                                             <span className="mx-1 text-muted-foreground">·</span>
@@ -686,7 +744,7 @@ const PostCard = () => {
                                             }
 
                                             {post?.category && (
-                                                <div className="mb-2 flex justify-end">
+                                                <div className=" flex justify-end ml-2">
                                                     <span className="bg-blue-500 text-white text-xs font-semibold py-1 px-3 rounded-full">
                                                         {post?.category}
                                                     </span>
@@ -752,7 +810,7 @@ const PostCard = () => {
                                 <div className="flex justify-between w-full text-muted-foreground text-sm mb-2">
                                     <div className="flex gap-5 font-extrabold text-xs">
                                         <span
-                                        className="
+                                            className="
                                         
                                         "
                                         >{post?.upvotes} Upvotes</span> |
@@ -787,18 +845,16 @@ const PostCard = () => {
                                             <ChevronDown className="h-6 w-6 text-gray-500 hover:text-red-500" />
                                         </Button>
                                     </div>
+                                    
                                     <Button variant="solid">
                                         <MessageCircle className="mr-2 h-4 w-4" />
                                         Comment
                                     </Button>
-                                    <Button variant="solid">
-                                        <Share2 className="mr-2 h-4 w-4" />
-                                        Share
-                                    </Button>
+                                  
                                 </div>
                                 <Separator className="my-2" />
 
-                            
+
                                 <div className="border-t border-gray-300 pt-3">
                                     {post?.comments?.length > 0 ? (
                                         <div className="text-xs text-gray-500">
@@ -812,7 +868,7 @@ const PostCard = () => {
                             dark:bg-gray-800
                           rounded-lg p-2">
 
-                                                                <p className=" lg:min-w-[800px] text-sm">{
+                                                                <p className=" lg:min-w-[800px] min-w-[330px] w-full text-sm">{
                                                                     comment.content
                                                                 }</p>
                                                             </div>
@@ -846,12 +902,12 @@ const PostCard = () => {
                                                                 />
 
                                                                 <div>
-                                                                    <button
+                                                                    <Button
                                                                         className="bg-blue-900 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 mt-2"
                                                                         onClick={() => handleEditSubmit(post._id, comment._id)}
                                                                     >
                                                                         Submit Edit
-                                                                    </button>
+                                                                    </Button>
                                                                 </div>
                                                             </div>
                                                         )}
@@ -870,15 +926,16 @@ const PostCard = () => {
                                 </div>
 
                                 {user ? (
-                                    <div className="mt-3">
+                                    <div className="mt-3 lg:min-w-[850px]">
 
                                         <div className="flex  space-x-2">
                                             <Avatar
-                                                name='User'
+                                               src={user?.img}
                                                 className="h-8 w-8">
 
                                             </Avatar>
                                             <Input
+                                            
                                                 value={commentInput[post._id] || ''}
                                                 onChange={(e) => handleCommentChange(post._id, e.target.value)}
                                                 placeholder="Write a comment..." className="flex-1" />
