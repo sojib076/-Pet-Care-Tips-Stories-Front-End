@@ -474,7 +474,7 @@ const PostCard = () => {
                                 </div>
                             </CardHeader>
                             <CardBody>
-                                <h2 className="text-xl font-bold mb-2"> {post.title} || </h2>
+                                <h2 className="text-xl font-bold mb-2"> {post.title}  </h2>
 
                                 {(!post?.premiumContent || userPaidPosts?.includes(post._id)) || post?.author?._id == user?._id ? (
                                     <p className='' dangerouslySetInnerHTML={{ __html: post.content }} />
