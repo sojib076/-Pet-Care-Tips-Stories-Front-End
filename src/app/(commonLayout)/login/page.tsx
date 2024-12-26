@@ -13,16 +13,16 @@ import { motion } from 'framer-motion';
 import { useUser } from "@/context/uAuthContext";
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { user } = useUser();
   const { mutate: userLogin, isPending, isSuccess } = useUserLogin();
-  const { setIsLoading: isloading, } = useUser()
+  const { setIsLoading: isloading, user } = useUser()
   const [email, setEmail] = useState('');
 
-
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
 
 
@@ -48,12 +48,13 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    if (!isPending && isSuccess && user) {
-
-      if (user?.role === "admin") {
-        router.push("/admin-dashboard");
-      } else {
-        router.push("/dashboard");
+    if (!isPending && isSuccess &&user ) {
+      if (redirect) {
+        router.push(redirect);
+      } else if (user?.role === 'admin') {
+        router.push('/admin-dashboard');
+      }else{
+        router.push('/dashboard');
       }
 
     }

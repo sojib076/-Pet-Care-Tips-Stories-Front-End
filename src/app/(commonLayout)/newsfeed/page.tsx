@@ -4,29 +4,33 @@ import { AlignEndVerticalIcon,  ChevronDownIcon,  Users, } from "lucide-react";
 
 
 import CreateContent from "../components/page/home/Toppost";
-import { useGetProfile } from "@/hook/user.Hook";
+
 import Link from "next/link";
 import PostCard from "../components/page/home/PostCard";
 import { Avatar, Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { Separator } from "@radix-ui/react-separator";
-
-
-
-
+import { useUser } from "@/context/uAuthContext";
+import { useGetProfile } from "@/hook/user.Hook";
 
 const Profile = () => {
 
+  
+const {data,isLoading} = useGetProfile();
 
+const Following = data?.data.following;
+console.log(Following);
 
-
-  const { data } = useGetProfile();
-
-  const user = data?.data
+  const {user} = useUser();
+ 
 
 
 
   return (
-    <div className=" dark:bg-black  bg-white flex flex-col lg:grid lg:grid-cols-7 gap-4 lg:px-5">
+    <div className=" 
+    
+   
+    
+     flex flex-col lg:grid lg:grid-cols-7 gap-4 lg:px-5">
 
       <div className="    p-2  lg:col-span-1 ">
 
@@ -108,7 +112,7 @@ const Profile = () => {
       </div>
 
 
-      <div className="   shadow-gray-500  text-white justify-center lg:col-span-1 lg:order-3 py-10 ">
+      <div className="    text-white justify-center lg:col-span-1 lg:order-3 py-10 ">
       <div className="flex h-full flex-col lg:fixed">
           <div className="border-b border-gray-200 dark:border-gray-700 p-4">
             <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Groups</h2>
@@ -129,14 +133,40 @@ const Profile = () => {
                      <h3 className="text-lg font-semibold">Contacts</h3>
                    </CardHeader>
                    <CardBody className="space-y-2">
-                     {['Alice Johnson', 'Bob Williams', 'Charlie Brown', 'David Lee', 'Eva Martinez'].map((friend, index) => (
-                       <div key={index} className="flex items-center space-x-2">
-                         <Avatar className="h-8 w-8">
-                           {friend.split(' ').map((name) => name[0]).join('')}
+
+                    {
+                        isLoading && [...Array(5)].map((_, index) => (
+                          <div className="flex items-center space-x-2 animate-pulse" key={index}>
+                    
+                          <Avatar  
+                         
+                         className="h-8 w-8">
+                           
                          </Avatar>
-                         <span className="text-sm">{friend}</span>
+
+                          {/* Name Skeleton */}
+                          <div className="h-4 w-24 bg-gray-300 rounded"></div>
+                        </div>
+                        ))
+                    }
+
+
+                {Following?.map((friend, index) => (
+                       <div key={index} className="flex items-center space-x-2">
+                         <Avatar  src={user?.img}
+                         
+                         className="h-8 w-8">
+                           
+                         </Avatar>
+                         <span className="text-sm">{
+                            friend.name
+                          }</span>
+                            <Separator className="my-4" />
                        </div>
+                       
                      ))}
+
+                     
                    </CardBody>
                  </Card>
                </aside>
