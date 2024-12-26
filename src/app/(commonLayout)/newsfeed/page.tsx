@@ -18,7 +18,7 @@ const Profile = () => {
 const {data,isLoading} = useGetProfile();
 
 const Following = data?.data.following;
-console.log(Following);
+
 
   const {user} = useUser();
  
@@ -28,7 +28,8 @@ console.log(Following);
   return (
     <div className=" 
     
-   
+   bg-white
+   dark:bg-black
     
      flex flex-col lg:grid lg:grid-cols-7 gap-4 lg:px-5">
 
@@ -127,7 +128,7 @@ console.log(Following);
                  </Card>
                  <Card>
                    <CardHeader>
-                     <h3 className="text-lg font-semibold">Contacts</h3>
+                     <h3 className="text-lg font-semibold">Following</h3>
                    </CardHeader>
                    <CardBody className="space-y-2">
 
@@ -142,15 +143,16 @@ console.log(Following);
                          </Avatar>
 
                         
-                          <div className="h-4 w-24 bg-gray-300 rounded"></div>
+                          <div className="h-4 w-24  rounded"></div>
                         </div>
                         ))
                     }
 
 
                 {Following?.map((friend, index) => (
-                       <div key={index} className="flex items-center space-x-2">
-                         <Avatar  src={user?.img}
+                       <div key={index} className="grid grid-cols-2 items-center space-x-2 border-b border-gray-200 dark:border-gray-700 pb-2">
+                        <div className="flex items-center space-x-2 ">
+                        <Avatar  src={friend?.img}
                          
                          className="h-8 w-8">
                            
@@ -158,7 +160,13 @@ console.log(Following);
                          <span className="text-sm">{
                             friend.name
                           }</span>
-                            <Separator className="my-4" />
+                        </div>
+
+                        <Link href={`/profile/${friend?._id}`}>
+                        <Button variant="faded" size="sm" className="text-sm">View </Button>
+                        </Link>
+                        
+                          
                        </div>
                        
                      ))}
@@ -173,7 +181,7 @@ console.log(Following);
       </div>
            
     
-      <div className="col-span-5 dark:bg-black bg-white  lg:p-10 ">
+      <div className="col-span-5 dark:bg-black   lg:p-10 ">
       <div className="bg-gradient-to-r from-blue-800 to-blue-900
         lg:w-[90%]
         mx-auto
@@ -186,7 +194,9 @@ console.log(Following);
             <AlignEndVerticalIcon className="text-white lg:text-4xl" />
             <div>
               <h2 className="text-white font-bold text-sm lg:text-xl">Members Newsfeed</h2>
-              <p className="text-white text-sm lg:text-base text-[10px] leading-3">Check what your friends have been up to!</p>
+              <p className="text-white text-sm lg:text-base text-[10px] leading-3
+                lg:block hidden
+              ">Check what your friends have been up to!</p>
             </div>
           </div>
 
