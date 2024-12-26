@@ -52,10 +52,7 @@ console.log(Following);
               <span>{user?.name || 'John Doe'}</span>
            </Button>
            </Link>
-           <Button variant="ghost" >
-             <Users className="mr-2 h-5 w-5" />
-             Friends
-           </Button>
+        
            <Separator className="my-4" />
           <h3 className="font-semibold mb-2">Groups </h3>
           <div className="space-y-2
@@ -94,7 +91,7 @@ console.log(Following);
             </Button>
           </Link>
 
-            <Link href="/">
+          <Link href={`/profile/${user?._id}`}>
             <Button variant="ghost" className=" justify-start">
               <Users className="mr-2 h-5 w-5" />
               Profile
@@ -114,16 +111,16 @@ console.log(Following);
 
       <div className="    text-white justify-center lg:col-span-1 lg:order-3 py-10 ">
       <div className="flex h-full flex-col lg:fixed">
-          <div className="border-b border-gray-200 dark:border-gray-700 p-4">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Groups</h2>
+          <div className=" border-gray-200 dark:border-gray-700 p-4">
+          
            {
-                 <aside className="  pl-4 md:fixed right-0 top-0 h-auto md:h-screen overflow-y-auto mt-4 md:mt-0 hidden md:block">
+                 <aside className="  pl-4 md:fixed right-0 top-20 h-auto md:h-screen overflow-y-auto  md:mt-0 hidden md:block">
                  <Card className="mb-4">
                    <CardHeader>
                      <h3 className="text-lg font-semibold">Sponsored</h3>
                    </CardHeader>
                    <CardBody>
-                     <img src="/placeholder.svg?height=150&width=300" alt="Advertisement" className="w-full rounded-md mb-2" />
+                     
                      <h4 className="font-semibold">Amazing Product</h4>
                      <p className="text-sm text-muted-foreground">Check out this incredible offer!</p>
                    </CardBody>
@@ -144,7 +141,7 @@ console.log(Following);
                            
                          </Avatar>
 
-                          {/* Name Skeleton */}
+                        
                           <div className="h-4 w-24 bg-gray-300 rounded"></div>
                         </div>
                         ))

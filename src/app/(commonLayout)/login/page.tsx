@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import { useUser } from "@/context/uAuthContext";
 import { useEffect, useState } from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -21,8 +21,7 @@ const LoginPage = () => {
   const { setIsLoading: isloading, user } = useUser()
   const [email, setEmail] = useState('');
 
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect");
+  
 
 
 
@@ -49,13 +48,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (!isPending && isSuccess &&user ) {
-      if (redirect) {
-        router.push(redirect);
-      } else if (user?.role === 'admin') {
-        router.push('/admin-dashboard');
-      }else{
-        router.push('/dashboard');
-      }
+      router.push('/newsfeed');
 
     }
   },);
@@ -75,10 +68,10 @@ const LoginPage = () => {
           transition={{ duration: 0.8 }}
         >
           <Image
-            src="https://sierra.keydesign.xyz/helpdesk/wp-content/uploads/sites/11/2023/10/sierra-helpdesk-hero.jpg"
+            src="https://i.ibb.co.com/5LjWxyX/Untitled-design.png"
             alt="login"
-            width={500}
-            height={500}
+            width={1000}
+            height={80}
           />
         </motion.div>
 
