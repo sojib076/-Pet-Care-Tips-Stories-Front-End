@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import NavBar from "./components/page/shared/Navbar";
 
 export const metadata: Metadata = {
-  title: "Home -",
+  title:"Home",
   description: "Pet social media platform",
 };
 
@@ -13,7 +13,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="dark:bg-black">
+    <div className=" dark:bg-gray-800 ">
       <NavBar></NavBar>
       {children}
     </div>

@@ -1,78 +1,77 @@
-"use client";
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { Button } from '@nextui-org/react'
+import Image from 'next/image'
+import Link from 'next/link'
 
-const Banner = () => {
+
+export default function HeroSection() {
   return (
-    <>
-      <div className=" dark:bg-gray-900 bg-blue-900 lg:w-[100%] lg:h-[500px] lg:flex flex-row lg:justify-center lg:items-end relative lg:px-10  ">
-        <motion.div
-          className="lg:w-[50%] p-5 lg:top-[-30%] relative"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="lg:text-[80px] lg:leading-[88px] font-bold   text-5xl capitalize text-white/80">
-            Share Tips or <br />
-            Story with Us
-          </h1>
+    <section className="pt-10 md:pt-16 
+      bg-gradient-to-bl from-sky-50 to-sky-300
+      lg:h-[71.9vh]
+      dark:from-gray-900 dark:to-sky-800
+    
 
+    ">
+      <div className="container px-4 md:px-6">
+        <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
 
-          <div className=" flex flex-col lg:flex-row lg:justify-start lg:gap-5 justify-between">
-            <Link href={'/newsfeed'}>
-            <motion.button
-              className=" px-4 py-2 bg-yellow-600 text-white mt-5 rounded-full font-medium text-sm"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              View News Feed
-            </motion.button>
-            </Link>
-            <Link href={'/newsfeed'}>
-            <motion.button
-              className=" px-4 py-2 bg-yellow-600 text-white mt-5 rounded-full font-medium text-sm"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              View News Feed
-            </motion.button>
-            </Link>
-       
-     
+          <div className=" space-y-4">
+            <div className="space-y-2">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900
+                dark:text-gray-300
+              leading-tight mb-6">
+                Connect with <span className="text-indigo-600">Pet Lovers</span> Worldwide
+              </h1>
+              <p className="text-xl text-gray-600 
+                dark:text-gray-200
+              mb-8">
+                Join our vibrant community of pet enthusiasts. Share adorable moments, discover pet-friendly spots, and make furry friends!
+              </p>
+            </div>
+
+            <div className='flex gap-3'>
+              <Link href="/register">
+                <Button variant="shadow" size="lg" className="w-full
+                bg-blue-900 text-white
+                
+                ">News Feed</Button>
+              </Link>
+              <Link href="/about">
+                <Button  size="lg" className="w-full
+
+                bg-gray-800 text-white
+                  
+                "> Learn More  </Button>
+              </Link>
+            </div>
+
           </div>
-        </motion.div>
 
-        <div className="lg:w-[50%] flex items-end lg:mt-0">
-          <motion.img
-            src="https://i.ibb.co.com/VQ8J8LW/cat.webp"
-            className="mb-[-6%] w-[40%]"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          />
-          <motion.img
-            src="https://i.ibb.co.com/j3xPSzM/dog.webp"
-            className="w-[40%]"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          />
+          <div className=" relative flex items-center justify-center">
+            <Image
+              src="https://i.ibb.co.com/j3xPSzM/dog.webp"
+              alt="Hero Image"
+              width={400}
+              height={210}
+              className="overflow-hidden rounded-xl object-cover object-center"
+            />
+            <div
+              className='relative lg:bottom-[-118px]
+            bottom-[-55px]
+          '
+            >
+              <Image
+                src="https://i.ibb.co.com/VQ8J8LW/cat.webp"
+                alt="Hero Image"
+                width={400}
+                height={210}
+
+              />
+            </div>
+          </div>
         </div>
       </div>
-      <motion.div
-        className="h-[54px] flex-col items-start section-text p-10 my-10 lg:mt-0 font-bold"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-      >
-        <div>
-         Your tips Can  <br />
-          help other to learn 
-        </div>
-        
-      </motion.div>
-    </>
-  );
-};
+    </section>
+  )
+}
 
-export default Banner;

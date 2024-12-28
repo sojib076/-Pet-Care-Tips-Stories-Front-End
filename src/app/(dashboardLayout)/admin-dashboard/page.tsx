@@ -39,7 +39,7 @@ const Profile = () => {
             }
           </h2>
         </div>
-        
+
 
 
 
@@ -47,104 +47,80 @@ const Profile = () => {
       </div>
       <div className="bg-[#ffffffa5] shadow-lg rounded-2xl dark:bg-gray-900 dark:text-white relative overflow-hidden">
 
-<div className="relative bg-gradient-to-r from-purple-900 to-indigo-900 h-60 rounded-t-lg">
+        <div className="relative bg-gradient-to-r from-purple-900 to-indigo-900 h-60 rounded-t-lg">
 
-  <div className="absolute -bottom-12 left-6">
-    <Image
-      src={user?.img || '/path/to/default-profile-picture.jpg'}
-      alt="Profile Picture"
-      width={120}
-      height={120}
-      className="rounded-full border-4 border-white shadow-md w-[120px] h-[120px] hover:scale-105 transition-transform"
-    />
-  </div>
-</div>
+          <div className="absolute -bottom-12 left-6">
+            <Image
+              src={user?.img || '/path/to/default-profile-picture.jpg'}
+              alt="Profile Picture"
+              width={120}
+              height={120}
+              className="rounded-full border-4 border-white shadow-md w-[120px] h-[120px] hover:scale-105 transition-transform"
+            />
+          </div>
+        </div>
 
-<div className="lg:flex justify-between items-center p-6 mt-12">
+        <div className="lg:flex justify-between items-center p-6 mt-12">
 
-  <div className="space-y-2">
-    <h1 className="text-3xl font-semibold flex items-center">
-      <User className="mr-2" /> {user?.name || 'User Name'}
-    </h1>
-    <p className="text-gray-600 dark:text-gray-300 flex items-center">
-      <Mail className="mr-2" /> {user?.email || 'No email provided'}
-    </p>
-    <Button className="mt-4 font-semibold bg-blue-300" size="sm" > <Link href="/admin-dashboard/update">Edit Profile</Link></Button>
-  </div>
+          <div className="space-y-2">
+            <h1 className="text-3xl font-semibold flex items-center">
+              <User className="mr-2" /> {user?.name || 'User Name'}
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300 flex items-center">
+              <Mail className="mr-2" /> {user?.email || 'No email provided'}
+            </p>
+            <Button className="mt-4 font-semibold bg-blue-300" size="sm" > <Link href="/admin-dashboard/update">Edit Profile</Link></Button>
+          </div>
 
 
-  <div className="lg:space-y-2 lg:text-right">
-    <h1 className="text-xl font-medium">User Details</h1>
-    <span className="text-gray-600 dark:text-gray-400 flex items-center">
-      <Shield className="mr-2" /> Role: {user?.role || 'N/A'}
-    </span>
-    <div className="text-gray-600 dark:text-gray-400">
-      <div className="flex space-x-2">
+          <div className="lg:space-y-2 lg:text-right">
+            <h1 className="text-xl font-medium">User Details</h1>
+            <span className="text-gray-600 dark:text-gray-400 flex items-center">
+              <Shield className="mr-2" /> Role: {user?.role || 'N/A'}
+            </span>
+            <div className="text-gray-600 dark:text-gray-400">
+              <div className="flex space-x-2">
 
-        <Facebook className="mr-2" />
-        <span>{user?.facebook || 'N/A'}</span>
+                <Facebook className="mr-2" />
+                <span>{user?.facebook || 'N/A'}</span>
 
+              </div>
+
+
+            </div>
+          </div>
+        </div>
       </div>
 
+  
+    <div className=" grid  grid-cols-1 gap-10 mt-10">
 
-    </div>
-  </div>
-</div>
-</div>
+      {
+        user?.followers?.length > 0 ? (
+  
 
-      <div className="mt-6 grid lg:grid-cols-2 grid-cols-1 gap-10 my-10 ">
-
-        <div className="lg:min-w-[300px] h-96 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mt-10">
-          <div className="p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Follwers</h2>
-          </div>
-
-          <div className="overflow-y-auto max-h-[300px]">
-            {
-
-              user?.followers?.length > 0 ? (
-                user?.followers.map(singile => (
-
-                  <UserItem key={singile.id} user={singile} />
-                ))
-              )
-
-                :
-                <h1 className='text-center  font-bold text-2xl dark:text-white'>
-                  No Followers
-                </h1>
-            }
-
-          </div>
-
-        </div>
+          <UserItem  followers={user?.followers} />
         
-
-
-        <div className="lg:min-w-[300px] h-96 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mt-10">
-          <div className="p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Following</h2>
-          </div>
-
-          <div className="overflow-y-auto max-h-[300px]">
-            {
-
-              user?.following?.length > 0 ? (
-                user?.following.map(singile => (
-
-                  <UserItem key={singile.id} user={singile} />
-                ))
-              )
-
-                :
-                <h1 className='text-center  font-bold text-2xl dark:text-white'>
-                  No Followers
-                </h1>
-            }
-
-          </div>
-
+      ) : (
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold">No Followers</h1>
         </div>
+      )
+
+      }
+
+      {
+        user?.following?.length > 0 ? (
+  
+
+          <UserItem  followers={user?.following} />
+        
+      ) : (
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold">No Following</h1>
+        </div>
+      )
+      }
 
 
 
@@ -152,9 +128,8 @@ const Profile = () => {
 
 
 
-    
-      <div className='mt-20'> 
-        <PostsTableWithChart/>
+      <div className='mt-20'>
+        <PostsTableWithChart />
       </div>
 
 

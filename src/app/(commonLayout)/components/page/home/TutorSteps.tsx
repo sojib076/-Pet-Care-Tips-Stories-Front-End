@@ -51,15 +51,32 @@ const TutorSteps = () => {
               whileInView={{ opacity: 1, x: 0 }}
               initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
               transition={{ duration: 0.6 }}
-              className="lg:w-[80%] mx-auto lg:mt-10 mt-5 pb-2"
+              className="lg:w-[80%] mx-auto lg:mt-10 mt-5 pb-2
+
+             
+              "
             >
-              <div className={`relative flex items-center bg-[white] ${isLeft ? "flex-row" : "flex-row-reverse"} lg:p-4 p-3 shadow-xl shadow-[#E5EEFF]`}>
-                <div className={`flex items-center justify-center w-12 h-12 rounded-full text-white ${step.bgColor} z-10`}>
+              <div className={`relative flex items-center bg-[white]
+                dark:bg-[#1A202C]
+                rounded-lg 
+
+                ${isLeft ? "flex-row" : "flex-row-reverse"} lg:p-4 p-3 shadow-xl shadow-[#E5EEFF]
+                  dark:shadow
+                `}>
+                <div className={`flex items-center justify-center w-12 h-12 rounded-full text-white
+                     dark:text-black
+                  ${step.bgColor} z-10`}>
                   <span className="text-lg font-bold">{step.number}</span>
                 </div>
                 <div className={`flex-1 ${isLeft ? "lg:pl-8 pl-6" : "lg:pr-8 pr-6"} py-2`}>
-                  <h3 className="lg:text-lg font-semibold">{step.title}</h3>
-                  <p className="text-gray-600 text-justify">{step.description}</p>
+                  <h3 className="lg:text-lg font-semibold
+                    dark:text-white
+                  
+                  ">{step.title}</h3>
+                  <p className="text-gray-600 text-justify
+                    dark:text-gray-400
+                  
+                  ">{step.description}</p>
                 </div>
               </div>
             </motion.div>

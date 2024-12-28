@@ -9,7 +9,7 @@ const Home = () => {
 
 
   return (
-    <div className="dark:bg-black">
+    <div className="">
      <Banner />
      <Happypets />
      <TutorSteps />

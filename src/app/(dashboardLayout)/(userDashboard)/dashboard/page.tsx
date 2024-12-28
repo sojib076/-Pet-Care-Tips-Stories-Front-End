@@ -33,7 +33,7 @@ const Profile = () => {
 
           <p className=" text-3xl font-[Cantarell]"> Followes </p>
           <h2 className="text-2xl font-semibold">{
-            user?.followers.length
+            user?.followers?.length
           }</h2>
         </div>
         <div className="  py-10   bg-gray-500/50 shadow-inner shadow-white text-center rounded-2xl ">
@@ -41,7 +41,7 @@ const Profile = () => {
           <p className=" text-3xl font-[Cantarell]"> Follwing</p>
           <h2 className="text-2xl font-semibold">
             {
-              user?.following.length
+              user?.following?.length
             }
           </h2>
         </div>
@@ -51,63 +51,8 @@ const Profile = () => {
 
       </div>
 
-      <div className="mt-6 grid lg:grid-cols-2 grid-cols-1 gap-10 my-10 ">
+  
 
-        <div className="lg:min-w-[300px] h-96 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mt-10">
-          <div className="p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Following</h2>
-          </div>
-
-          <div className="overflow-y-auto max-h-[300px]">
-            {
-
-              user?.followers?.length > 0 ? (
-                user?.followers.map(singile => (
-
-                  <UserItem key={singile.id} user={singile} />
-                ))
-              )
-
-                :
-                <h1 className='text-center  font-bold text-2xl dark:text-white'>
-                 Following
-                </h1>
-            }
-
-          </div>
-
-        </div>
-
-
-
-        <div className="lg:min-w-[300px] h-96 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mt-10">
-          <div className="p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Follwers</h2>
-          </div>
-
-          <div className="overflow-y-auto max-h-[300px]">
-            {
-
-              user?.following?.length > 0 ? (
-                user?.following.map(singile => (
-
-                  <UserItem key={singile.id} user={singile} />
-                ))
-              )
-
-                :
-                <h1 className='text-center  font-bold text-2xl dark:text-white'>
-                  No Followers
-                </h1>
-            }
-
-          </div>
-
-        </div>
-
-
-
-      </div>
       <div className="bg-[#ffffffa5] shadow-lg rounded-2xl dark:bg-gray-900 dark:text-white relative overflow-hidden">
         {/* Gradient Background */}
         <div className="relative bg-gradient-to-r from-purple-900 to-indigo-900 h-60 rounded-t-lg">
@@ -153,6 +98,26 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <div className=" grid  grid-cols-1 gap-10 mt-10">
+
+
+
+{
+  user?.following?.length > 0 ? (
+
+
+    <UserItem  followers={user?.following} />
+  
+) : (
+  <div className="text-center">
+    <h1 className="text-2xl font-semibold">No Following</h1>
+  </div>
+)
+}
+
+
+
+</div>
 
       <div className='mt-10'>
        

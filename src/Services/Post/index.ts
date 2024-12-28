@@ -15,11 +15,11 @@ import { FieldValues } from "react-hook-form";
     };
 
 
-export const getPost = async ( ) => {
+export const getPost = async (page ) => {
 
 
   try {
-    const { data } = await axiosInstance.get(`/post/get`,);
+    const { data } = await axiosInstance.get(`/post/get?page={page}`,);
 
     return data;
   } catch (error: any) { 

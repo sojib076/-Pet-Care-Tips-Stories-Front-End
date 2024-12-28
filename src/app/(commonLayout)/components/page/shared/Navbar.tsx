@@ -82,7 +82,7 @@ export default function NavBar() {
         <NavbarContent justify="end">
 
 
-          {user ? (
+          {user.role ? (
             <NavbarItem>
               <Button onClick={logOutUser} color="primary" variant="flat">
                 Logout

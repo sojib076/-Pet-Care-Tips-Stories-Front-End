@@ -87,10 +87,10 @@ const ProfileUpdates = () => {
 
       <div className="container mx-auto lg:p-6">
         <div className="bg-white shadow-lg rounded-2xl dark:bg-gray-900 dark:text-white relative overflow-hidden pb-10">
-          {/* Gradient Background */}
+        
           <div className="relative bg-gradient-to-r from-purple-900 to-indigo-900 h-48 rounded-t-lg"></div>
 
-          {/* Profile Image */}
+          
           <div className="absolute top-32 left-5">
             <Image
               src={previewImage || user?.img || '/path/to/default-profile-picture.jpg'}

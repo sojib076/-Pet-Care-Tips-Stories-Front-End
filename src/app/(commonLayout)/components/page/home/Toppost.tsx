@@ -9,12 +9,20 @@ import { useCreatpost } from '@/hook/post.hook';
 import axios from 'axios';
 import { useUser } from '@/context/uAuthContext';
 import { toast } from 'sonner';
+import {
+  Modal,
+  ModalContent,
 
+  ModalBody,
+  ModalFooter,
+  useDisclosure
+} from "@nextui-org/modal";
+import { Avatar, Button } from '@nextui-org/react';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-export default function CreateContent() {  
-  const {user} = useUser();
-
+export default function CreateContent() {
+  const { user } = useUser();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const methods = useForm();
   const [isFormVisible, setIsFormVisible] = useState(false);
   const { handleSubmit, register, setValue } = methods;
@@ -34,7 +42,7 @@ export default function CreateContent() {
     },
   };
 
- 
+
   useEffect(() => {
     if (quillRef.current) {
       const editor = quillRef.current.getEditor();
@@ -77,90 +85,142 @@ export default function CreateContent() {
     formData.append('category', data.category);
     formData.append('premiumContent', data.isPremium);
     formData.append('title', data.title);
-    
+
     createPost(data);
   };
 
   return (
     <FormProvider {...methods}>
-    {
-      user ? <>
-        <div className="max-w-4xl mx-auto p-4">
-        <button
-          onClick={() => setIsFormVisible(!isFormVisible)}
-          className="w-full px-4 py-3 bg-gray-300 text-gray-700 rounded-lg shadow-sm hover:bg-gray-200 focus:outline-none text-left"
-        >
-          {isFormVisible ? "Hide Post Creation" : "What's on your mind?"}
-        </button>
-      </div>
-      </> :   <h1 className='text-center mt-10 font-bold '> 
-        Please login to create content 
-      </h1>
-    }
+      {
+        user ? <>
+     
+          <div className="max-w-5xl mx-auto py-4 flex items-center gap-2">
+            <Avatar
+            src={user?.img}
+            
+             className="w-8 h-8">
 
-    
-      {isFormVisible && (
-        <div className="max-w-4xl mx-auto mt-4 bg-white rounded-lg shadow-md p-6">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Heading */}
-            <h1 className="text-xl font-semibold mb-4 text-gray-800">
-              Create Pet Care Content
-            </h1>
-            <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Title</label>
-          <input
-            type="text"
-            {...register('title')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
 
-            {/* Content Editor */}
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm mb-2">Content</label>
-          
-              <ReactQuill
-             
-                theme="snow"
-                modules={quillModules}
-                onChange={(value) => setValue('content', value)}
-                placeholder="Write your pet care tips or stories..."
-                className="bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-2"
-              />
+            </Avatar>
+            <Button
 
-            </div>
+              onClick={() => setIsFormVisible(!isFormVisible)}
+              onPress={onOpen}
+              className="bg-gray-100 text-gray-700 w-full px-4 py-2.5  
+              
+              
+              dark:bg-[#18181B]
+              dark:text-gray-300
+              hover:bg-gray-200
+          font-semibold
+              
+              rounded-full  ">
+              What&apos;s on your mind, {user?.name}
+            </Button>
+          </div>
+        </> : <h1 className='text-center mt-10 font-bold '>
+          Please login to create content
+        </h1>
+      }
 
-         
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm mb-2">Category</label>
-              <select
-                {...register('category')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="Tip">Tip</option>
-                <option value="Story">Story</option>
-              </select>
-            </div>
+      <Modal size='5xl' isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
 
-           
-            <div className="mb-4 flex items-center">
-              <input
-                type="checkbox"
-                {...register('premiumContent')}
-                className="mr-2"
-              />
-              <label className="text-gray-700">Make this content premium</label>
-            </div>
+              <ModalBody>
 
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-900 text-white rounded-lg shadow-sm hover:bg-blue-800 w-full focus:outline-none"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      )}
+                <div className=" lg:w-[95%] mx-auto mt-4 bg-white
+                    dark:bg-[#18181B]
+                  rounded-lg  p-6">
+                  <form onSubmit={handleSubmit(onSubmit)}>
+
+                    <h1 className="text-xl font-semibold mb-4 text-gray-800
+                      dark:text-gray-200
+                      ">
+                      Create Pet Care Content
+                    </h1>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 
+                        
+                          dark:text-gray-200
+                        text-sm font-bold mb-2">Title</label>
+                      <input
+                        type="text"
+                        {...register('title')}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+
+                    <div className="mb-4">
+                      <label className="block text-gray-700 text-sm mb-2
+                          dark:text-gray-200
+                        ">Content</label>
+
+                      <ReactQuill
+
+                        theme="snow"
+                        modules={quillModules}
+                        onChange={(value) => setValue('content', value)}
+                        placeholder="Write your pet care tips or stories..."
+                        className="bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-2
+                           dark:text-gray-200
+                          "
+                      />
+
+                    </div>
+
+
+                    <div className="mb-4">
+                      <label className="block text-gray-700 text-sm mb-2
+                          dark:text-gray-200
+                        ">Category</label>
+                      <select
+                        {...register('category')}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="Tip">Tip</option>
+                        <option value="Story">Story</option>
+                      </select>
+                    </div>
+
+
+                    <div className="mb-4 flex items-center">
+                      <input
+                        type="checkbox"
+                        {...register('premiumContent')}
+                        className="mr-2"
+                      />
+                      <label className="text-gray-700
+                          dark:text-gray-200
+                        ">Make this content premium</label>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="px-4 py-2 bg-blue-900 text-white rounded-lg shadow-sm hover:bg-blue-800 w-full focus:outline-none"
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </div>
+
+
+
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="solid" onPress={onClose}>
+                  Close
+                </Button>
+
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+
+
 
     </FormProvider>
   );

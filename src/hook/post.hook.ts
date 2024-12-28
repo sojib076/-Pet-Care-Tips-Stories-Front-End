@@ -33,16 +33,16 @@ export  const useCreatpost = () => {
 
 
   
-  export const useGetPost = ( ) => {
+  export const useGetPost = ( page ) => {
     return useQuery<any, Error>({
       queryKey: ["getPost",], 
-      queryFn: async () => await getPost(), 
+      queryFn: async () => await getPost(page), 
 
-      refetchInterval: 30000,
-      refetchOnWindowFocus: true,
-      refetchOnMount: true,
-      refetchOnReconnect: true,
-      refetchIntervalInBackground: true,
+      // refetchInterval: 30000,
+      // refetchOnWindowFocus: true,
+      // refetchOnMount: true,
+      // refetchOnReconnect: true,
+      // refetchIntervalInBackground: true,
       
     });
   };

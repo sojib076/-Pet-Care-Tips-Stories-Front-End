@@ -4,18 +4,18 @@ const Profilecard = () => {
     return (
 
         <div className="container mx-auto lg:p-4">
-            <div className="bg-white shadow-md rounded-lg pb-20  ">
+            <div className="bg-white dark:bg-gray-900 shadow-md rounded-lg pb-20  ">
                 <div className="relative">
-                    {/* Banner Skeleton */}
+                  
                     <div className="w-full h-48 bg-gray-300 rounded-t-lg animate-pulse"></div>
 
-                    {/* Profile Picture Skeleton */}
+                    
                     <div className="absolute top-32 left-5">
                         <div className="w-[110px] h-[100px] bg-gray-300 rounded-full border-4 border-white animate-pulse"></div>
                     </div>
                 </div>
 
-                {/* User Info Skeleton */}
+                
                 <div className="lg:flex justify-between items-center">
                     <div className="pt-16 pb-4 px-5">
                         <div className="w-48 h-6 bg-gray-300 rounded-md animate-pulse"></div>
