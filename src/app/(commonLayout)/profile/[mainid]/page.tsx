@@ -2,7 +2,7 @@
 
 import { Calendar, Facebook, FileText, Linkedin, Twitter, } from 'lucide-react';
 import React from 'react';
-import { UserItem } from '../../components/Profile/Followers';
+
 import { useParams } from 'next/navigation';
 import { useGetProfile, useGetUserById } from '@/hook/user.Hook';
 import { useGetPostsbyUserId } from '@/hook/post.hook';

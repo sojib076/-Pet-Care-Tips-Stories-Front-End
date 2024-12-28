@@ -1,8 +1,5 @@
 "use client";
 
-
-import { useGetPost } from "@/hook/post.hook";
-import { useGetProfile } from "@/hook/user.Hook";
 import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, handelpayment, upvotePost } from "@/Services/Post";
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
 import { Award, ChevronDown, ChevronUp, MessageCircle, } from "lucide-react";
@@ -12,12 +9,11 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CardLoading from "./cardLoading";
 import Link from "next/link";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Separator } from "@radix-ui/react-separator";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 
-const PostCard = ({ user, userLoding }) => {
+const PostCard = ({ user }) => {
 
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +36,7 @@ const PostCard = ({ user, userLoding }) => {
 
         try {
 
-            const res = await fetch(`http://localhost:5000/api/v1/post/get?page=${page}`);
+            const res = await fetch(`https://petcareblgogs.vercel.app/api/v1/post/get?page=${page}`);
             const data = await res.json();
             return data;
         } catch (error) {
@@ -68,8 +64,11 @@ const PostCard = ({ user, userLoding }) => {
 
             if (data?.success) {
                 setPosts(data?.data?.posts);
-            
 
+                if (currentPage >= totalPages) {
+                    setHasMore(false);
+                }
+            
 
             }
         };

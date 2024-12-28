@@ -17,8 +17,6 @@ import { ThemeSwitcher } from "./ThemeSwitcher";
 
 
 
-
-
 export default function NavBar() {
   const routeMap: Record<string, string> = {
     user: "/dashboard",
@@ -82,7 +80,7 @@ export default function NavBar() {
         <NavbarContent justify="end">
 
 
-          {user.role ? (
+          {user ? (
             <NavbarItem>
               <Button onClick={logOutUser} color="primary" variant="flat">
                 Logout

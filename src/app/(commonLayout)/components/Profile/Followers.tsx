@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Badge, Button, Card, CardBody } from '@nextui-org/react';
+import { Avatar, Button, Card, CardBody } from '@nextui-org/react';
 import { useState } from 'react'
 
 
@@ -20,7 +20,7 @@ export function UserItem({ followers }) {
   
     const [hoveredId, setHoveredId] = useState<number | null>(null)
    
-    const peoples = followers?.length as string
+ 
 
     return (
       <section className="py-12 px-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
