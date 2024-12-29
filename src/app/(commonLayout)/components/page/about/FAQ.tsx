@@ -37,7 +37,9 @@ const FAQSection: React.FC = () => {
     };
 
     return (
-        <section className=" lg:py-40 md:pt-0  px-6 dark:bg-black bg-gray-50 grid lg:grid-cols-2 grid-cols-1   lg:gap-2 gap-10 items-center py-20 ">
+        <section className=" lg:py-40 md:pt-0 
+         px-6  grid lg:grid-cols-2 grid-cols-1 
+           lg:gap-2 gap-10 items-center py-20 ">
             <div className=" lg:w-[80%]  mx-auto text-center md:mt-0 ">
                 <h2 className="text-xl text-blue-900 font-bold"> Why this website ?</h2>
                
@@ -46,7 +48,7 @@ const FAQSection: React.FC = () => {
                     Have Any Questions? Feel Free To Ask.
                 </h3>
                 <p className="text-gray-600 lg:mb-8 m-0 text-left  dark:text-white">
-                    YOur story and tips are important to us. Your tips and stories can help others to take care of their pets.
+                    Your story and tips are important to us. Your tips and stories can help others to take care of their pets.
                     it can also help others to learn about the different types of animals and their care and needs.
                     Most new pet owners are not aware of the needs of their pets. Your tips can help them to take care of their pets.
                 </p>

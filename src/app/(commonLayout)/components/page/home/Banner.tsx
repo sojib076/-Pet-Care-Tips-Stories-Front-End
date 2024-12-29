@@ -34,7 +34,7 @@ export default function HeroSection() {
                 <Button variant="shadow" size="lg" className="w-full
                 bg-blue-900 text-white
                 
-                ">News Feed</Button>
+                ">Join NoW</Button>
               </Link>
               <Link href="/about">
                 <Button  size="lg" className="w-full

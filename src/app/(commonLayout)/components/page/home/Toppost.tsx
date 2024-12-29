@@ -17,7 +17,8 @@ import {
   ModalFooter,
   useDisclosure
 } from "@nextui-org/modal";
-import { Avatar, Button } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
+import Image from 'next/image';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 export default function CreateContent() {
@@ -94,19 +95,27 @@ export default function CreateContent() {
       {
         user ? <>
      
-          <div className="max-w-5xl mx-auto py-4 flex items-center gap-2">
-            <Avatar
-            src={user?.img}
-            
-             className="w-8 h-8">
-
-
-            </Avatar>
+          <div className="max-w-5xl mx-auto py-4 p-4 flex 
+            bg-gray-300 
+            mt-5
+            rounded-lg
+          items-center gap-2">
+            <Image
+              src={user?.img}
+              width={1080}
+              height={1080}
+              alt="user image"
+              className="rounded-full
+              border-2
+              w-12 h-12
+              
+              "
+            ></Image>
             <Button
 
               onClick={() => setIsFormVisible(!isFormVisible)}
               onPress={onOpen}
-              className="bg-gray-100 text-gray-700 w-full px-4 py-2.5  
+              className="bg-gray-200 text-gray-700 w-full px-4 py-2.5  
               
               
               dark:bg-[#18181B]

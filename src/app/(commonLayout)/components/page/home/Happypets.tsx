@@ -21,8 +21,13 @@ const Happypets = () => {
               Happy pets, <br />
               happy humans
             </h2>
-            <p className="section-text lg:w-[70%] lg:mt-[30px] text-[#2E3031] lg:p-0 p-5 text-justify">
-              <span className="text-blue-900 font-bold" > DO YOU KNOW ? </span> that pets can help you to reduce stress and anxiety? Pets can help you to improve your mood and healthy
+            <p className="section-text lg:w-[70%] lg:mt-[30px] text-[#2E3031]
+              dark:text-gray-300 
+            lg:p-0 p-5 text-justify">
+              <span className="text-blue-900 font-bold
+              
+                
+              " > DO YOU KNOW ? </span> that pets can help you to reduce stress and anxiety? Pets can help you to improve your mood and healthy
               
             </p>
           </div>

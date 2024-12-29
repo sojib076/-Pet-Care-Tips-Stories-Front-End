@@ -38,10 +38,10 @@ const stepsData = [
 const TutorSteps = () => {
   return (
     <div className=" p-6 md:p-10 relative my-16  overflow-x-hidden ">
-      <h2 className="text-center font-semibold text-5xl">
+      <h2 className="text-center font-bold text-5xl">
         How It Works
       </h2>
-      <div className="relative flex flex-col space-y-10 lg:mt-10 md:mt-0  ">
+      <div className="relative flex flex-col space-y-10  md:mt-0  ">
         {stepsData.map((step, index) => {
           const isLeft = step.position === "left";
 
