@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Button, Card, CardBody, CardHeader, Input } from '@nextui-org/react';
+import { Avatar, Button, Card, CardBody, CardHeader } from '@nextui-org/react';
 import React from 'react';
 import { motion, } from 'framer-motion';
 import { UserPlus } from 'lucide-react';
@@ -56,13 +56,17 @@ const JoinNow = () => {
               <form 
                 onSubmit={handleSubmit}
               className="space-y-4">
-                <Input
+                <input
                 
                   type="email"
                   placeholder="Enter your email"
             
                  
                   className="w-full 
+                  px-4 py-2
+                  bg-white/70 dark:bg-gray-900
+                  border border-gray-300 dark:border-gray-700
+                  rounded-lg
                     
                     
                   "

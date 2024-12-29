@@ -342,7 +342,7 @@ const { data,  } = useGetProfile();
                                         <div className="flex items-center  space-x-4">
                                             <Link href={`/profile/${post?.author?._id}`}>
                                                 <Avatar
-                                                    src={user?.img}
+                                                    src={post?.author?.img}
                                                 >
 
                                                 </Avatar>

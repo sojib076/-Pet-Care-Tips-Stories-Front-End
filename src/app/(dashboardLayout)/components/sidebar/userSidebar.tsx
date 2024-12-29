@@ -38,7 +38,7 @@ export const SidebarWrapper = () => {
   
           </Link>
      
-          <Link className="flex" href="/">
+          <Link className="flex" href="/newsfeed">
             
             <p className="font-bold text-inherit px-4"> News  </p>
   
