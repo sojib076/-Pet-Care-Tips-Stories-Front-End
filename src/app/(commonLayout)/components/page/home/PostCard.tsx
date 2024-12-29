@@ -1,19 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, handelpayment, upvotePost } from "@/Services/Post";
+import { addCommentToPost, deleteComment, downvotePost, editcomment, followUser, getPost, handelpayment, upvotePost } from "@/Services/Post";
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
 import { Award, ChevronDown, ChevronUp, MessageCircle, } from "lucide-react";
 
 import { useEffect, useState } from "react";
 
 import { toast } from "sonner";
-import CardLoading from "./cardLoading";
+
 import Link from "next/link";
 import { Separator } from "@radix-ui/react-separator";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useGetProfile } from "@/hook/user.Hook";
+import CardLoading from "./cardLoading";
 
 
-const PostCard = ({ user }) => {
+
+const PostCard = (  ) => {
 
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -23,51 +27,53 @@ const PostCard = ({ user }) => {
     const [commentInput, setCommentInput] = useState<Record<string, string>>({});
 
 
-    const [editCommentId, setEditCommentId] = useState<string | null>(null);
+    const [editCommentId, setEditCommentId] = useState() as any;
     const [userPaidPosts, setUserPaidPosts] = useState<string[]>([]);
     const [editCommentValue, setEditCommentValue] = useState<string>('');
 
 
+const { data,  } = useGetProfile();
+
+    const user = data?.data
 
 
-
-    const fetchPosts = async (page: number) => {
-
-
-        try {
-
-            const res = await fetch(`https://petcareblgogs.vercel.app/api/v1/post/get?page=${page}`);
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            return null;
-        }
-    };
+    
+    
 
     useEffect(() => {
-        if (user) {
-
+        if (user?._id) {
+            console.log(user);
             setUserFollowing(user?.following?.map((user: any) => user._id));
             setUserPaidPosts(user?.paidfor);
 
         }
     }, [user]);
 
+    const fetchPosts = async (page: number) => {
 
+        try {
+
+            const res = getPost(page);
+            const data = await res;
+            console.log(data, 'data from postcard line 63');
+            return data;
+        } catch (error) {
+            return error;
+        }
+    };
 
     useEffect(() => {
 
      
         const loadInitialPosts = async () => {
             const data = await fetchPosts(currentPage);
-            const totalPages = data?.data?.totalPages;
+           
 
             if (data?.success) {
                 setPosts(data?.data?.posts);
+                console.log(data?.data?.posts);
 
-                if (currentPage >= totalPages) {
-                    setHasMore(false);
-                }
+              
             
 
             }
@@ -75,6 +81,9 @@ const PostCard = ({ user }) => {
 
         loadInitialPosts();
     }, []);
+
+    console.log(posts,'posts from postcard line 82');
+
     const fetchMorePosts = async () => {
         const nextPage = currentPage + 1;
         const data = await fetchPosts(nextPage);
@@ -89,50 +98,6 @@ const PostCard = ({ user }) => {
 
 
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         if (searchTerm) {
-
-    //             const result = await getsearch(searchTerm, searchCategory);
-
-
-    //             setPosts(result?.data?.posts);
-    //         }
-    //     };
-
-    //     fetchData();
-
-    // }, [searchTerm, searchCategory]);
-
-
-    // const handelCategory = async (category: string) => {
-    //     setCategoryLoading(true);
-    //     setActiveCategory(category);
-    //     setPosts([]);
-    //     const result = await getcategory(category);
-    //     setPosts(result?.data?.posts);
-    //     setCategoryLoading(false);
-
-
-    // }
-
-
-    // const handelall = async () => {
-    //     setCategoryLoading(true);
-    //     setActiveCategory('All');
-    //     setPosts([]);
-
-    //     const result = await getPost();
-    //     setPosts(result?.data?.posts);
-    //     setCategoryLoading(false);
-
-    // }
-
-
-    // const onSubmit: SubmitHandler<FieldValues> = async () => {
-
-
-    // };
 
     const handleUpvote = async (postId: string) => {
 
@@ -352,9 +317,10 @@ const PostCard = ({ user }) => {
 
 
         <main className=" px-4 ">
+            
 
             {
-              (
+            (
                     <InfiniteScroll
                         dataLength={posts?.length}
                         next={fetchMorePosts}
@@ -643,7 +609,7 @@ const PostCard = ({ user }) => {
 
                         </div>
                     </InfiniteScroll>
-                )
+                ) 
             }
 
         </main>

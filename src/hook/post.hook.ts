@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createPost, getallpostadmin, getcategory, getPost, getPostById, getuserpostbyid, upvotePost } from "@/Services/Post";
+import { createPost, getallpostadmin, getcategory,  getPost,  getPostById, getuserpostbyid, upvotePost } from "@/Services/Post";
 import {  QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -31,18 +31,16 @@ export  const useCreatpost = () => {
   };
   
 
-
-  
   export const useGetPost = ( page ) => {
     return useQuery<any, Error>({
       queryKey: ["getPost",], 
       queryFn: async () => await getPost(page), 
 
-      // refetchInterval: 30000,
-      // refetchOnWindowFocus: true,
-      // refetchOnMount: true,
-      // refetchOnReconnect: true,
-      // refetchIntervalInBackground: true,
+      refetchInterval: 30000,
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchIntervalInBackground: true,
       
     });
   };

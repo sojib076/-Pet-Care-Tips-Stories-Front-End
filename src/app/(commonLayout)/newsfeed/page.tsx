@@ -248,7 +248,7 @@ const Profile = () => {
 
       
         <div className="mt-6 space-y-4">
-          <PostCard user={data}  />
+          <PostCard  />
         </div>
       </div>
     </div>

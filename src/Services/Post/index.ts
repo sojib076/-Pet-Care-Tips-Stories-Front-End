@@ -15,19 +15,19 @@ import { FieldValues } from "react-hook-form";
     };
 
 
-export const getPost = async (page ) => {
+    export const getPost = async ( page) => {
 
 
-  try {
-    const { data } = await axiosInstance.get(`/post/get?page={page}`,);
-
-    return data;
-  } catch (error: any) { 
+      try {
+        const { data } = await axiosInstance.get(`/post/get?page=${page}`,);
     
-    return error?.response?.data;
-   
-  }
-};
+        return data;
+      } catch (error: any) { 
+        
+        return error?.response?.data;
+       
+      }
+    };
 
 
 export const upvotePost = async (postId: string) => {
