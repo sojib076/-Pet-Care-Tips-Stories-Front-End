@@ -1,6 +1,6 @@
 "use client"
 
-import { AlignEndVerticalIcon, Users, } from "lucide-react";
+import { AlignEndVerticalIcon, Gamepad, Users, } from "lucide-react";
 
 
 import CreateContent from "../components/page/home/Toppost";
@@ -12,19 +12,85 @@ import { Separator } from "@/components/ui/separator"
 import { useUser } from "@/context/uAuthContext";
 import { useGetProfile } from "@/hook/user.Hook";
 import Sidebar from "../components/page/home/Sidebar";
+import {
+  Modal,
+  ModalContent,
+
+  ModalBody,
+  ModalFooter,
+  useDisclosure
+} from "@nextui-org/modal";
+import PetQuiz from "../components/page/home/PetQuizPage";
+import { useState } from "react";
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Profile = () => {
+  const [itemsToShow, setItemsToShow] = useState(3);
 
 
   const { data, isLoading } = useGetProfile();
 
   const Following = data?.data?.following;
 
-
   const { user } = useUser();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 
 
+  const adminQuickNav = [
+    {
+      path: "/",
+      pathName: "Home",
+    },
+    {
+      path: `/profile/${user?._id}`,
+      pathName: "Profile",
+    },
+    {
+      path: "/admin-dashboard/usersposts",
+      pathName: "Users Posts",
+    },
+    {
+      path: "/admin-dashboard/users",
+      pathName: "All Users",
+    },
+    {
+      path: "/admin-dashboard/allpost",
+      pathName: "My Posts",
+    },
+    {
+      path: '/admin-dashboard/createpdf',
+      pathName: " Create PDF",
+    },
+  ]
+  const userQuickNav = [
+    {
+      path: "/",
+      pathName: "Home",
+    },
+    {
+      path: `/profile/${user?._id}`,
+      pathName: "Profile",
+    },
+    {
+      path: "/dashboard/mycreatedgroup",
+      pathName: "My Groups",
+    },
+    {
+      path: "/dashboard/allpost",
+      pathName: "My Posts",
+    },
+    {
+      path: "/forget-password",
+      pathName: "Change Password",
+    },
+
+  ]
+  const isAdmin = user?.role === 'admin';
+  const navItems = isAdmin ? adminQuickNav : userQuickNav;
+  const handleSeeMore = () => {
+    setItemsToShow((prev) => prev + 3); 
+  };
 
   return (
     <div className=" 
@@ -35,23 +101,23 @@ const Profile = () => {
 
       <div className="    p-2  lg:col-span-1 ">
 
-        
-          <aside className="pr-4 md:fixed h-auto md:h-screen 
+
+        <aside className="pr-4 md:fixed h-auto md:h-screen 
           overflow-y-auto mb-4 md:mb-0 border-r
            border-gray-200 dark:border-gray-700 hidden md:block">
-          
-          { user?.email? 
 
-          
+          {user?.email ?
+
+
             <div className="space-y-2">
               <Link href={`/profile/${user?._id}`}>
-                <div  className=" flex items-center justify-start
+                <div className=" flex items-center justify-start
                   border  border-gray-200 dark:border-gray-700 p-2
 
                   rounded-lg
                 ">
                   <Avatar
-                    src={user?.img }
+                    src={user?.img}
                     alt={user?.name || 'John Doe'}
 
                     className="h-8 w-8 mr-1"
@@ -59,15 +125,15 @@ const Profile = () => {
                   >
 
                   </Avatar>
-                  <span 
-                  className="text-sm font-semibold
+                  <span
+                    className="text-sm font-semibold
                     hover:underline
                   "
                   >{user?.name || 'John Doe'}</span>
                 </div>
               </Link>
 
-             
+
               <h3 className="font-semibold mb-2">Groups </h3>
               <div className="space-y-2
           grid grid-cols-1
@@ -89,40 +155,87 @@ const Profile = () => {
 
 
               </div>
-              
-              <Separator  className="mt-4 
-                
-              " />
-              <h3 className="font-semibold mb-2">Your Shortcuts</h3>
+
+
+
+
+
+
+
+              <Separator className="mt-4 " />
+              <h3 className="font-semibold mb-2">Quick Navigation </h3>
               <div className="space-y-2
           grid grid-cols-1
           ">
 
-                <Link href="/">
-                  <Button variant="ghost" className=" justify-start">
-                    <Users className="mr-2 h-5 w-5" />
-                    Home
-                  </Button>
-                </Link>
 
-                <Link href={`/profile/${user?._id}`}>
-                  <Button variant="ghost" className=" justify-start">
-                    <Users className="mr-2 h-5 w-5" />
-                    Profile
-                  </Button>
-                </Link>
+
+<AnimatePresence>
+        {navItems.slice(0, itemsToShow).map((nav, index) => (
+          <motion.div
+            key={nav.path}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }} // Trigger once when 20% is visible
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+          >
+            <Link href={nav.path}>
+              <Button variant="ghost" className="justify-start">
+                <Users className="mr-2 h-5 w-5" />
+                {nav.pathName}
+              </Button>
+            </Link>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+      {itemsToShow < navItems.length && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is visible
+          transition={{ duration: 0.3 }}
+          className="mt-2"
+        >
+          <Button onClick={handleSeeMore}>See More</Button>
+        </motion.div>
+      )}
+    
 
 
 
               </div>
 
-            </div> : <Sidebar />
-}
-          </aside>
 
-        
+
+            </div> : <Sidebar />
+          }
+        </aside>
+
+
 
       </div>
+      <Modal size='5xl' isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+
+              <ModalBody>
+
+                <PetQuiz />
+
+
+
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="solid" onPress={onClose}>
+                  Close
+                </Button>
+
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
 
 
       <div className="    text-white justify-center lg:col-span-1 lg:order-3 py-10  ">
@@ -150,19 +263,19 @@ const Profile = () => {
                     {
                       isLoading && [...Array(3)].map((_, index) => (
                         <div className="flex items-center space-x-2 animate-pulse" key={index}>
-                       
-                        <Skeleton className="rounded-full">
-                            <Avatar className="h-8 w-8" />
-                        </Skeleton>
-                       
-                        <Skeleton className="rounded">
-                            <div className="h-4 w-24 bg-default-300 rounded"></div>
-                        </Skeleton>
 
-                        <Skeleton className="rounded">
+                          <Skeleton className="rounded-full">
+                            <Avatar className="h-8 w-8" />
+                          </Skeleton>
+
+                          <Skeleton className="rounded">
+                            <div className="h-4 w-24 bg-default-300 rounded"></div>
+                          </Skeleton>
+
+                          <Skeleton className="rounded">
                             <div className="h-4 w-10 bg-default-300 rounded"></div>
-                        </Skeleton>
-                    </div>
+                          </Skeleton>
+                        </div>
                       ))
                     }
 
@@ -191,8 +304,35 @@ const Profile = () => {
                     ))}
 
 
+
                   </CardBody>
                 </Card>
+                <div className="space-y-2 grid grid-cols-1 mt-5">
+
+                  <Separator className="mt-4 " />
+                  <h3 className="font-semibold mb-2
+
+                  text-black
+
+                  dark:text-gray-200
+                
+                ">Games </h3>
+                  <Button
+
+                    onPress={onOpen}
+                    className=" justify-start">
+                    <Gamepad className="mr-2 h-5 w-5" />
+                    Pet Breed
+                  </Button>
+
+
+
+
+
+
+
+
+                </div>
               </aside>
             }
           </div>
@@ -246,9 +386,9 @@ const Profile = () => {
         <CreateContent />
 
 
-      
+
         <div className="mt-6 space-y-4">
-          <PostCard  />
+          <PostCard />
         </div>
       </div>
     </div>

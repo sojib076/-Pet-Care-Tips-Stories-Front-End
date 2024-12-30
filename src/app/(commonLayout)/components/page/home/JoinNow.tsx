@@ -48,8 +48,8 @@ const JoinNow = () => {
            
                 <h2 className="text-2xl text-center 
                   mx-auto
-                font-semibold text-gray-800 dark:text-gray-100">
-                    Join Our Community
+                font-extrabold text-gray-800 dark:text-gray-100">
+                    Stay Updated
                 </h2>
             </CardHeader>
             <CardBody>

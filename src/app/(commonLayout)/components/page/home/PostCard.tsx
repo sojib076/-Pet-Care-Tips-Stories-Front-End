@@ -17,7 +17,7 @@ import CardLoading from "./cardLoading";
 
 
 
-const PostCard = (  ) => {
+const PostCard = () => {
 
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -32,13 +32,13 @@ const PostCard = (  ) => {
     const [editCommentValue, setEditCommentValue] = useState<string>('');
 
 
-const { data,  } = useGetProfile();
+    const { data, } = useGetProfile();
 
     const user = data?.data
 
 
-    
-    
+
+
 
     useEffect(() => {
         if (user?._id) {
@@ -64,17 +64,17 @@ const { data,  } = useGetProfile();
 
     useEffect(() => {
 
-     
+
         const loadInitialPosts = async () => {
             const data = await fetchPosts(currentPage);
-           
+
 
             if (data?.success) {
                 setPosts(data?.data?.posts);
                 console.log(data?.data?.posts);
 
-              
-            
+
+
 
             }
         };
@@ -82,7 +82,7 @@ const { data,  } = useGetProfile();
         loadInitialPosts();
     }, []);
 
-    console.log(posts,'posts from postcard line 82');
+    console.log(posts, 'posts from postcard line 82');
 
     const fetchMorePosts = async () => {
         const nextPage = currentPage + 1;
@@ -317,10 +317,10 @@ const { data,  } = useGetProfile();
 
 
         <main className=" px-4 ">
-            
+
 
             {
-            (
+                (
                     <InfiniteScroll
                         dataLength={posts?.length}
                         next={fetchMorePosts}
@@ -349,9 +349,13 @@ const { data,  } = useGetProfile();
                                             </Link>
                                             <div>
                                                 <p className="font-semibold">{post.author.name || "Anonymous"} </p>
-                                                <div className="flex items-center">
-                                                    <p className="text-sm text-muted-foreground"><span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span> </p>
-                                                    <span className="mx-1 text-muted-foreground">·</span>
+                                                <div className="flex items-center space-x-1">
+                                                    <p className=" md:block hidden text-sm text-muted-foreground"><span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleString()}</span> </p>
+                                                    
+                                                        
+                                                
+
+
                                                     {
                                                         post?.premiumContent && (
 
@@ -398,11 +402,16 @@ const { data,  } = useGetProfile();
                                             </Button>
 
                                         ) : (
-                                            <span className="text-gray-950 text-xs font-semibold 
-                                        
-                                        dark:text-gray-300
-                                        border border-gray-950 px-2 py-1 rounded-full
-                                        "> YOUR POST </span>
+                                            <Link href={`/${user?.role === 'admin' ? 'admin-dashboard' : 'dashboard'}/creation/${post._id}`}>
+
+                                                <Button
+                                                    className="   bg-gradient-to-bl from-sky-500 to-sky-300 text-white px-3 py-1 
+                                                dark:from-gray-900 dark:to-sky-800
+                                            font-semibold text-xs"
+                                                >
+                                                    Edit  Post
+                                                </Button>
+                                            </Link>
                                         )}
 
                                     </CardHeader>
@@ -494,15 +503,22 @@ const { data,  } = useGetProfile();
                                                 </Button>
                                             </div>
 
-                                            <Button size="md" className=""
+                                            <div className="flex items-center gap-2">
+                                                <Button
+                                                    size="md"
+                                                    className="text-gray-500
+                                                    bg-gray-100 
 
-                                            >
-                                                <MessageCircle className="mr-2 h-4 w-4" />
-                                                Comment
-                                            </Button>
+                                                    dark:bg-gray-800
+                                                    hover:text-blue-900"
+                                                >
+                                                    <MessageCircle className="h-6 w-6" /> <span className="text-gray-500">{post?.comments?.length || 0}</span>
+                                                </Button>
+                                                
 
+                                            </div>
                                         </div>
-                                        
+
 
                                         <div className=" w-[98%] border-t border-gray-300 pt-3">
                                             <h3 className="text-sm font-semibold mb-2">Comments</h3>
@@ -590,6 +606,9 @@ const { data,  } = useGetProfile();
                                                         onChange={(e) => handleCommentChange(post._id, e.target.value)}
                                                         placeholder="Write a comment..." className="flex-1" />
                                                     <Button
+                                                    className="bg-gray-200 
+                                                        dark:bg-gray-800
+                                                    "
                                                         onClick={() => handleCommentSubmit(post._id)}
                                                         size="md">Post</Button>
                                                 </div>
@@ -609,7 +628,7 @@ const { data,  } = useGetProfile();
 
                         </div>
                     </InfiniteScroll>
-                ) 
+                )
             }
 
         </main>
